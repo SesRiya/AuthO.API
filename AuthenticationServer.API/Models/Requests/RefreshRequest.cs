@@ -2,7 +2,7 @@
 
 namespace AuthenticationServer.API.Models.Requests
 {
-    public class RefreshRequest
+    public record RefreshRequest
     {
         [Required]
         public string ? RefreshToken { get; set; }

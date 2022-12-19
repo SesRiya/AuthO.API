@@ -3,7 +3,7 @@ using System.Data;
 
 namespace AuthenticationServer.API.Services.UserRepository
 {
-    public class TempUserRepository
+    public class TempUserRepository : ITempUserRepository
     {
         private readonly List<User> _users = new();  
         public Task<User> Create(User user)

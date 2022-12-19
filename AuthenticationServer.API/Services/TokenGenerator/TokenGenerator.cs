@@ -7,7 +7,7 @@ using System.Text;
 
 namespace AuthenticationServer.API.Services.TokenGenerator
 {
-    public class TokenGenerator
+    public class TokenGenerator 
     {
 
         //claims null on refresh token as we don't need to pass them
@@ -29,5 +29,6 @@ namespace AuthenticationServer.API.Services.TokenGenerator
 
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
+
     }
 }

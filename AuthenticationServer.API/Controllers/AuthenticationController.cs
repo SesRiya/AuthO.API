@@ -14,15 +14,22 @@ namespace AuthenticationServer.API.Controllers
 {
     public class AuthenticationController : Controller
     {
-        private readonly TempUserRepository _userRepository;
-        private readonly PasswordHash _passwordHasher;
+        private readonly ITempUserRepository _userRepository;
+        private readonly IPasswordHash _passwordHasher;
         private readonly AccessTokenGenerator _accessTokenGenerator;
         private readonly RefreshTokenGenerator _refreshTokenGenerator;
         private readonly RefreshTokenValidator _refreshTokenValidator;
-        private readonly TempRefreshTokenRepository _refreshTokenRepository;
+        private readonly ITempRefreshTokenRepository _refreshTokenRepository;
         private readonly Authenticator _authenticator;
 
-        public AuthenticationController(TempUserRepository userRepository, PasswordHash passwordHasher, AccessTokenGenerator accessToken, RefreshTokenGenerator refreshTokenGenerator, RefreshTokenValidator refreshTokenValidator, TempRefreshTokenRepository refreshTokenRepository, Authenticator authenticator)
+        public AuthenticationController(
+            ITempUserRepository userRepository, 
+            IPasswordHash passwordHasher, 
+            AccessTokenGenerator accessToken, 
+            RefreshTokenGenerator refreshTokenGenerator, 
+            RefreshTokenValidator refreshTokenValidator, 
+            ITempRefreshTokenRepository refreshTokenRepository, 
+            Authenticator authenticator)
         {
             _userRepository = userRepository;
             _passwordHasher = passwordHasher;

@@ -4,7 +4,7 @@ using System.Security.Cryptography;
 
 namespace AuthenticationServer.API.Services.PasswordHasher
 {
-    public class PasswordHash 
+    public class PasswordHash : IPasswordHash
     {
         public string HashPassword(string password)
         {

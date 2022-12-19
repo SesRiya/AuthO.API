@@ -1,6 +1,6 @@
 ﻿namespace AuthenticationServer.API.Models.Responses
 {
-    public class ErrorResponse
+    public record ErrorResponse
     {
         public IEnumerable<string> ErrorMessages { get; set; }
 

@@ -10,11 +10,11 @@ namespace AuthenticationServer.API.Services.Authenticators
     {
         private readonly AccessTokenGenerator _accessTokenGenerator;
         private readonly RefreshTokenGenerator _refreshTokenGenerator;
-        private readonly TempRefreshTokenRepository _refreshTokenRepository;
+        private readonly ITempRefreshTokenRepository _refreshTokenRepository;
 
         public Authenticator(AccessTokenGenerator accessTokenGenerator,
             RefreshTokenGenerator refreshTokenGenerator,
-            TempRefreshTokenRepository refreshTokenRepository)
+            ITempRefreshTokenRepository refreshTokenRepository)
         {
             _accessTokenGenerator = accessTokenGenerator;
             _refreshTokenGenerator = refreshTokenGenerator;

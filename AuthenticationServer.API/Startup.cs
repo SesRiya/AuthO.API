@@ -23,12 +23,12 @@ namespace AuthenticationServer.API
         {
             services.AddControllers();
 
-            services.AddSingleton<TokenGenerator>();
-            services.AddSingleton<AccessTokenGenerator>();
-            services.AddSingleton<RefreshTokenGenerator>();
-            services.AddSingleton<RefreshTokenValidator>();
-            services.AddSingleton<TempRefreshTokenRepository>();
-            services.AddSingleton<Authenticator>();
+            services.AddScoped<TokenGenerator>();
+            services.AddScoped<AccessTokenGenerator>();
+            services.AddScoped<RefreshTokenGenerator>();
+            services.AddScoped<RefreshTokenValidator>();
+            services.AddScoped<ITempRefreshTokenRepository, TempRefreshTokenRepository>();
+            services.AddScoped<Authenticator>();
 
 
             //instantiate and bind authentication values to authen config object(appsettings.json)
@@ -36,8 +36,8 @@ namespace AuthenticationServer.API
             _configuration.Bind("Authentication", authenticationConfiguration);
             services.AddSingleton(authenticationConfiguration);
 
-            services.AddSingleton<PasswordHash>();
-            services.AddSingleton<TempUserRepository>();
+            services.AddScoped<IPasswordHash, PasswordHash>();
+            services.AddSingleton<ITempUserRepository, TempUserRepository>();
 
             services.AddEndpointsApiExplorer();
             services.AddSwaggerGen();

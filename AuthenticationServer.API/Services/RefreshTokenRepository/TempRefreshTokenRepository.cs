@@ -2,7 +2,7 @@
 
 namespace AuthenticationServer.API.Services.RefreshTokenRepository
 {
-    public class TempRefreshTokenRepository
+    public class TempRefreshTokenRepository : ITempRefreshTokenRepository
     {
         private readonly List<RefreshToken> _refreshTokens = new List<RefreshToken>();
 

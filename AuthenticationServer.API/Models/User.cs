@@ -1,6 +1,6 @@
 ﻿namespace AuthenticationServer.API.Models
 {
-    public class User
+    public record User
     {
         public Guid Id { get; set; }
 

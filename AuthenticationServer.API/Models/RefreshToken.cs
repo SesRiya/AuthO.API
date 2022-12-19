@@ -1,6 +1,6 @@
 ﻿namespace AuthenticationServer.API.Models
 {
-    public class RefreshToken
+    public record RefreshToken
     {
         public Guid Id { get; set; }    
         public string RefToken { get; set; }
