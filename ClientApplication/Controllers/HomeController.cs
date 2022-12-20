@@ -6,15 +6,14 @@ namespace DataServer.API.Controllers
 {
     public class HomeController : ControllerBase
     {
-        [Authorize]
         [HttpGet("data")]
+        [Authorize(Policy ="admin")]
+
         public IActionResult Index()
         {
             string id = HttpContext.User.FindFirstValue("id");
-            string email = HttpContext.User.FindFirstValue(ClaimTypes.Email);
-            string username = HttpContext.User.FindFirstValue(ClaimTypes.Name);
             string role = HttpContext.User.FindFirstValue(ClaimTypes.Role);
-            return Ok();
+            return Ok(role);
         }
     }
 }

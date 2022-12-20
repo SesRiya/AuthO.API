@@ -1,7 +1,12 @@
-﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+﻿using AuthenticationServer.API.Services.Authorization;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
+using Swashbuckle.AspNetCore.Filters;
 using System.Text;
+using static System.Net.WebRequestMethods;
 
 namespace DataServer.API
 {
@@ -23,7 +28,8 @@ namespace DataServer.API
                   {
                     AuthenticationConfiguration authenticationConfiguration = new AuthenticationConfiguration();
                     Configuration.Bind("Authentication", authenticationConfiguration);
-                    options.TokenValidationParameters = new TokenValidationParameters()
+                      options.SaveToken = true;
+                      options.TokenValidationParameters = new TokenValidationParameters()
                     {
                         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(authenticationConfiguration.AccessToken)),
                         ValidIssuer = authenticationConfiguration.Issuer,
@@ -35,9 +41,31 @@ namespace DataServer.API
                     };
                   });
 
-            services.AddEndpointsApiExplorer();
-            services.AddSwaggerGen();
+            services.AddSingleton<IAuthorizationHandler, IsAllowedToGetData>();
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("admin",
+                    policyBuilder =>
+                        policyBuilder.AddRequirements(
+                            new Administrator()
+                        ));
+            });
 
+
+
+            services.AddEndpointsApiExplorer();
+            services.AddSwaggerGen(options =>
+            {
+                options.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
+                {
+                    Description = "Authorization header using bearer scheme(\"bearer {token}",
+                    In = ParameterLocation.Header,
+                    Name = "Authorization",
+                    Type = SecuritySchemeType.ApiKey,
+                });
+
+                options.OperationFilter<SecurityRequirementsOperationFilter>();
+            });
         }
 
         public void Configure(WebApplication app, IWebHostEnvironment env)

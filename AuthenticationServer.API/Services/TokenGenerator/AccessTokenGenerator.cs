@@ -24,7 +24,7 @@ namespace AuthenticationServer.API.Services.TokenGenerator
             List<Claim> claims = new List<Claim>()
             {
                 new Claim("id", user.Id.ToString()),
-                new Claim(ClaimTypes.Email, user.Email),
+                //new Claim(ClaimTypes.Email, user.Email),
                 new Claim(ClaimTypes.Name, user.Username),
                 new Claim(ClaimTypes.Role, user.Role)
             
@@ -36,8 +36,6 @@ namespace AuthenticationServer.API.Services.TokenGenerator
                 _configuration.Audience,
                 _configuration.AccessTokenExpirationMinutes,
                 claims);   
-            
-    
         }
     }
 }

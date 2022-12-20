@@ -1,11 +1,14 @@
 ﻿using AuthenticationServer.API.Models;
+using Microsoft.EntityFrameworkCore;
 using System.Data;
 
 namespace AuthenticationServer.API.Services.UserRepository
 {
     public class TempUserRepository : ITempUserRepository
     {
-        private readonly List<User> _users = new();  
+
+
+        private readonly List<User> _users = new();
         public Task<User> Create(User user)
         {
             user.Id = Guid.NewGuid();
@@ -25,7 +28,7 @@ namespace AuthenticationServer.API.Services.UserRepository
 
         public Task<User> GetByRole(string role)
         {
-           return Task.FromResult(_users.FirstOrDefault(user => user.Role == role));
+            return Task.FromResult(_users.FirstOrDefault(user => user.Role == role));
         }
 
         public Task<User> GetById(Guid UserId)
@@ -34,3 +37,4 @@ namespace AuthenticationServer.API.Services.UserRepository
         }
     }
 }
+
