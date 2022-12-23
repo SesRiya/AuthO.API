@@ -7,7 +7,7 @@ using System.Text;
 
 namespace AuthenticationServer.API.Services.TokenGenerator
 {
-    public class TokenGenerator 
+    public class TokenGenerator : ITokenGenerator
     {
 
         //claims null on refresh token as we don't need to pass them
