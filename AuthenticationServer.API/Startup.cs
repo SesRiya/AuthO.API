@@ -1,20 +1,12 @@
 ﻿using AuthenticationServer.API.Models;
 using AuthenticationServer.API.Services.Authenticators;
-using AuthenticationServer.API.Services.Authorization;
 using AuthenticationServer.API.Services.PasswordHasher;
 using AuthenticationServer.API.Services.RefreshTokenRepository;
 using AuthenticationServer.API.Services.TokenGenerator;
 using AuthenticationServer.API.Services.TokenValidators;
 using AuthenticationServer.API.Services.UserRepository;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
-using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Filters;
-using System.Security.Claims;
-using System.Text;
 
 namespace AuthenticationServer.API
 {
@@ -49,24 +41,6 @@ namespace AuthenticationServer.API
             services.AddScoped<IPasswordHash, PasswordHash>();
             services.AddSingleton<ITempUserRepository, TempUserRepository>();
 
-            //for authorization controller to get access to the generated tokens
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-            .AddJwtBearer(options =>
-            {
-                //AuthenticationConfig authenticationConfiguration = new AuthenticationConfig();
-                _configuration.Bind("Authentication", authenticationConfiguration);
-                options.TokenValidationParameters = new TokenValidationParameters()
-                {
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(authenticationConfiguration.AccessTokenKey)),
-                    ValidIssuer = authenticationConfiguration.Issuer,
-                    ValidAudience = authenticationConfiguration.Audience,
-                    ValidateIssuerSigningKey = true,
-                    ValidateIssuer = true,
-                    ValidateAudience = true,
-                    ClockSkew = TimeSpan.Zero
-                };
-            });
-
 
             services.AddHttpContextAccessor();
             // Register our authorization handler.
@@ -85,25 +59,6 @@ namespace AuthenticationServer.API
 
                 options.OperationFilter<SecurityRequirementsOperationFilter>();
             });
-
-            //services.AddAuthorization(options =>
-            //{
-            //    var scopes = new[] {
-            //    "administrator",
-            //    "returnstaxofficer",
-            //    "paymentofficer",
-            //    "string"
-            //};
-
-            //    Array.ForEach(scopes, scope =>
-            //      options.AddPolicy(scope,
-            //        policy => policy.Requirements.Add(
-            //          new ScopeRequirement(authenticationConfiguration.Issuer, scope)
-            //        )
-            //      )
-            //    );
-            //});
-
 
             services.AddCors(options =>
             {
