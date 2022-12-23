@@ -41,9 +41,9 @@ namespace DataServer.API
                     };
                   });
 
-            services.AddSingleton<IAuthorizationHandler, IsAllowedAccessToAll>();
-            services.AddSingleton<IAuthorizationHandler, IsAllowedAccessToReturnsPage>();
-            services.AddSingleton<IAuthorizationHandler, IsAllowedAccessToPaymentsPage>();
+            services.AddScoped<IAuthorizationHandler, IsAllowedAccessToAll>();
+            services.AddScoped<IAuthorizationHandler, IsAllowedAccessToReturnsPage>();
+            services.AddScoped<IAuthorizationHandler, IsAllowedAccessToPaymentsPage>();
 
 
             services.AddAuthorization(options =>
@@ -53,7 +53,11 @@ namespace DataServer.API
                         policyBuilder.AddRequirements(
                             new Administrator()
                         ));
->>>>>>>>> Temporary merge branch 2
+                options.AddPolicy("returns",
+                    policyBuilder =>
+                        policyBuilder.AddRequirements(
+                            new ReturnsOfficer()    
+                            ));
             });
 
 
