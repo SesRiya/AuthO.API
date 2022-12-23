@@ -53,7 +53,11 @@ namespace DataServer.API
                         policyBuilder.AddRequirements(
                             new Administrator()
                         ));
->>>>>>>>> Temporary merge branch 2
+                options.AddPolicy("returns",
+                    policyBuilder =>
+                        policyBuilder.AddRequirements(
+                            new ReturnsOfficer()    
+                            ));
             });
 
 
