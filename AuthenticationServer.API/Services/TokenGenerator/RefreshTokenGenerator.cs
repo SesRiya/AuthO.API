@@ -7,9 +7,9 @@ namespace AuthenticationServer.API.Services.TokenGenerator
     public class RefreshTokenGenerator
     {
         private readonly AuthenticationConfig _configuration;
-        private readonly TokenGenerator _tokenGenerator;
+        private readonly ITokenGenerator _tokenGenerator;
 
-        public RefreshTokenGenerator(AuthenticationConfig configuration, TokenGenerator tokenGenerator)
+        public RefreshTokenGenerator(AuthenticationConfig configuration, ITokenGenerator tokenGenerator)
         {
             _configuration = configuration;
             _tokenGenerator = tokenGenerator;

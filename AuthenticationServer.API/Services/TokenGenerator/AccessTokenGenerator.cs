@@ -11,9 +11,9 @@ namespace AuthenticationServer.API.Services.TokenGenerator
     {
 
         private readonly AuthenticationConfig _configuration;
-        private readonly TokenGenerator _tokenGenerator;
+        private readonly ITokenGenerator _tokenGenerator;
 
-        public AccessTokenGenerator(AuthenticationConfig configuration, TokenGenerator tokenGenerator)
+        public AccessTokenGenerator(AuthenticationConfig configuration, ITokenGenerator tokenGenerator)
         {
             _configuration = configuration;
             _tokenGenerator = tokenGenerator;

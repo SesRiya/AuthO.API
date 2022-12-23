@@ -33,7 +33,7 @@ namespace AuthenticationServer.API
         {
             services.AddControllers();
 
-            services.AddScoped<TokenGenerator>();
+            services.AddScoped<ITokenGenerator, TokenGenerator>();
             services.AddScoped<AccessTokenGenerator>();
             services.AddScoped<RefreshTokenGenerator>();
             services.AddScoped<RefreshTokenValidator>();
