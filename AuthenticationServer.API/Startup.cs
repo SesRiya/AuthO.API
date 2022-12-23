@@ -8,6 +8,7 @@ using AuthenticationServer.API.Services.TokenValidators;
 using AuthenticationServer.API.Services.UserRepository;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
@@ -102,17 +103,6 @@ namespace AuthenticationServer.API
             //      )
             //    );
             //});
-
-
-            services.AddSingleton<IAuthorizationHandler, IsAllowedToGetData>();
-            services.AddAuthorization(options =>
-            {
-                options.AddPolicy("admin",
-                    policyBuilder =>
-                        policyBuilder.AddRequirements(
-                            new Administrator()
-                        ));
-            });
 
 
             services.AddCors(options =>

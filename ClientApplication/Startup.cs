@@ -41,7 +41,11 @@ namespace DataServer.API
                     };
                   });
 
-            services.AddSingleton<IAuthorizationHandler, IsAllowedToGetData>();
+            services.AddSingleton<IAuthorizationHandler, IsAllowedAccessToAll>();
+            services.AddSingleton<IAuthorizationHandler, IsAllowedAccessToReturnsPage>();
+            services.AddSingleton<IAuthorizationHandler, IsAllowedAccessToPaymentsPage>();
+
+
             services.AddAuthorization(options =>
             {
                 options.AddPolicy("admin",
@@ -49,6 +53,12 @@ namespace DataServer.API
                         policyBuilder.AddRequirements(
                             new Administrator()
                         ));
+                options.AddPolicy("returns",
+                   policyBuilder =>
+                       policyBuilder.AddRequirements(
+                           new ReturnsOfficer()
+                       ));
+               
             });
 
 
