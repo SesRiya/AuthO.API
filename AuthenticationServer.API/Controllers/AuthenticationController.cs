@@ -17,31 +17,21 @@ namespace AuthenticationServer.API.Controllers
     public class AuthenticationController : Controller
     {
         private readonly ITempUserRepository _userRepository;
-        private readonly RefreshTokenValidator _refreshTokenValidator;
-        private readonly ITempRefreshTokenRepository _refreshTokenRepository;
         private readonly Authenticator _authenticator;
         private readonly IRegisterUser _registerUser;
-        private readonly IPasswordHash _passwordHasher;
         private readonly ILoginAuthentication _loginAuthentication;
         private readonly IRefreshTokenVerification _refreshTokenVerification;
 
         public AuthenticationController(
             ITempUserRepository userRepository,
-            AccessTokenGenerator accessToken,
-            RefreshTokenValidator refreshTokenValidator,
-            ITempRefreshTokenRepository refreshTokenRepository,
             Authenticator authenticator,
             IRegisterUser registerUser,
-            IPasswordHash passwordHasher,
             ILoginAuthentication loginAuthentication,
             IRefreshTokenVerification refreshTokenVerification)
         {
             _userRepository = userRepository;
-            _refreshTokenValidator = refreshTokenValidator;
-            _refreshTokenRepository = refreshTokenRepository;
             _authenticator = authenticator;
             _registerUser = registerUser;
-            _passwordHasher = passwordHasher;
             _loginAuthentication = loginAuthentication;
             _refreshTokenVerification = refreshTokenVerification;
         }
