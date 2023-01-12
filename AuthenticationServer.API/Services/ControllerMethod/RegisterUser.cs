@@ -34,32 +34,27 @@ namespace AuthenticationServer.API.Services.ControllerMethod
             };
             return registrationUser;
         }
-
-        public async Task<bool> UserExists(RegisterRequest registerRequest)
+        public async Task<ErrorResponse?> UserVerification(RegisterRequest registerRequest)
         {
+            if (registerRequest.Password != registerRequest.ConfirmPassword)
+            {
+                return new ErrorResponse("Password does not match");
+            }
+
             User existingUserByEmail = await _userRepository.GetByEmail(registerRequest.Email);
             if (existingUserByEmail != null)
             {
-                return false;
+                return new ErrorResponse("Email already exists");
             }
 
             User existingUserByUsername = await _userRepository.GetByUsername(registerRequest.Username);
             if (existingUserByUsername != null)
             {
-                return false;
+                return new ErrorResponse("User already exists");
             }
 
-            return true;
-        }
+            return null;
 
-        public bool IsPasswordMatching(RegisterRequest registerRequest)
-        {
-            if (registerRequest.Password != registerRequest.ConfirmPassword)
-            {
-                return false;
-            }
-
-            return true;
         }
 
     }

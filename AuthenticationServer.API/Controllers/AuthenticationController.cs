@@ -38,18 +38,12 @@ namespace AuthenticationServer.API.Controllers
                 return BadRequestModelState();
             }
 
-            bool passwordMatch = _registerUser.IsPasswordMatching(registerRequest);
-            if (!passwordMatch)
+            ErrorResponse errorResponse = await _registerUser.UserVerification(registerRequest);
+            if (errorResponse != null)
             {
-                return BadRequest(new ErrorResponse("Password does not match"));
+                return BadRequest(errorResponse);
             }
-
-            bool userExists = await _registerUser.UserExists(registerRequest);
-            if (!userExists)
-            {
-                return Conflict(new ErrorResponse("Username or email already exists"));
-            }
-
+          
             User registrationUser = _registerUser.CreateUser(registerRequest);
             await _userRepository.Create(registrationUser);
 
