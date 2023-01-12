@@ -3,14 +3,8 @@ using AuthenticationServer.API.Models.Requests;
 using AuthenticationServer.API.Models.Responses;
 using AuthenticationServer.API.Services.Authenticators;
 using AuthenticationServer.API.Services.ControllerMethod;
-using AuthenticationServer.API.Services.PasswordHasher;
-using AuthenticationServer.API.Services.RefreshTokenRepository;
-using AuthenticationServer.API.Services.TokenGenerator;
-using AuthenticationServer.API.Services.TokenValidators;
 using AuthenticationServer.API.Services.UserRepository;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.SignalR;
-using System.Runtime.CompilerServices;
 
 namespace AuthenticationServer.API.Controllers
 {

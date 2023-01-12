@@ -10,7 +10,6 @@ namespace AuthenticationServer.API.Services.ControllerMethod
         private readonly ITempUserRepository _userRepository;
         private readonly IPasswordHash _passwordHasher;
 
-
         public LoginAuthentication(
             ITempUserRepository userRepository,
             IPasswordHash passwordHasher
