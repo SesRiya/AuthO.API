@@ -6,8 +6,6 @@ namespace AuthenticationServer.API.Services.UserRepository
 {
     public class TempUserRepository : ITempUserRepository
     {
-
-
         private readonly List<User> _users = new();
         public Task<User> Create(User user)
         {
@@ -26,7 +24,7 @@ namespace AuthenticationServer.API.Services.UserRepository
             return Task.FromResult(_users.FirstOrDefault(user => user.Username == username));
         }
 
-        public Task<User> GetByRole(string role)
+        public Task<User?> GetByRole(string role)
         {
             return Task.FromResult(_users.FirstOrDefault(user => user.Role == role));
         }

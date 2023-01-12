@@ -6,7 +6,7 @@ namespace AuthenticationServer.API.Services.RefreshTokenRepository
     {
         Task CreateRefreshToken(RefreshToken refreshToken);
 
-        Task <RefreshToken> GetByRefreshToken (string token); 
+        Task <RefreshToken> GetByToken (string token); 
 
         Task DeleteRefreshToken (Guid id);
     }

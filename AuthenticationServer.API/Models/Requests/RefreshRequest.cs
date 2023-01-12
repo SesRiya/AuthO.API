@@ -5,6 +5,6 @@ namespace AuthenticationServer.API.Models.Requests
     public record RefreshRequest
     {
         [Required]
-        public string ? RefreshToken { get; set; }
+        public string RefreshToken { get; set; }
     }
 }

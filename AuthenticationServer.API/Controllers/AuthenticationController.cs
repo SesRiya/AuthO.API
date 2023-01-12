@@ -2,6 +2,7 @@
 using AuthenticationServer.API.Models.Requests;
 using AuthenticationServer.API.Models.Responses;
 using AuthenticationServer.API.Services.Authenticators;
+using AuthenticationServer.API.Services.ControllerMethod;
 using AuthenticationServer.API.Services.PasswordHasher;
 using AuthenticationServer.API.Services.RefreshTokenRepository;
 using AuthenticationServer.API.Services.TokenGenerator;
@@ -9,35 +10,40 @@ using AuthenticationServer.API.Services.TokenValidators;
 using AuthenticationServer.API.Services.UserRepository;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
+using System.Runtime.CompilerServices;
 
 namespace AuthenticationServer.API.Controllers
 {
     public class AuthenticationController : Controller
     {
         private readonly ITempUserRepository _userRepository;
-        private readonly IPasswordHash _passwordHasher;
-        private readonly AccessTokenGenerator _accessTokenGenerator;
-        private readonly RefreshTokenGenerator _refreshTokenGenerator;
         private readonly RefreshTokenValidator _refreshTokenValidator;
         private readonly ITempRefreshTokenRepository _refreshTokenRepository;
         private readonly Authenticator _authenticator;
+        private readonly IRegisterUser _registerUser;
+        private readonly IPasswordHash _passwordHasher;
+        private readonly ILoginAuthentication _loginAuthentication;
+        private readonly IRefreshTokenVerification _refreshTokenVerification;
 
         public AuthenticationController(
-            ITempUserRepository userRepository, 
-            IPasswordHash passwordHasher, 
-            AccessTokenGenerator accessToken, 
-            RefreshTokenGenerator refreshTokenGenerator, 
-            RefreshTokenValidator refreshTokenValidator, 
-            ITempRefreshTokenRepository refreshTokenRepository, 
-            Authenticator authenticator)
+            ITempUserRepository userRepository,
+            AccessTokenGenerator accessToken,
+            RefreshTokenValidator refreshTokenValidator,
+            ITempRefreshTokenRepository refreshTokenRepository,
+            Authenticator authenticator,
+            IRegisterUser registerUser,
+            IPasswordHash passwordHasher,
+            ILoginAuthentication loginAuthentication,
+            IRefreshTokenVerification refreshTokenVerification)
         {
             _userRepository = userRepository;
-            _passwordHasher = passwordHasher;
-            _accessTokenGenerator = accessToken;
-            _refreshTokenGenerator = refreshTokenGenerator;
             _refreshTokenValidator = refreshTokenValidator;
             _refreshTokenRepository = refreshTokenRepository;
             _authenticator = authenticator;
+            _registerUser = registerUser;
+            _passwordHasher = passwordHasher;
+            _loginAuthentication = loginAuthentication;
+            _refreshTokenVerification = refreshTokenVerification;
         }
 
         [HttpPost("register")]
@@ -48,33 +54,19 @@ namespace AuthenticationServer.API.Controllers
                 return BadRequestModelState();
             }
 
-            if (registerRequest.Password != registerRequest.ConfirmPassword)
+            bool passwordMatch = _registerUser.IsPasswordMatching(registerRequest);
+            if (!passwordMatch)
             {
                 return BadRequest(new ErrorResponse("Password does not match"));
             }
 
-            User existingUserByEmail = await _userRepository.GetByEmail(registerRequest.Email);
-            if (existingUserByEmail != null)
+            bool userExists = await _registerUser.UserExists(registerRequest);
+            if (!userExists)
             {
-                return Conflict(new ErrorResponse("Email already exists"));
+                return Conflict(new ErrorResponse("Username or email already exists"));
             }
 
-            User existingUserByUsername = await _userRepository.GetByUsername(registerRequest.Username);
-            if (existingUserByUsername != null)
-            {
-                return Conflict(new ErrorResponse("Username already exists"));
-            }
-
-            string passwordHash = _passwordHasher.HashPassword(registerRequest.Password);
-            User registrationUser = new User()
-            {
-
-                Email = registerRequest.Email,
-                Username = registerRequest.Username,
-                PasswordHash = passwordHash,
-                Role = registerRequest.Role
-            };
-
+            User registrationUser = _registerUser.CreateUser(registerRequest);
             await _userRepository.Create(registrationUser);
 
             return Ok();
@@ -88,37 +80,13 @@ namespace AuthenticationServer.API.Controllers
                 return BadRequestModelState();
             }
 
-            User user = await _userRepository.GetByUsername(loginRequest.Username);
+            User user = await _loginAuthentication.IsUserAuthenticated(loginRequest);
             if (user == null)
             {
                 return Unauthorized();
             }
 
-            bool isCorrectPassword = _passwordHasher.VerifyPassword(loginRequest.Password, user.PasswordHash);
-
-            if (!isCorrectPassword)
-            {
-                return Unauthorized();
-            }
-
-            string accessToken = _accessTokenGenerator.GenerateToken(user);
-            //string refreshToken = _refreshTokenGenerator.GenerateToken();
-
-            //RefreshToken refreshTokenDTO = new RefreshToken()
-            //{
-            //    RefToken = refreshToken,
-            //    UserId = user.Id,
-            //};
-
-            //await _refreshTokenRepository.CreateRefreshToken(refreshTokenDTO);
-
-            //return Ok(new AuthenticatedUserResponse()
-            //{
-            //    AccessToken = accessToken,
-            //    RefreshToken = refreshToken
-            //});
-
-            AuthenticatedUserResponse response= await _authenticator.Authenticate(user);
+            AuthenticatedUserResponse response = await _authenticator.Authenticate(user);
             return Ok(response);
         }
 
@@ -130,25 +98,18 @@ namespace AuthenticationServer.API.Controllers
                 return BadRequestModelState();
             }
 
-            bool isValidRefreshToken = _refreshTokenValidator.Validate(refreshRequest.RefreshToken);
+            bool isValidRefreshToken = await _refreshTokenVerification.IsValidRefreshToken(refreshRequest);
             if (!isValidRefreshToken)
             {
-                return BadRequest(new ErrorResponse("Invalid refresh token."));
+                return BadRequest(new ErrorResponse("Invalid refresh token"));
             }
 
-            RefreshToken refreshTokenDTO = await _refreshTokenRepository.GetByRefreshToken(refreshRequest.RefreshToken);
-            if (refreshTokenDTO == null)
-            {
-                return NotFound(new ErrorResponse("Invalid refresh token."));
-            }
-
-
-
-            User user = await _userRepository.GetById(refreshTokenDTO.UserId);
+            User user = await _refreshTokenVerification.UserExists(refreshRequest);
             if (user == null)
             {
                 return NotFound(new ErrorResponse("User not found"));
             }
+
             AuthenticatedUserResponse response = await _authenticator.Authenticate(user);
             return Ok(response);
         }

@@ -5,13 +5,13 @@ namespace AuthenticationServer.API.Services.Authorization
 {
     public class Administrator : IAuthorizationRequirement
     {
-       public Administrator()
+        public Administrator()
         {
 
         }
     }
 
-    public class IsAllowedAccessToAll:AuthorizationHandler<Administrator>
+    public class IsAllowedAccessToAll : AuthorizationHandler<Administrator>
     {
         protected override Task HandleRequirementAsync(AuthorizationHandlerContext context,
                                                      Administrator admin)
@@ -24,3 +24,5 @@ namespace AuthenticationServer.API.Services.Authorization
         }
     }
 }
+
+

@@ -10,14 +10,12 @@ namespace AuthenticationServer.API.Services.RefreshTokenRepository
         {
             refreshToken.Id = Guid.NewGuid();
             _refreshTokens.Add(refreshToken);
-
             return Task.CompletedTask;
         }
 
-        public Task<RefreshToken> GetByRefreshToken(string token)
+        public Task<RefreshToken> GetByToken(string token)
         {
-            RefreshToken refreshToken = _refreshTokens.FirstOrDefault(r => r.RefToken == token);
-
+            RefreshToken refreshToken = _refreshTokens.FirstOrDefault(r => r.Token == token);
             return Task.FromResult(refreshToken);
         }
 
