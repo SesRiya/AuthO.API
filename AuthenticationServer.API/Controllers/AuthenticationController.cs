@@ -76,10 +76,10 @@ namespace AuthenticationServer.API.Controllers
                 return BadRequestModelState();
             }
 
-            bool isValidRefreshToken = await _refreshTokenVerification.IsValidRefreshToken(refreshRequest);
-            if (!isValidRefreshToken)
+            ErrorResponse errorResponse = await _refreshTokenVerification.VerifyRefreshToken(refreshRequest);
+            if (errorResponse != null)
             {
-                return BadRequest(new ErrorResponse("Invalid refresh token"));
+                return BadRequest(errorResponse);
             }
 
             User user = await _refreshTokenVerification.UserExists(refreshRequest);
@@ -90,6 +90,7 @@ namespace AuthenticationServer.API.Controllers
 
             AuthenticatedUserResponse response = await _authenticator.Authenticate(user);
             return Ok(response);
+
         }
 
 
