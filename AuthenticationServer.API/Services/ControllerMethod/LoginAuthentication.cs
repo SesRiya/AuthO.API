@@ -2,16 +2,17 @@
 using AuthenticationServer.API.Models.Requests;
 using AuthenticationServer.API.Services.PasswordHasher;
 using AuthenticationServer.API.Services.UserRepository;
+using Repository.Interfaces;
 
 namespace AuthenticationServer.API.Services.ControllerMethod
 {
     public class LoginAuthentication : ILoginAuthentication
     {
-        private readonly ITempUserRepository _userRepository;
+        private readonly IUserRepository _userRepository;
         private readonly IPasswordHash _passwordHasher;
 
         public LoginAuthentication(
-            ITempUserRepository userRepository,
+            IUserRepository userRepository,
             IPasswordHash passwordHasher
             )
         {

@@ -8,6 +8,8 @@ using AuthenticationServer.API.Services.TokenValidators;
 using AuthenticationServer.API.Services.UserRepository;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Filters;
+using WebModels;
+using Repository;
 
 namespace AuthenticationServer.API
 {
@@ -43,8 +45,9 @@ namespace AuthenticationServer.API
             services.AddScoped<IPasswordHash, PasswordHash>();
 
             services.AddSingleton<ITempRefreshTokenRepository, TempRefreshTokenRepository>();
-            services.AddSingleton<ITempUserRepository, TempUserRepository>();
+            //services.AddSingleton<ITempUserRepository, TempUserRepository>();
 
+            services.AddRepository();
 
             services.AddHttpContextAccessor();
             // Register our authorization handler.

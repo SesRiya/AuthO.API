@@ -4,17 +4,18 @@ using AuthenticationServer.API.Services.PasswordHasher;
 using AuthenticationServer.API.Models.Responses;
 using AuthenticationServer.API.Services.UserRepository;
 using Microsoft.AspNetCore.Mvc;
+using Repository.Interfaces;
 
 namespace AuthenticationServer.API.Services.ControllerMethod
 {
     public class RegisterUser : IRegisterUser
     {
         private readonly IPasswordHash _passwordHasher;
-        private readonly ITempUserRepository _userRepository;
+        private readonly IUserRepository _userRepository;
 
         public RegisterUser(
             IPasswordHash passwordHasher,
-            ITempUserRepository userRepository
+            IUserRepository userRepository
             )
         {
             _passwordHasher = passwordHasher;

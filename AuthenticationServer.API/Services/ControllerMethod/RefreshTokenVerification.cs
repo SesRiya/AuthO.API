@@ -4,6 +4,7 @@ using AuthenticationServer.API.Models.Responses;
 using AuthenticationServer.API.Services.RefreshTokenRepository;
 using AuthenticationServer.API.Services.TokenValidators;
 using AuthenticationServer.API.Services.UserRepository;
+using Repository.Interfaces;
 
 namespace AuthenticationServer.API.Services.ControllerMethod
 {
@@ -11,13 +12,13 @@ namespace AuthenticationServer.API.Services.ControllerMethod
     {
         private readonly RefreshTokenValidator _refreshTokenValidator;
         private readonly ITempRefreshTokenRepository _refreshTokenRepository;
-        private readonly ITempUserRepository _userRepository;
+        private readonly IUserRepository _userRepository;
 
         public RefreshTokenVerification
             (
             RefreshTokenValidator refreshTokenValidator,
             ITempRefreshTokenRepository refreshTokenRepository,
-            ITempUserRepository userRepository
+            IUserRepository userRepository
             )
         {
             _refreshTokenValidator = refreshTokenValidator;
