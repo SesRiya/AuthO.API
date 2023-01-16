@@ -1,8 +1,8 @@
 ﻿using AuthenticationServer.API.Models.Responses;
-using AuthenticationServer.API.Models;
 using AuthenticationServer.API.Services.RefreshTokenRepository;
 using AuthenticationServer.API.Services.TokenGenerator;
 using Microsoft.IdentityModel.Tokens;
+using WebModels;
 
 namespace AuthenticationServer.API.Services.Authenticators
 {
@@ -26,7 +26,7 @@ namespace AuthenticationServer.API.Services.Authenticators
             string accessToken = _accessTokenGenerator.GenerateToken(user);
             string refreshToken = _refreshTokenGenerator.GenerateToken();
 
-            RefreshToken refreshTokenDTO = new RefreshToken()
+            Models.RefreshToken refreshTokenDTO = new Models.RefreshToken()
             {
                 Token = refreshToken,
                 UserId = user.Id

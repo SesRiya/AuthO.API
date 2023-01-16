@@ -1,5 +1,5 @@
-﻿using AuthenticationServer.API.Models;
-using AuthenticationServer.API.Models.Requests;
+﻿using AuthenticationServer.API.Models.Requests;
+using WebModels;
 
 namespace AuthenticationServer.API.Services.ControllerMethod
 {

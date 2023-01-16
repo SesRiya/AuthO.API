@@ -1,10 +1,10 @@
 ﻿using AuthenticationServer.API.Models.Requests;
-using AuthenticationServer.API.Models;
 using AuthenticationServer.API.Services.PasswordHasher;
 using AuthenticationServer.API.Models.Responses;
 using AuthenticationServer.API.Services.UserRepository;
 using Microsoft.AspNetCore.Mvc;
 using Repository.Interfaces;
+using WebModels;
 
 namespace AuthenticationServer.API.Services.ControllerMethod
 {

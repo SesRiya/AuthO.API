@@ -1,6 +1,6 @@
 ﻿using AuthenticationServer.API.Models.Requests;
-using AuthenticationServer.API.Models;
 using AuthenticationServer.API.Models.Responses;
+using WebModels;
 
 namespace AuthenticationServer.API.Services.ControllerMethod
 {

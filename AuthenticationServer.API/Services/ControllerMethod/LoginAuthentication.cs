@@ -1,8 +1,8 @@
-﻿using AuthenticationServer.API.Models;
-using AuthenticationServer.API.Models.Requests;
+﻿using AuthenticationServer.API.Models.Requests;
 using AuthenticationServer.API.Services.PasswordHasher;
 using AuthenticationServer.API.Services.UserRepository;
 using Repository.Interfaces;
+using WebModels;
 
 namespace AuthenticationServer.API.Services.ControllerMethod
 {
@@ -20,7 +20,7 @@ namespace AuthenticationServer.API.Services.ControllerMethod
             _passwordHasher = passwordHasher;
         }
 
-        public async Task<User?> IsUserAuthenticated(LoginRequest loginRequest)
+        public async Task<User> IsUserAuthenticated(LoginRequest loginRequest)
         {
             User user = await _userRepository.GetByUsername(loginRequest.Username);
             if (user == null)

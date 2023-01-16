@@ -1,10 +1,10 @@
-﻿using AuthenticationServer.API.Models;
-using AuthenticationServer.API.Models.Requests;
+﻿using AuthenticationServer.API.Models.Requests;
 using AuthenticationServer.API.Models.Responses;
 using AuthenticationServer.API.Services.RefreshTokenRepository;
 using AuthenticationServer.API.Services.TokenValidators;
 using AuthenticationServer.API.Services.UserRepository;
 using Repository.Interfaces;
+using WebModels;
 
 namespace AuthenticationServer.API.Services.ControllerMethod
 {
@@ -29,7 +29,7 @@ namespace AuthenticationServer.API.Services.ControllerMethod
 
         public async Task<User> UserExists(RefreshRequest refreshRequest)
         {
-            RefreshToken refreshTokenDTO = await _refreshTokenRepository.GetByToken(refreshRequest.RefreshToken);
+            Models.RefreshToken refreshTokenDTO = await _refreshTokenRepository.GetByToken(refreshRequest.RefreshToken);
             User user = await _userRepository.GetById(refreshTokenDTO.UserId);
             return user;
         }
@@ -41,7 +41,7 @@ namespace AuthenticationServer.API.Services.ControllerMethod
             {
                 return new ErrorResponse("Invalid Token");
             }
-            RefreshToken refreshTokenDTO = await _refreshTokenRepository.GetByToken(refreshRequest.RefreshToken);
+            Models.RefreshToken refreshTokenDTO = await _refreshTokenRepository.GetByToken(refreshRequest.RefreshToken);
             if (refreshTokenDTO == null)
             {
                 return new ErrorResponse("Invalid Token");

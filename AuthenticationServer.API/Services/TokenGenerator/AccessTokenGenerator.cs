@@ -1,19 +1,19 @@
-﻿using AuthenticationServer.API.Models;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using WebModels;
 
 namespace AuthenticationServer.API.Services.TokenGenerator
 {
     public class AccessTokenGenerator
     {
 
-        private readonly AuthenticationConfig _configuration;
+        private readonly Models.AuthenticationConfig _configuration;
         private readonly ITokenGenerator _tokenGenerator;
 
-        public AccessTokenGenerator(AuthenticationConfig configuration, ITokenGenerator tokenGenerator)
+        public AccessTokenGenerator(Models.AuthenticationConfig configuration, ITokenGenerator tokenGenerator)
         {
             _configuration = configuration;
             _tokenGenerator = tokenGenerator;
