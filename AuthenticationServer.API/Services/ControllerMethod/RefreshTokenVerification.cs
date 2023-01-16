@@ -2,7 +2,6 @@
 using AuthenticationServer.API.Models.Responses;
 using AuthenticationServer.API.Services.RefreshTokenRepository;
 using AuthenticationServer.API.Services.TokenValidators;
-using AuthenticationServer.API.Services.UserRepository;
 using Repository.Interfaces;
 using WebModels;
 
@@ -11,13 +10,13 @@ namespace AuthenticationServer.API.Services.ControllerMethod
     public class RefreshTokenVerification : IRefreshTokenVerification
     {
         private readonly RefreshTokenValidator _refreshTokenValidator;
-        private readonly ITempRefreshTokenRepository _refreshTokenRepository;
+        private readonly IRefreshTokenRepository _refreshTokenRepository;
         private readonly IUserRepository _userRepository;
 
         public RefreshTokenVerification
             (
             RefreshTokenValidator refreshTokenValidator,
-            ITempRefreshTokenRepository refreshTokenRepository,
+            IRefreshTokenRepository refreshTokenRepository,
             IUserRepository userRepository
             )
         {
@@ -29,7 +28,7 @@ namespace AuthenticationServer.API.Services.ControllerMethod
 
         public async Task<User> UserExists(RefreshRequest refreshRequest)
         {
-            Models.RefreshToken refreshTokenDTO = await _refreshTokenRepository.GetByToken(refreshRequest.RefreshToken);
+            RefreshToken refreshTokenDTO = await _refreshTokenRepository.GetByToken(refreshRequest.RefreshToken);
             User user = await _userRepository.GetById(refreshTokenDTO.UserId);
             return user;
         }
@@ -41,7 +40,7 @@ namespace AuthenticationServer.API.Services.ControllerMethod
             {
                 return new ErrorResponse("Invalid Token");
             }
-            Models.RefreshToken refreshTokenDTO = await _refreshTokenRepository.GetByToken(refreshRequest.RefreshToken);
+            RefreshToken refreshTokenDTO = await _refreshTokenRepository.GetByToken(refreshRequest.RefreshToken);
             if (refreshTokenDTO == null)
             {
                 return new ErrorResponse("Invalid Token");
