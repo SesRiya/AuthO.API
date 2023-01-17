@@ -10,6 +10,9 @@ using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Filters;
 using WebModels;
 using Repository;
+using ApiCore;
+using Services;
+using AuthenticationConfig = WebModels.AuthenticationConfig;
 
 namespace AuthenticationServer.API
 {
@@ -28,14 +31,14 @@ namespace AuthenticationServer.API
         {
             services.AddControllers();
 
-            services.AddScoped<ITokenGenerator, TokenGenerator>();
-            services.AddScoped<AccessTokenGenerator>();
-            services.AddScoped<RefreshTokenGenerator>();
-            services.AddScoped<RefreshTokenValidator>();
-            services.AddScoped<Authenticator>();
-            services.AddScoped<IRegisterUser, RegisterUser>();
-            services.AddScoped<ILoginAuthentication, LoginAuthentication>();
-            services.AddScoped<IRefreshTokenVerification, RefreshTokenVerification>();
+            //services.AddScoped<ITokenGenerator, TokenGenerator>();
+            //services.AddScoped<AccessTokenGenerator>();
+            //services.AddScoped<RefreshTokenGenerator>();
+            //services.AddScoped<RefreshTokenValidator>();
+            //services.AddScoped<Authenticator>();
+            //services.AddScoped<IRegisterUser, RegisterUser>();
+            //services.AddScoped<ILoginAuthentication, LoginAuthentication>();
+            //services.AddScoped<IRefreshTokenVerification, RefreshTokenVerification>();
 
             //instantiate and bind authentication values to authen config object(appsettings.json)
             AuthenticationConfig authenticationConfiguration = new();
@@ -44,10 +47,12 @@ namespace AuthenticationServer.API
             services.AddSingleton(authenticationConfiguration);
             services.AddScoped<IPasswordHash, PasswordHash>();
 
-            services.AddSingleton<ITempRefreshTokenRepository, TempRefreshTokenRepository>();
+            //services.AddSingleton<ITempRefreshTokenRepository, TempRefreshTokenRepository>();
             //services.AddSingleton<ITempUserRepository, TempUserRepository>();
 
             services.AddRepository();
+            services.AddApiCore();
+            services.AddServices();
 
             services.AddHttpContextAccessor();
             // Register our authorization handler.

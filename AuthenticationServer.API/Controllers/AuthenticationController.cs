@@ -1,11 +1,10 @@
-﻿using AuthenticationServer.API.Models.Requests;
-using AuthenticationServer.API.Models.Responses;
-using AuthenticationServer.API.Services.Authenticators;
-using AuthenticationServer.API.Services.ControllerMethod;
-using AuthenticationServer.API.Services.UserRepository;
+﻿using ApiCore.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 using Repository.Interfaces;
+using Services.Authenticators;
 using WebModels;
+using WebModels.Requests;
+using WebModels.Responses;
 
 namespace AuthenticationServer.API.Controllers
 {
