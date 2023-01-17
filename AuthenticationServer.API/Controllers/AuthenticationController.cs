@@ -30,6 +30,7 @@ namespace AuthenticationServer.API.Controllers
             _refreshTokenVerification = refreshTokenVerification;
         }
 
+
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] RegisterRequest registerRequest)
         {
