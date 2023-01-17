@@ -1,14 +1,5 @@
-﻿using AuthenticationServer.API.Models;
-using AuthenticationServer.API.Services.Authenticators;
-using AuthenticationServer.API.Services.ControllerMethod;
-using AuthenticationServer.API.Services.PasswordHasher;
-using AuthenticationServer.API.Services.RefreshTokenRepository;
-using AuthenticationServer.API.Services.TokenGenerator;
-using AuthenticationServer.API.Services.TokenValidators;
-using AuthenticationServer.API.Services.UserRepository;
-using Microsoft.OpenApi.Models;
+﻿using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Filters;
-using WebModels;
 using Repository;
 using ApiCore;
 using Services;
@@ -31,21 +22,12 @@ namespace AuthenticationServer.API
         {
             services.AddControllers();
 
-            //services.AddScoped<ITokenGenerator, TokenGenerator>();
-            //services.AddScoped<AccessTokenGenerator>();
-            //services.AddScoped<RefreshTokenGenerator>();
-            //services.AddScoped<RefreshTokenValidator>();
-            //services.AddScoped<Authenticator>();
-            //services.AddScoped<IRegisterUser, RegisterUser>();
-            //services.AddScoped<ILoginAuthentication, LoginAuthentication>();
-            //services.AddScoped<IRefreshTokenVerification, RefreshTokenVerification>();
 
             //instantiate and bind authentication values to authen config object(appsettings.json)
             AuthenticationConfig authenticationConfiguration = new();
             _configuration.Bind("Authentication", authenticationConfiguration);
 
             services.AddSingleton(authenticationConfiguration);
-            services.AddScoped<IPasswordHash, PasswordHash>();
 
             //services.AddSingleton<ITempRefreshTokenRepository, TempRefreshTokenRepository>();
             //services.AddSingleton<ITempUserRepository, TempUserRepository>();
