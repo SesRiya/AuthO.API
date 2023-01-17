@@ -1,12 +1,10 @@
-﻿using AuthenticationServer.API.Services.Authorization;
+﻿using Authorization.Authorization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Filters;
 using System.Text;
-using static System.Net.WebRequestMethods;
 
 namespace DataServer.API
 {

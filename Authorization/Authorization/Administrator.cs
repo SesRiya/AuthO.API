@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
 
-namespace AuthenticationServer.API.Services.Authorization
+namespace Authorization.Authorization
 {
     public class Administrator : IAuthorizationRequirement
     {
@@ -16,7 +16,7 @@ namespace AuthenticationServer.API.Services.Authorization
         protected override Task HandleRequirementAsync(AuthorizationHandlerContext context,
                                                      Administrator admin)
         {
-            if (context.User.HasClaim(claim => (claim.Value == "string")) || context.User.HasClaim(claim => (claim.Value == "returns")) || context.User.HasClaim(claim => (claim.Value == "payments")))
+            if (context.User.HasClaim(claim => claim.Value == "string") || context.User.HasClaim(claim => claim.Value == "returns") || context.User.HasClaim(claim => claim.Value == "payments"))
             {
                 context.Succeed(admin);
             }

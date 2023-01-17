@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 
-namespace AuthenticationServer.API.Services.Authorization
+namespace Authorization.Authorization
 {
 
     public class ReturnsOfficer : IAuthorizationRequirement

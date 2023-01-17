@@ -29,8 +29,6 @@ namespace AuthenticationServer.API
 
             services.AddSingleton(authenticationConfiguration);
 
-            //services.AddSingleton<ITempRefreshTokenRepository, TempRefreshTokenRepository>();
-            //services.AddSingleton<ITempUserRepository, TempUserRepository>();
 
             services.AddRepository();
             services.AddApiCore();

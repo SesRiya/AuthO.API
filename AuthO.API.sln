@@ -13,9 +13,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebModels", "WebModels\WebM
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Repository", "Repository\Repository.csproj", "{43891D45-9F0F-4FCF-9B5C-86CAC3619E92}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApiCore", "ApiCore\ApiCore.csproj", "{15F1BA78-6602-4427-A579-93624D90A620}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ApiCore", "ApiCore\ApiCore.csproj", "{15F1BA78-6602-4427-A579-93624D90A620}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Services", "Services\Services.csproj", "{7888A1BF-142A-4732-8740-AE027B0F2EFC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services", "Services\Services.csproj", "{7888A1BF-142A-4732-8740-AE027B0F2EFC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Authorization", "Authorization\Authorization.csproj", "{02A09FD4-6FF5-439F-8071-63581FAAFB7A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,6 +53,10 @@ Global
 		{7888A1BF-142A-4732-8740-AE027B0F2EFC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7888A1BF-142A-4732-8740-AE027B0F2EFC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7888A1BF-142A-4732-8740-AE027B0F2EFC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{02A09FD4-6FF5-439F-8071-63581FAAFB7A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{02A09FD4-6FF5-439F-8071-63581FAAFB7A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{02A09FD4-6FF5-439F-8071-63581FAAFB7A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{02A09FD4-6FF5-439F-8071-63581FAAFB7A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

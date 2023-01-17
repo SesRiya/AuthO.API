@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
 
-namespace AuthenticationServer.API.Services.Authorization
+namespace Authorization.Authorization
 {
     public class ScopeRequirement : IAuthorizationRequirement
     {
