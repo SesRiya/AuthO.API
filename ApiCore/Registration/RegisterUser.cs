@@ -1,11 +1,6 @@
 ﻿using ApiCore.Interfaces;
 using Repository.Interfaces;
 using Services.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using WebModels;
 using WebModels.Requests;
 using WebModels.Responses;
@@ -31,7 +26,6 @@ namespace ApiCore.Registration
             string passwordHash = _passwordHasher.HashPassword(registerRequest.Password);
             User registrationUser = new User()
             {
-
                 Email = registerRequest.Email,
                 Username = registerRequest.Username,
                 PasswordHash = passwordHash,
@@ -57,9 +51,7 @@ namespace ApiCore.Registration
             {
                 return new ErrorResponse("User already exists");
             }
-
             return null;
-
         }
     }
 }

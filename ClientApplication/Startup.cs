@@ -24,7 +24,7 @@ namespace DataServer.API
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
                   {
-                    AuthenticationConfiguration authenticationConfiguration = new AuthenticationConfiguration();
+                    AuthenticationConfiguration authenticationConfiguration = new();
                     Configuration.Bind("Authentication", authenticationConfiguration);
                       options.SaveToken = true;
                       options.TokenValidationParameters = new TokenValidationParameters()
