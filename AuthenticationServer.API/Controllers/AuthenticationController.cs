@@ -1,23 +1,23 @@
-﻿using AuthenticationServer.API.Models;
-using AuthenticationServer.API.Models.Requests;
-using AuthenticationServer.API.Models.Responses;
-using AuthenticationServer.API.Services.Authenticators;
-using AuthenticationServer.API.Services.ControllerMethod;
-using AuthenticationServer.API.Services.UserRepository;
+﻿using ApiCore.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using Repository.Interfaces;
+using Services.Authenticators;
+using WebModels;
+using WebModels.Requests;
+using WebModels.Responses;
 
 namespace AuthenticationServer.API.Controllers
 {
     public class AuthenticationController : Controller
     {
-        private readonly ITempUserRepository _userRepository;
+        private readonly IUserRepository _userRepository;
         private readonly Authenticator _authenticator;
         private readonly IRegisterUser _registerUser;
         private readonly ILoginAuthentication _loginAuthentication;
         private readonly IRefreshTokenVerification _refreshTokenVerification;
 
         public AuthenticationController(
-            ITempUserRepository userRepository,
+            IUserRepository userRepository,
             Authenticator authenticator,
             IRegisterUser registerUser,
             ILoginAuthentication loginAuthentication,
@@ -29,6 +29,7 @@ namespace AuthenticationServer.API.Controllers
             _loginAuthentication = loginAuthentication;
             _refreshTokenVerification = refreshTokenVerification;
         }
+
 
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] RegisterRequest registerRequest)

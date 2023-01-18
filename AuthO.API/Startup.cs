@@ -6,7 +6,7 @@ using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Filters;
 using System.Text;
 
-namespace DataServer.API
+namespace AuthO.API
 {
     public class Startup
     {
@@ -23,11 +23,11 @@ namespace DataServer.API
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
-                  {
-                    AuthenticationConfiguration authenticationConfiguration = new();
+                {
+                    AuthenticationConfiguration authenticationConfiguration = new AuthenticationConfiguration();
                     Configuration.Bind("Authentication", authenticationConfiguration);
-                      options.SaveToken = true;
-                      options.TokenValidationParameters = new TokenValidationParameters()
+                    options.SaveToken = true;
+                    options.TokenValidationParameters = new TokenValidationParameters()
                     {
                         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(authenticationConfiguration.AccessToken)),
                         ValidIssuer = authenticationConfiguration.Issuer,
@@ -37,7 +37,7 @@ namespace DataServer.API
                         ValidateAudience = true,
                         ClockSkew = TimeSpan.Zero
                     };
-                  });
+                });
 
             services.AddScoped<IAuthorizationHandler, IsAllowedAccessToAll>();
             services.AddScoped<IAuthorizationHandler, IsAllowedAccessToReturnsPage>();
@@ -54,7 +54,7 @@ namespace DataServer.API
                 options.AddPolicy("returns",
                     policyBuilder =>
                         policyBuilder.AddRequirements(
-                            new ReturnsOfficer()    
+                            new ReturnsOfficer()
                             ));
             });
 
@@ -109,7 +109,4 @@ namespace DataServer.API
         }
     }
 
-
-
 }
-
