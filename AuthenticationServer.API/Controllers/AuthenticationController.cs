@@ -10,12 +10,15 @@ namespace AuthenticationServer.API.Controllers
 {
     public class AuthenticationController : Controller
     {
+        #region Fields
         private readonly IUserRepository _userRepository;
         private readonly Authenticator _authenticator;
         private readonly IRegisterUser _registerUser;
         private readonly ILoginAuthentication _loginAuthentication;
         private readonly IRefreshTokenVerification _refreshTokenVerification;
+        #endregion
 
+        #region Constructor
         public AuthenticationController(
             IUserRepository userRepository,
             Authenticator authenticator,
@@ -29,8 +32,9 @@ namespace AuthenticationServer.API.Controllers
             _loginAuthentication = loginAuthentication;
             _refreshTokenVerification = refreshTokenVerification;
         }
+        #endregion
 
-
+        #region Actions
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] RegisterRequest registerRequest)
         {
@@ -91,7 +95,6 @@ namespace AuthenticationServer.API.Controllers
 
             AuthenticatedUserResponse response = await _authenticator.Authenticate(user);
             return Ok(response);
-
         }
 
 
@@ -100,8 +103,7 @@ namespace AuthenticationServer.API.Controllers
             IEnumerable<string> errorMessages = ModelState.Values.SelectMany(v => v.Errors.Select(e => e.ErrorMessage));
             return BadRequest(new ErrorResponse(errorMessages));
         }
-
-
+        #endregion
 
     }
 }

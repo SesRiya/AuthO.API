@@ -9,9 +9,12 @@ namespace ApiCore.Registration
 {
     public class RegisterUser : IRegisterUser
     {
+        #region Fields
         private readonly IPasswordHash _passwordHasher;
         private readonly IUserRepository _userRepository;
+        #endregion
 
+        #region Constructor
         public RegisterUser(
             IPasswordHash passwordHasher,
             IUserRepository userRepository
@@ -20,7 +23,9 @@ namespace ApiCore.Registration
             _passwordHasher = passwordHasher;
             _userRepository = userRepository;
         }
+        #endregion
 
+        #region Actions
         public User CreateUser(RegisterRequest registerRequest)
         {
             string passwordHash = _passwordHasher.HashPassword(registerRequest.Password);
@@ -35,23 +40,57 @@ namespace ApiCore.Registration
         }
         public async Task<ErrorResponse?> UserVerification(RegisterRequest registerRequest)
         {
-            if (registerRequest.Password != registerRequest.ConfirmPassword)
+            bool isPasswordMatching = IsPasswordMatching(registerRequest);
+            if (!isPasswordMatching)
             {
                 return new ErrorResponse("Password does not match");
             }
 
-            User existingUserByEmail = await _userRepository.GetByEmail(registerRequest.Email);
-            if (existingUserByEmail != null)
+            bool isEmailRegistered = await IsEmailRegistered(registerRequest);
+            if (isEmailRegistered)
             {
                 return new ErrorResponse("Email already exists");
             }
 
-            User existingUserByUsername = await _userRepository.GetByUsername(registerRequest.Username);
-            if (existingUserByUsername != null)
+            bool isUsernameRegistered = await IsUserRegistered(registerRequest);
+            if (isUsernameRegistered)
             {
                 return new ErrorResponse("User already exists");
             }
             return null;
         }
+
+        public bool IsPasswordMatching(RegisterRequest registerRequest)
+        {
+            if (registerRequest.Password != registerRequest.ConfirmPassword)
+            {
+                return false;
+            }
+            return true;
+        }
+
+        public async Task<bool> IsEmailRegistered(RegisterRequest registerRequest)
+        {
+            User existingUserByEmail = await _userRepository.GetByEmail(registerRequest.Email);
+            if (existingUserByEmail != null)
+            {
+                return true;
+            }
+            return false;
+
+        }
+
+        public async Task<bool> IsUserRegistered(RegisterRequest registerRequest)
+        {
+            User existingUserByUsername = await _userRepository.GetByUsername(registerRequest.Username);
+            if (existingUserByUsername != null)
+            {
+                return true;
+            }
+            return false;
+        }
+
+
+        #endregion
     }
 }

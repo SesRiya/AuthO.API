@@ -17,7 +17,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ApiCore", "ApiCore\ApiCore.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Services", "Services\Services.csproj", "{7888A1BF-142A-4732-8740-AE027B0F2EFC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Authorization", "Authorization\Authorization.csproj", "{02A09FD4-6FF5-439F-8071-63581FAAFB7A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Authorization", "Authorization\Authorization.csproj", "{02A09FD4-6FF5-439F-8071-63581FAAFB7A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests", "UnitTests\UnitTests.csproj", "{B57F33E6-D758-4F91-8516-98CDE841F1B2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -57,6 +59,10 @@ Global
 		{02A09FD4-6FF5-439F-8071-63581FAAFB7A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{02A09FD4-6FF5-439F-8071-63581FAAFB7A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{02A09FD4-6FF5-439F-8071-63581FAAFB7A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B57F33E6-D758-4F91-8516-98CDE841F1B2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B57F33E6-D758-4F91-8516-98CDE841F1B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B57F33E6-D758-4F91-8516-98CDE841F1B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B57F33E6-D758-4F91-8516-98CDE841F1B2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
