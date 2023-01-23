@@ -13,5 +13,9 @@ namespace ApiCore.Interfaces
     {
         public User CreateUser(RegisterRequest registerRequest);
         Task<ErrorResponse?> UserVerification(RegisterRequest registerRequest);
+        bool IsPasswordMatching(RegisterRequest registerRequest);
+        Task<bool> IsEmailRegistered(RegisterRequest registerRequest);
+        Task<bool> IsUserRegistered(RegisterRequest registerRequest);
+
     }
 }
