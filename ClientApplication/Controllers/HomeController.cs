@@ -13,7 +13,7 @@ namespace DataServer.API.Controllers
         {
             string id = HttpContext.User.FindFirstValue("id");
             string role = HttpContext.User.FindFirstValue(ClaimTypes.Role);
-            return Ok(id);
+            return Ok(role);
         }
     }
 }
