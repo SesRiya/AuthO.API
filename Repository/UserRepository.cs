@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Principal;
 using System.Text;
 using System.Threading.Tasks;
 using WebModels;
@@ -28,14 +29,15 @@ namespace Repository
             return Task.FromResult(_users.FirstOrDefault(user => user.Username == username));
         }
 
-        public Task<User?> GetByRole(string role)
+        public Task<List<string>> GetAllRoles(Guid userID)
         {
-            return Task.FromResult(_users.FirstOrDefault(user => user.Role == role));
+            User user = _users.FirstOrDefault(user => user.Id == userID);
+            return Task.FromResult(user.Roles.ToList());
         }
 
-        public Task<User> GetById(Guid UserId)
+        public Task<User> GetById(Guid userId)
         {
-            return Task.FromResult(_users.FirstOrDefault(user => user.Id == UserId));
+            return Task.FromResult(_users.FirstOrDefault(user => user.Id == userId));
         }
     }
 }

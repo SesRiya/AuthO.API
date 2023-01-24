@@ -34,7 +34,7 @@ namespace ApiCore.Registration
                 Email = registerRequest.Email,
                 Username = registerRequest.Username,
                 PasswordHash = passwordHash,
-                Role = registerRequest.Role
+                Roles = registerRequest.Role
             };
             return registrationUser;
         }

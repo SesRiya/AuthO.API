@@ -4,16 +4,22 @@ using Repository;
 using ApiCore;
 using Services;
 using AuthenticationConfig = WebModels.AuthenticationConfig;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace AuthenticationServer.API
 {
     public class Startup
     {
-        private readonly IConfiguration _configuration;
+        public IConfiguration Configuration { get; }
+
 
         public Startup(IConfiguration configuration)
         {
-            _configuration = configuration;
+            Configuration = configuration;
+
         }
 
 
@@ -25,7 +31,7 @@ namespace AuthenticationServer.API
 
             //instantiate and bind authentication values to authen config object(appsettings.json)
             AuthenticationConfig authenticationConfiguration = new();
-            _configuration.Bind("Authentication", authenticationConfiguration);
+            Configuration.Bind("Authentication", authenticationConfiguration);
 
             services.AddSingleton(authenticationConfiguration);
 
@@ -33,6 +39,25 @@ namespace AuthenticationServer.API
             services.AddRepository();
             services.AddApiCore();
             services.AddServices();
+
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            .AddJwtBearer(options =>
+            {
+                AuthenticationConfig authenticationConfiguration = new();
+                Configuration.Bind("Authentication", authenticationConfiguration);
+                options.SaveToken = true;
+                options.TokenValidationParameters = new TokenValidationParameters()
+                {
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(authenticationConfiguration.AccessTokenKey)),
+                    ValidIssuer = authenticationConfiguration.Issuer,
+                    ValidAudience = authenticationConfiguration.Audience,
+                    ValidateIssuerSigningKey = true,
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ClockSkew = TimeSpan.Zero
+                };
+            });
+
 
             services.AddHttpContextAccessor();
             // Register our authorization handler.
@@ -64,6 +89,7 @@ namespace AuthenticationServer.API
                         .Build();
                 });
             });
+
         }
 
         public void Configure(WebApplication app, IWebHostEnvironment env)
@@ -92,4 +118,5 @@ namespace AuthenticationServer.API
             app.Run();
         }
     }
+
 }

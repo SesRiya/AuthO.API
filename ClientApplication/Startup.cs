@@ -6,7 +6,7 @@ using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Filters;
 using System.Text;
 
-namespace DataServer.API
+namespace ClientApplication
 {
     public class Startup
     {
@@ -24,19 +24,19 @@ namespace DataServer.API
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
                   {
-                    AuthenticationConfiguration authenticationConfiguration = new();
-                    Configuration.Bind("Authentication", authenticationConfiguration);
+                      AuthenticationConfiguration authenticationConfiguration = new();
+                      Configuration.Bind("Authentication", authenticationConfiguration);
                       options.SaveToken = true;
                       options.TokenValidationParameters = new TokenValidationParameters()
-                    {
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(authenticationConfiguration.AccessToken)),
-                        ValidIssuer = authenticationConfiguration.Issuer,
-                        ValidAudience = authenticationConfiguration.Audience,
-                        ValidateIssuerSigningKey = true,
-                        ValidateIssuer = true,
-                        ValidateAudience = true,
-                        ClockSkew = TimeSpan.Zero
-                    };
+                      {
+                          IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(authenticationConfiguration.AccessToken)),
+                          ValidIssuer = authenticationConfiguration.Issuer,
+                          ValidAudience = authenticationConfiguration.Audience,
+                          ValidateIssuerSigningKey = true,
+                          ValidateIssuer = true,
+                          ValidateAudience = true,
+                          ClockSkew = TimeSpan.Zero
+                      };
                   });
 
             services.AddScoped<IAuthorizationHandler, IsAllowedAccessToAll>();
@@ -54,7 +54,7 @@ namespace DataServer.API
                 options.AddPolicy("returns",
                     policyBuilder =>
                         policyBuilder.AddRequirements(
-                            new ReturnsOfficer()    
+                            new ReturnsOfficer()
                             ));
             });
 
