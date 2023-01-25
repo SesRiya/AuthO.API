@@ -8,7 +8,7 @@ namespace Services
 
     public static class ServiceCollectionExtensions
     {
-        public static void AddClaimsTransformation(this IServiceCollection services)
+        public static void AddCustomClaimstoIdentity(this IServiceCollection services)
         {
             services.AddScoped<IClaimsTransformation, AddCustomClaimsToIdentity>();
             services.AddScoped<IUserService, UserService>();

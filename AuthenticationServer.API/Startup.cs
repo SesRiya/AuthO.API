@@ -38,7 +38,7 @@ namespace AuthenticationServer.API
             services.AddSingleton(authenticationConfiguration);
 
 
-            services.AddClaimsTransformation();
+            services.AddCustomClaimstoIdentity();
             services.AddRepository();
             services.AddApiCore();
             services.AddServices();

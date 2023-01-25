@@ -41,7 +41,7 @@ namespace ClientApplication
                       };
                   });
 
-            services.AddClaimsTransformation();
+            services.AddCustomClaimstoIdentity();
 
             services.AddScoped<IAuthorizationHandler, IsAllowedAccessToAll>();
             services.AddScoped<IAuthorizationHandler, IsAllowedAccessToReturnsPage>();
