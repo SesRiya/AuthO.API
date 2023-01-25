@@ -5,7 +5,7 @@ namespace ClientApplication.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    [Authorize(Policy = "returns")]
+    [Authorize(Policy = "User")]
     public class WeatherForecastController : ControllerBase
     {
         private static readonly string[] Summaries = new[]

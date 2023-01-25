@@ -1,12 +1,12 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Repository.Interfaces;
 using System.Security.Claims;
-using WebModels;
 
-namespace DataServer.API.Controllers
+namespace AuthenticationServer.API.Controllers
 {
-    public class HomeController : ControllerBase
+    [Route("api/[controller]")]
+    [ApiController]
+    public class AuthorizationController : ControllerBase
     {
 
         [Authorize]
@@ -27,7 +27,6 @@ namespace DataServer.API.Controllers
             return Ok(items);
         }
 
-
         [Authorize(Policy = "Admin")]
         [HttpGet("admin")]
         public IActionResult AdminOnly()
@@ -36,5 +35,4 @@ namespace DataServer.API.Controllers
         }
     }
 }
-
 

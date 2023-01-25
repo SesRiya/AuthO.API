@@ -3,10 +3,12 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Repository;
+using Services;
 using Swashbuckle.AspNetCore.Filters;
 using System.Text;
 
-namespace DataServer.API
+namespace ClientApplication
 {
     public class Startup
     {
@@ -24,41 +26,39 @@ namespace DataServer.API
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
                   {
-                    AuthenticationConfiguration authenticationConfiguration = new();
-                    Configuration.Bind("Authentication", authenticationConfiguration);
+                      AuthenticationConfiguration authenticationConfiguration = new();
+                      Configuration.Bind("Authentication", authenticationConfiguration);
                       options.SaveToken = true;
                       options.TokenValidationParameters = new TokenValidationParameters()
-                    {
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(authenticationConfiguration.AccessToken)),
-                        ValidIssuer = authenticationConfiguration.Issuer,
-                        ValidAudience = authenticationConfiguration.Audience,
-                        ValidateIssuerSigningKey = true,
-                        ValidateIssuer = true,
-                        ValidateAudience = true,
-                        ClockSkew = TimeSpan.Zero
-                    };
+                      {
+                          IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(authenticationConfiguration.AccessToken)),
+                          ValidIssuer = authenticationConfiguration.Issuer,
+                          ValidAudience = authenticationConfiguration.Audience,
+                          ValidateIssuerSigningKey = true,
+                          ValidateIssuer = true,
+                          ValidateAudience = true,
+                          ClockSkew = TimeSpan.Zero
+                      };
                   });
+
+            services.AddCustomClaimstoIdentity();
 
             services.AddScoped<IAuthorizationHandler, IsAllowedAccessToAll>();
             services.AddScoped<IAuthorizationHandler, IsAllowedAccessToReturnsPage>();
-            services.AddScoped<IAuthorizationHandler, IsAllowedAccessToPaymentsPage>();
-
 
             services.AddAuthorization(options =>
             {
-                options.AddPolicy("admin",
+                options.AddPolicy("Admin",
                     policyBuilder =>
                         policyBuilder.AddRequirements(
                             new Administrator()
                         ));
-                options.AddPolicy("returns",
+                options.AddPolicy("User",
                     policyBuilder =>
                         policyBuilder.AddRequirements(
-                            new ReturnsOfficer()    
+                            new ReturnsOfficer()
                             ));
             });
-
-
 
             services.AddEndpointsApiExplorer();
             services.AddSwaggerGen(options =>

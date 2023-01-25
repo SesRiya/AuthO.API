@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
+using static System.Net.WebRequestMethods;
 
 namespace Authorization.Authorization
 {
@@ -16,7 +17,7 @@ namespace Authorization.Authorization
         protected override Task HandleRequirementAsync(AuthorizationHandlerContext context,
                                                      Administrator admin)
         {
-            if (context.User.HasClaim(claim => claim.Value == "string") || context.User.HasClaim(claim => claim.Value == "returns") || context.User.HasClaim(claim => claim.Value == "payments" || context.User.HasClaim(claim => claim.Value == "admin")))
+            if (context.User.HasClaim(claim => claim.Value == "Admin"))
             {
                 context.Succeed(admin);
             }

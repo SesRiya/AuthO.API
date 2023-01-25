@@ -30,7 +30,7 @@ namespace UnitTests.ApiCore
             Username = "mockit",
             Password = "password",
             ConfirmPassword = "password",
-            Role = "admin"
+            //Roles = new List<>();
         };
 
 
