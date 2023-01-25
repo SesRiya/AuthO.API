@@ -15,7 +15,7 @@ namespace Authorization.Authorization
         protected override Task HandleRequirementAsync(AuthorizationHandlerContext context,
                                                      ReturnsOfficer returns)
         {
-            if (context.User.HasClaim(claim => claim.Value == "returns"))
+            if (context.User.HasClaim(claim => claim.Value == "User"))
             {
                 context.Succeed(returns);
             }

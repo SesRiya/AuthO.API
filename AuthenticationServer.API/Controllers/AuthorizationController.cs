@@ -11,32 +11,30 @@ namespace AuthenticationServer.API.Controllers
     [ApiController]
     public class AuthorizationController : ControllerBase
     {
-        private readonly IUserRepository _userRepository;
-        private User user;
-
-        public AuthorizationController(IUserRepository userRepository)
-        {
-            _userRepository = userRepository;
-        }
 
         [Authorize]
-        [HttpGet("getUserDetails")]
-        public async Task<IActionResult> Index()
+        [HttpGet("roles")]
+        public IActionResult GetRoles()
         {
+            // Find all our role claims
+            var claims = User.FindAll(ClaimTypes.Role);
 
-            string id = HttpContext.User.FindFirstValue("id");
-            Guid guid = new Guid(id);
-            user = await _userRepository.GetById(guid);
-            List<string> roles = await _userRepository.GetAllRoles(guid);
-            if (user == null)
-            {
-                return BadRequest(guid);
+            var items = new List<string>();
 
-            }
-            else
+            foreach (var claim in claims)
             {
-                return Ok(roles.Count);
+                items.Add($"Type: {claim.Type} Value: {claim.Value}");
             }
+
+            // Return a list of all role claims
+            return Ok(items);
+        }
+
+        [Authorize(Policy = "Admin")]
+        [HttpGet("admin")]
+        public IActionResult AdminOnly()
+        {
+            return Ok("Admin only here");
         }
     }
 }

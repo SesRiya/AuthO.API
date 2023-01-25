@@ -3,11 +3,13 @@ using Swashbuckle.AspNetCore.Filters;
 using Repository;
 using ApiCore;
 using Services;
+using Authorization;
 using AuthenticationConfig = WebModels.AuthenticationConfig;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using Microsoft.AspNetCore.Authorization;
+using Authorization.Authorization;
 
 namespace AuthenticationServer.API
 {
@@ -36,6 +38,7 @@ namespace AuthenticationServer.API
             services.AddSingleton(authenticationConfiguration);
 
 
+            services.AddClaimsTransformation();
             services.AddRepository();
             services.AddApiCore();
             services.AddServices();
@@ -61,6 +64,25 @@ namespace AuthenticationServer.API
 
             services.AddHttpContextAccessor();
             // Register our authorization handler.
+
+
+            services.AddScoped<IAuthorizationHandler, IsAllowedAccessToAll>();
+            services.AddScoped<IAuthorizationHandler, IsAllowedAccessToReturnsPage>();
+            //services.AddScoped<IAuthorizationHandler, IsAllowedAccessToPaymentsPage>();
+
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("Admin",
+                    policyBuilder =>
+                        policyBuilder.AddRequirements(
+                            new Administrator()
+                        ));
+                options.AddPolicy("User",
+                    policyBuilder =>
+                        policyBuilder.AddRequirements(
+                            new ReturnsOfficer()
+                            ));
+            });
 
 
             services.AddEndpointsApiExplorer();

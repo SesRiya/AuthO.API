@@ -20,6 +20,7 @@
 		<ProjectReference Include="..\WebModels\WebModels.csproj" />
 		<ProjectReference Include="..\Repository\Repository.csproj" />
 		<ProjectReference Include="..\ApiCore\ApiCore.csproj" />
+		<ProjectReference Include="..\Authorization\Authorization.csproj" />
 		<ProjectReference Include="..\Services\Services.csproj" />
 	</ItemGroup>
 

@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Repository;
+using Services;
 using Swashbuckle.AspNetCore.Filters;
 using System.Text;
 
@@ -39,26 +41,24 @@ namespace ClientApplication
                       };
                   });
 
+            services.AddClaimsTransformation();
+
             services.AddScoped<IAuthorizationHandler, IsAllowedAccessToAll>();
             services.AddScoped<IAuthorizationHandler, IsAllowedAccessToReturnsPage>();
-            services.AddScoped<IAuthorizationHandler, IsAllowedAccessToPaymentsPage>();
-
 
             services.AddAuthorization(options =>
             {
-                options.AddPolicy("admin",
+                options.AddPolicy("Admin",
                     policyBuilder =>
                         policyBuilder.AddRequirements(
                             new Administrator()
                         ));
-                options.AddPolicy("returns",
+                options.AddPolicy("User",
                     policyBuilder =>
                         policyBuilder.AddRequirements(
                             new ReturnsOfficer()
                             ));
             });
-
-
 
             services.AddEndpointsApiExplorer();
             services.AddSwaggerGen(options =>
