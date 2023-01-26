@@ -36,7 +36,7 @@ namespace Authorization.ClaimsTransformation
             }
 
             // Sample roles to attach to the user
-            var roles = await _usersService.GetRolesAsync(Guid.Parse(idClaim.Value)); 
+            var roles = await _userRepository.GetAllRoles(Guid.Parse(idClaim.Value)); 
 
             // Clone the principal
             var clonedPrincipal = principal.Clone();
