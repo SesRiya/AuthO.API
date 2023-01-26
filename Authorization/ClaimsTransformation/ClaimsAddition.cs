@@ -17,7 +17,6 @@ namespace Authorization.ClaimsTransformation
             _userRepository = userRepository;
         }
 
-
         public async Task<ClaimsPrincipal> TransformAsync(ClaimsPrincipal principal)
         {
             // User is not authenticated so just return right away
