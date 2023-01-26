@@ -29,11 +29,11 @@ namespace Repository
             return Task.FromResult(_users.FirstOrDefault(user => user.Username == username));
         }
 
-        //public Task<List<string>> GetAllRoles(Guid userID)
-        //{
-        //    User user = _users.FirstOrDefault(user => user.Id == userID);
-        //    return Task.FromResult(user.Roles.ToList());
-        //}
+        public Task<List<string>> GetAllRoles(Guid userID)
+        {
+            User user = _users.FirstOrDefault(user => user.Id == userID);
+            return Task.FromResult(user.Roles.ToList());
+        }
 
         public Task<User> GetById(Guid userId)
         {
