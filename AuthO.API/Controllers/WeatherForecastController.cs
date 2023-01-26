@@ -1,7 +1,8 @@
+using AuthO.API;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace AuthO.API.Controllers
+namespace TestApplication.Controllers
 {
     [ApiController]
     [Route("[controller]")]

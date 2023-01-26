@@ -9,10 +9,12 @@ namespace Authorization.ClaimsTransformation
     public class ClaimsAddition : IClaimsTransformation
     {
         private readonly IUserService _usersService;
+        private readonly IUserRepository _userRepository;
 
-        public ClaimsAddition(IUserService usersService)
+        public ClaimsAddition(IUserService usersService, IUserRepository userRepository)
         {
             _usersService = usersService;
+            _userRepository = userRepository;
         }
 
 
@@ -34,7 +36,7 @@ namespace Authorization.ClaimsTransformation
             }
 
             // Sample roles to attach to the user
-            var roles = await _usersService.GetRolesAsync(Guid.Parse(idClaim.Value)); 
+            var roles = await _userRepository.GetAllRoles(Guid.Parse(idClaim.Value)); 
 
             // Clone the principal
             var clonedPrincipal = principal.Clone();

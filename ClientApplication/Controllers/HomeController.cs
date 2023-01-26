@@ -4,7 +4,7 @@ using Repository.Interfaces;
 using System.Security.Claims;
 using WebModels;
 
-namespace DataServer.API.Controllers
+namespace FrontEndApplication.Controllers
 {
     public class HomeController : ControllerBase
     {
@@ -13,6 +13,7 @@ namespace DataServer.API.Controllers
         [HttpGet("roles")]
         public IActionResult GetRoles()
         {
+           
             // Find all our role claims
             var claims = User.FindAll(ClaimTypes.Role);
 
