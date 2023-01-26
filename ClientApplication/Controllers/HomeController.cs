@@ -13,6 +13,7 @@ namespace FrontEndApplication.Controllers
         [HttpGet("roles")]
         public IActionResult GetRoles()
         {
+           
             // Find all our role claims
             var claims = User.FindAll(ClaimTypes.Role);
 
