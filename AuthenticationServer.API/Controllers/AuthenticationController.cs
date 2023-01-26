@@ -6,7 +6,7 @@ using WebModels;
 using WebModels.Requests;
 using WebModels.Responses;
 
-namespace AuthenticationServer.API.Controllers
+namespace AuthServer.API.Controllers
 {
     public class AuthenticationController : Controller
     {
@@ -48,7 +48,7 @@ namespace AuthenticationServer.API.Controllers
             {
                 return BadRequest(errorResponse);
             }
-          
+
             User registrationUser = _registerUser.CreateUser(registerRequest);
             await _userRepository.Create(registrationUser);
 

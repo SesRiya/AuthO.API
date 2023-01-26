@@ -4,7 +4,7 @@ using Repository.Interfaces;
 using System.Security.Claims;
 using WebModels;
 
-namespace DataServer.API.Controllers
+namespace FrontEndApplication.Controllers
 {
     public class HomeController : ControllerBase
     {

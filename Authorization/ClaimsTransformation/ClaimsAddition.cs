@@ -9,10 +9,12 @@ namespace Authorization.ClaimsTransformation
     public class ClaimsAddition : IClaimsTransformation
     {
         private readonly IUserService _usersService;
+        private readonly IUserRepository _userRepository;
 
-        public ClaimsAddition(IUserService usersService)
+        public ClaimsAddition(IUserService usersService, IUserRepository userRepository)
         {
             _usersService = usersService;
+            _userRepository = userRepository;
         }
 
 

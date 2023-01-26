@@ -13,7 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\AuthenticationServer.API\AuthenticationServer.API.csproj" />
+    <ProjectReference Include="..\AuthenticationServer.API\AuthServer.API.csproj" />
     <ProjectReference Include="..\Authorization\Authorization.csproj" />
   </ItemGroup>
 

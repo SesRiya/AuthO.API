@@ -42,6 +42,7 @@ namespace ClientApplication
                   });
 
             services.AddCustomClaimstoIdentity();
+            services.AddRepository();
 
             services.AddScoped<IAuthorizationHandler, IsAllowedAccessToAll>();
             services.AddScoped<IAuthorizationHandler, IsAllowedAccessToReturnsPage>();

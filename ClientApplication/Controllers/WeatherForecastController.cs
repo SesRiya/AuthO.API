@@ -1,7 +1,8 @@
+using ClientApplication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace ClientApplication.Controllers
+namespace FrontEndApplication.Controllers
 {
     [ApiController]
     [Route("[controller]")]
