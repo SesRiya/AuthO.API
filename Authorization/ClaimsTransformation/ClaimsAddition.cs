@@ -1,17 +1,27 @@
-﻿using Microsoft.AspNetCore.Authentication;
+﻿using Authorization.ClaimsUserService;
+using Microsoft.AspNetCore.Authentication;
+using Repository.Interfaces;
 using System.Security.Claims;
+using WebModels;
 
 namespace Authorization.ClaimsTransformation
 {
-    public class AddCustomClaimsToIdentity : IClaimsTransformation
+    public class ClaimsAddition : IClaimsTransformation
     {
+        private readonly IUserService _usersService;
 
-        public Task<ClaimsPrincipal> TransformAsync(ClaimsPrincipal principal)
+        public ClaimsAddition(IUserService usersService)
+        {
+            _usersService = usersService;
+        }
+
+
+        public async Task<ClaimsPrincipal> TransformAsync(ClaimsPrincipal principal)
         {
             // User is not authenticated so just return right away
             if (principal.Identity?.IsAuthenticated is false)
             {
-                return Task.FromResult(principal);
+                return principal;
             }
 
             // To be able to find the roles assigned to an user we need to use an unique identifier for this person.
@@ -20,11 +30,11 @@ namespace Authorization.ClaimsTransformation
 
             if (idClaim is null)
             {
-                return Task.FromResult(principal);
+                return principal;
             }
 
             // Sample roles to attach to the user
-            var roles = new List<string> { "Admin", "User" };
+            var roles = await _usersService.GetRolesAsync(Guid.Parse(idClaim.Value)); 
 
             // Clone the principal
             var clonedPrincipal = principal.Clone();
@@ -36,7 +46,7 @@ namespace Authorization.ClaimsTransformation
                 clonedIdentity.AddClaim(new Claim(ClaimTypes.Role, role, ClaimValueTypes.String));
             }
 
-            return Task.FromResult(clonedPrincipal);
+            return clonedPrincipal;
         }
     }
 }

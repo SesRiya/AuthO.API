@@ -10,7 +10,7 @@ namespace Services
     {
         public static void AddCustomClaimstoIdentity(this IServiceCollection services)
         {
-            services.AddScoped<IClaimsTransformation, AddCustomClaimsToIdentity>();
+            services.AddScoped<IClaimsTransformation, ClaimsAddition>();
             services.AddScoped<IUserService, UserService>();
         }
     }
