@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AppTest", "AuthO.API\AppTes
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuthenticationServer.API", "AuthenticationServer.API\AuthenticationServer.API.csproj", "{883537D5-58A5-48B5-8EC2-7CCDAD263B1D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FrontEndApplication", "ClientApplication\FrontEndApplication.csproj", "{082F83B2-F45C-43E1-B9B7-1546D940A862}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ServiceApplication", "ClientApplication\ServiceApplication.csproj", "{082F83B2-F45C-43E1-B9B7-1546D940A862}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebModels", "WebModels\WebModels.csproj", "{F8B09A09-FE1E-428F-AF82-A5ECE98C931E}"
 EndProject

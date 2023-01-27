@@ -4,7 +4,7 @@ using Repository.Interfaces;
 using System.Security.Claims;
 using WebModels;
 
-namespace FrontEndApplication.Controllers
+namespace ServiceApplication.Controllers
 {
     public class HomeController : ControllerBase
     {

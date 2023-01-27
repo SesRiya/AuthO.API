@@ -2,11 +2,11 @@ using ClientApplication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace FrontEndApplication.Controllers
+namespace ServiceApplication.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    [Authorize(Policy = "User")]
+    [Authorize(Policy = "Tester")]
     public class WeatherForecastController : ControllerBase
     {
         private static readonly string[] Summaries = new[]

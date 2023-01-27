@@ -39,9 +39,9 @@ namespace AuthO.API
                     };
                 });
 
-            services.AddScoped<IAuthorizationHandler, IsAllowedAccessToAll>();
-            services.AddScoped<IAuthorizationHandler, IsAllowedAccessToReturnsPage>();
-            services.AddScoped<IAuthorizationHandler, IsAllowedAccessToPaymentsPage>();
+            services.AddScoped<IAuthorizationHandler, AdminAccess>();
+            services.AddScoped<IAuthorizationHandler, TesterAccess>();
+            services.AddScoped<IAuthorizationHandler, AdminOrTesterAccess>();
 
 
             services.AddAuthorization(options =>
@@ -54,7 +54,7 @@ namespace AuthO.API
                 options.AddPolicy("returns",
                     policyBuilder =>
                         policyBuilder.AddRequirements(
-                            new ReturnsOfficer()
+                            new Tester()
                             ));
             });
 
