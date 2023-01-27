@@ -34,9 +34,6 @@ namespace AuthenticationServer.API
 
             services.AddSingleton(authenticationConfiguration);
 
-            //adding additional claims i.e. roles to user
-            services.AddCustomClaimstoIdentity();
-
             services.AddRepository();
             services.AddApiCore();
             services.AddServices();
@@ -62,8 +59,11 @@ namespace AuthenticationServer.API
                  };
              });
 
+            //adding additional claims i.e. roles to user
+            services.AddCustomClaimstoIdentity();
 
             services.AddHttpContextAccessor();
+
 
             // Register our authorization handler.
             services.AddScoped<IAuthorizationHandler, IsAllowedAccessToAll>();

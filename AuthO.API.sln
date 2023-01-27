@@ -5,7 +5,7 @@ VisualStudioVersion = 17.3.32929.385
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AppTest", "AuthO.API\AppTest.csproj", "{358CE329-9AF8-458B-96AE-52726E866182}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuthServer.API", "AuthenticationServer.API\AuthServer.API.csproj", "{883537D5-58A5-48B5-8EC2-7CCDAD263B1D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuthenticationServer.API", "AuthenticationServer.API\AuthenticationServer.API.csproj", "{883537D5-58A5-48B5-8EC2-7CCDAD263B1D}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FrontEndApplication", "ClientApplication\FrontEndApplication.csproj", "{082F83B2-F45C-43E1-B9B7-1546D940A862}"
 EndProject
