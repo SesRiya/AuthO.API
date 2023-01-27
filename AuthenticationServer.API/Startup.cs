@@ -3,13 +3,13 @@ using Swashbuckle.AspNetCore.Filters;
 using Repository;
 using ApiCore;
 using Services;
-using Authorization;
 using AuthenticationConfig = WebModels.AuthenticationConfig;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.AspNetCore.Authorization;
 using Authorization.Authorization;
+using Microsoft.EntityFrameworkCore;
 
 namespace AuthenticationServer.API
 {
@@ -27,6 +27,7 @@ namespace AuthenticationServer.API
         {
             services.AddControllers();
 
+            //services.AddDbContext<ApiContext>(opt => opt.UseInMemoryDatabase());
 
             //instantiate and bind authentication values to authen config object(appsettings.json)
             AuthenticationConfig authenticationConfiguration = new();
@@ -116,6 +117,10 @@ namespace AuthenticationServer.API
         public void Configure(WebApplication app, IWebHostEnvironment env)
         {
             app.UseStaticFiles();
+
+            //var context = app.ApplicationServices.GetService<ApiContext>();
+            //AddTestData(context);
+
 
             app.UseRouting();
             // Configure the HTTP request pipeline.

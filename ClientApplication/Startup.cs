@@ -62,6 +62,9 @@ namespace ClientApplication
                             ));
             });
 
+            services.AddCustomClaimstoIdentity();
+            services.AddRepository();
+
             services.AddEndpointsApiExplorer();
             services.AddSwaggerGen(options =>
             {
