@@ -16,14 +16,11 @@ namespace AuthenticationServer.API
     public class Startup
     {
         public IConfiguration Configuration { get; }
-
-
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
 
         }
-
 
         // This method gets called by the runtime. Use this method to add services to the container: dependency injection
         public void ConfigureServices(IServiceCollection services)
@@ -37,38 +34,40 @@ namespace AuthenticationServer.API
 
             services.AddSingleton(authenticationConfiguration);
 
-
-            services.AddCustomClaimstoIdentity();
             services.AddRepository();
             services.AddApiCore();
             services.AddServices();
 
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-            .AddJwtBearer(options =>
-            {
-                AuthenticationConfig authenticationConfiguration = new();
-                Configuration.Bind("Authentication", authenticationConfiguration);
-                options.SaveToken = true;
-                options.TokenValidationParameters = new TokenValidationParameters()
-                {
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(authenticationConfiguration.AccessTokenKey)),
-                    ValidIssuer = authenticationConfiguration.Issuer,
-                    ValidAudience = authenticationConfiguration.Audience,
-                    ValidateIssuerSigningKey = true,
-                    ValidateIssuer = true,
-                    ValidateAudience = true,
-                    ClockSkew = TimeSpan.Zero
-                };
-            });
+            services.AddAuthentication(option =>
+             {
+                 option.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                 option.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+             }).AddJwtBearer(options =>
+             {
+                 AuthenticationConfig authenticationConfiguration = new();
+                 Configuration.Bind("Authentication", authenticationConfiguration);
+                 options.SaveToken = true;
+                 options.TokenValidationParameters = new TokenValidationParameters()
+                 {
+                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(authenticationConfiguration.AccessTokenKey)),
+                     ValidIssuer = authenticationConfiguration.Issuer,
+                     ValidAudience = authenticationConfiguration.Audience,
+                     ValidateIssuerSigningKey = true,
+                     ValidateIssuer = true,
+                     ValidateAudience = true,
+                     ClockSkew = TimeSpan.Zero
+                 };
+             });
 
+            //adding additional claims i.e. roles to user
+            services.AddCustomClaimstoIdentity();
 
             services.AddHttpContextAccessor();
+
+
             // Register our authorization handler.
-
-
             services.AddScoped<IAuthorizationHandler, IsAllowedAccessToAll>();
             services.AddScoped<IAuthorizationHandler, IsAllowedAccessToReturnsPage>();
-            //services.AddScoped<IAuthorizationHandler, IsAllowedAccessToPaymentsPage>();
 
             services.AddAuthorization(options =>
             {

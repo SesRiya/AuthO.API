@@ -1,12 +1,12 @@
 ﻿using Repository.Interfaces;
 using WebModels;
 
-
 namespace Repository
 {
     public class UserRepository : IUserRepository
     {
         private readonly List<User> _users = new();
+
 
         public Task<User> Create(User user)
         {
@@ -34,16 +34,6 @@ namespace Repository
         public Task<User> GetById(Guid userId)
         {
             return Task.FromResult(_users.FirstOrDefault(user => user.Id == userId));
-        }
-
-        public void AddTestUSers()
-        {
-            User user1 = new User();
-            user1.Id = Guid.Parse("123456");
-            user1.Username = "Test";
-            user1.Email = "Test@mail.com";
-            user1.PasswordHash = "password";
-           _users.Add(user1);
         }
     }
 }

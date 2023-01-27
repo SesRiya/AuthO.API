@@ -18,5 +18,6 @@ namespace Repository.Interfaces
         Task<List<string>> GetAllRoles(Guid userId);
 
         Task<User> GetById(Guid id);
+
     }
 }

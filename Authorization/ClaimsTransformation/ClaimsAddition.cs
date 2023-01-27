@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Authentication;
 using Repository.Interfaces;
 using System.Security.Claims;
-using WebModels;
 
 namespace Authorization.ClaimsTransformation
 {
@@ -17,9 +16,9 @@ namespace Authorization.ClaimsTransformation
             _userRepository = userRepository;
         }
 
-
         public async Task<ClaimsPrincipal> TransformAsync(ClaimsPrincipal principal)
         {
+
             // User is not authenticated so just return right away
             if (principal.Identity?.IsAuthenticated is false)
             {
