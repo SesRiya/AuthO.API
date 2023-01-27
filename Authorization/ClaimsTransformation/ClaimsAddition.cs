@@ -1,5 +1,4 @@
-﻿using Authorization.ClaimsUserService;
-using Microsoft.AspNetCore.Authentication;
+﻿using Microsoft.AspNetCore.Authentication;
 using Repository.Interfaces;
 using System.Security.Claims;
 
@@ -7,12 +6,10 @@ namespace Authorization.ClaimsTransformation
 {
     public class ClaimsAddition : IClaimsTransformation
     {
-        private readonly IUserService _usersService;
         private readonly IUserRepository _userRepository;
 
-        public ClaimsAddition(IUserService usersService, IUserRepository userRepository)
+        public ClaimsAddition(IUserRepository userRepository)
         {
-            _usersService = usersService;
             _userRepository = userRepository;
         }
 
@@ -25,8 +22,7 @@ namespace Authorization.ClaimsTransformation
                 return principal;
             }
 
-            // To be able to find the roles assigned to an user we need to use an unique identifier for this person.
-
+           //get User identifier
             var idClaim = principal.FindFirst(ClaimTypes.NameIdentifier);
 
             if (idClaim is null)
@@ -34,16 +30,14 @@ namespace Authorization.ClaimsTransformation
                 return principal;
             }
 
-            // Sample roles to attach to the user
+            // Roles to attach to the user
             var roles = await _userRepository.GetAllRoles(Guid.Parse(idClaim.Value)); 
 
-            // Clone the principal
             var clonedPrincipal = principal.Clone();
             var clonedIdentity = (ClaimsIdentity)clonedPrincipal.Identity;
 
             foreach (var role in roles)
             {
-                // Here we add each role as a Role Claim type.
                 clonedIdentity.AddClaim(new Claim(ClaimTypes.Role, role, ClaimValueTypes.String));
             }
 
