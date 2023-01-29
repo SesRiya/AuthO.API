@@ -9,7 +9,11 @@ namespace Repository.Interfaces
 {
     public interface IRoleRepository
     {
-        Task<Role> Create(Role role);
+        Task<Role> CreateRole(Role role);
+
+        Task<Role> GetRoleName(string roleName);
+
+        Task<Role> GetRoleId(int Id);
 
     }
 }

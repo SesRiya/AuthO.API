@@ -31,15 +31,15 @@ namespace Authorization.ClaimsTransformation
             }
 
             // Roles to attach to the user
-            var roles = await _userRepository.GetAllRoles(Guid.Parse(idClaim.Value)); 
+            //var roles = await _userRepository.GetAllRoles(Guid.Parse(idClaim.Value)); 
 
             var clonedPrincipal = principal.Clone();
             var clonedIdentity = (ClaimsIdentity)clonedPrincipal.Identity;
 
-            foreach (var role in roles)
-            {
-                clonedIdentity.AddClaim(new Claim(ClaimTypes.Role, role, ClaimValueTypes.String));
-            }
+            //foreach (var role in roles)
+            //{
+            //    clonedIdentity.AddClaim(new Claim(ClaimTypes.Role, role, ClaimValueTypes.String));
+            //}
 
             return clonedPrincipal;
         }

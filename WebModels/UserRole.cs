@@ -7,10 +7,11 @@ using System.Threading.Tasks;
 
 namespace WebModels
 {
-    public record Role
+    public record UserRole
     {
-        [Key]
+
+        public Guid UserId { get; set; }
         public int RoleId { get; set; }
-        public string ? RoleName { get; set; }
+       
     }
 }

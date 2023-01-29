@@ -4,7 +4,7 @@ using WebModels;
 namespace Repository
 {
     public class UserRepository : IUserRepository
-    {
+    {        
 
         List<User> _users = new List<User>
         {
@@ -14,23 +14,13 @@ namespace Repository
                 Email = "Admin@mail.com",
                 Username = "Admin",
                 PasswordHash = BCrypt.Net.BCrypt.HashPassword("password"),
-                Roles = new List<string>
-                {
-                    "Admin",
-                    "Tester",
-                    "Dev"
-                }
             },
             new User
             {
                  Id = Guid.Parse("5cfe8c2d-5859-4ada-892c-e21c79d80805"),
                 Email = "Test@mail.com",
                 Username = "Test",
-                PasswordHash =  BCrypt.Net.BCrypt.HashPassword("password"),
-                Roles = new List<string>
-                {
-                    "Tester"
-                }
+                PasswordHash =  BCrypt.Net.BCrypt.HashPassword("password"),                
             },
              new User
             {
@@ -38,10 +28,6 @@ namespace Repository
                 Email = "Dev@mail.com",
                 Username = "Dev",
                 PasswordHash =  BCrypt.Net.BCrypt.HashPassword("password"),
-                Roles = new List<string>
-                {
-                    "Dev"
-                }
              }
         };
 
@@ -63,11 +49,11 @@ namespace Repository
             return Task.FromResult(_users.FirstOrDefault(user => user.Username == username));
         }
 
-        public Task<List<string>> GetAllRoles(Guid userID)
-        {
-            User user = _users.FirstOrDefault(user => user.Id == userID);
-            return Task.FromResult(user.Roles.ToList());
-        }
+        //public Task<List<string>> GetAllRoles(Guid userID)
+        //{
+        //    User user = _users.FirstOrDefault(user => user.Id == userID);
+        //    return Task.FromResult(user.Roles.ToList());
+        //}
 
         public Task<User> GetById(Guid userId)
         {
