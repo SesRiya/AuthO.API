@@ -10,7 +10,7 @@ namespace Repository
             new Role
             {
                 RoleId = 1,
-                RoleName = "Admin"
+                RoleName = "Administrator"
             },
             new Role
             {
@@ -20,7 +20,7 @@ namespace Repository
             new Role
             {
                 RoleId = 3,
-                RoleName = "Dev"
+                RoleName = "Developer"
             }
         };
 

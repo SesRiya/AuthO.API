@@ -1,40 +1,41 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Repository.Interfaces;
 using WebModels;
 
 namespace Repository
 {
-    public class UserRoleRepository
+    public class UserRoleRepository : IUserRoleRepository
     {
         List<UserRole> _usersWithRoles = new List<UserRole>
         {
             new UserRole
             {
                UserId = Guid.Parse("6b3e030b-665b-481e-b459-6b8ff679849c"),
-               RoleId = 1
+               RoleName = "Administrator"
+            },
+            new UserRole
+            {
+               UserId = Guid.Parse("6b3e030b-665b-481e-b459-6b8ff679849c"),
+                RoleName = "Tester"
             },
             new UserRole
             {
                 UserId = Guid.Parse("6b3e030b-665b-481e-b459-6b8ff679849c"),
-               RoleId = 2
-            },
-            new UserRole
-            {
-                UserId = Guid.Parse("6b3e030b-665b-481e-b459-6b8ff679849c"),
-               RoleId = 3
+                RoleName = "Developer"
             },
             new UserRole
             {
                 UserId = Guid.Parse("5cfe8c2d-5859-4ada-892c-e21c79d80805"),
-                RoleId = 2
+                RoleName = "Developer"
+            },
+            new UserRole
+            {
+                UserId = Guid.Parse("5cfe8c2d-5859-4ada-892c-e21c79d80805"),
+                RoleName = "Tester"
             },
             new UserRole
             {
                 UserId = Guid.Parse("32d114de-5752-4dbe-8793-8b01a067cde2"),
-                RoleId= 3
+                 RoleName = "Tester"
             }
         };
 
@@ -43,6 +44,22 @@ namespace Repository
             _usersWithRoles.Add(userRole);
             return Task.FromResult(userRole);
         }
+
+        public Task<List<string>> GetAllRoles(Guid userID)
+        {
+            List<string> roles = new List<string>();
+
+            foreach (UserRole userRole in _usersWithRoles)
+            {
+                if (userRole.UserId == userID)
+                {
+                    roles.Add(userRole.RoleName.ToString());
+                }
+            }
+            return Task.FromResult(roles);
+
+        }
+
 
     }
 }

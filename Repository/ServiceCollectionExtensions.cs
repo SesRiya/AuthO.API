@@ -9,6 +9,7 @@ namespace Repository
         {
             services.AddSingleton<IUserRepository, UserRepository>();
             services.AddSingleton<IRoleRepository, RoleRepository>();
+            services.AddSingleton<IUserRoleRepository, UserRoleRepository>();
             services.AddSingleton<IRefreshTokenRepository, RefreshTokenRepository>();   
         }
     }

@@ -7,10 +7,12 @@ namespace Authorization.ClaimsTransformation
     public class ClaimsAddition : IClaimsTransformation
     {
         private readonly IUserRepository _userRepository;
+        private readonly IUserRoleRepository _userRoleRepository;
 
-        public ClaimsAddition(IUserRepository userRepository)
+        public ClaimsAddition(IUserRepository userRepository, IUserRoleRepository userRoleRepository)
         {
             _userRepository = userRepository;
+            _userRoleRepository = userRoleRepository;
         }
 
         public async Task<ClaimsPrincipal> TransformAsync(ClaimsPrincipal principal)
@@ -30,16 +32,16 @@ namespace Authorization.ClaimsTransformation
                 return principal;
             }
 
-            // Roles to attach to the user
-            //var roles = await _userRepository.GetAllRoles(Guid.Parse(idClaim.Value)); 
+            //Roles to attach to the user
+            var roles = await _userRoleRepository.GetAllRoles(Guid.Parse(idClaim.Value)); 
 
             var clonedPrincipal = principal.Clone();
             var clonedIdentity = (ClaimsIdentity)clonedPrincipal.Identity;
 
-            //foreach (var role in roles)
-            //{
-            //    clonedIdentity.AddClaim(new Claim(ClaimTypes.Role, role, ClaimValueTypes.String));
-            //}
+            foreach (var role in roles)
+            {
+                clonedIdentity.AddClaim(new Claim(ClaimTypes.Role, role, ClaimValueTypes.String));
+            }
 
             return clonedPrincipal;
         }

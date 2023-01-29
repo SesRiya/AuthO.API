@@ -31,7 +31,6 @@ namespace Repository
              }
         };
 
-
         public Task<User> Create(User user)
         {
             user.Id = Guid.NewGuid();
