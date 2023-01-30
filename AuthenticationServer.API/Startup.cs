@@ -9,7 +9,6 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.AspNetCore.Authorization;
 using Authorization.Authorization;
-using Microsoft.EntityFrameworkCore;
 
 namespace AuthenticationServer.API
 {
@@ -67,8 +66,9 @@ namespace AuthenticationServer.API
 
 
             // Register our authorization handler.
-            services.AddScoped<IAuthorizationHandler, IsAllowedAccessToAll>();
-            services.AddScoped<IAuthorizationHandler, IsAllowedAccessToReturnsPage>();
+            services.AddScoped<IAuthorizationHandler, AdminAccess>();
+            services.AddScoped<IAuthorizationHandler, TesterAccess>();
+            services.AddScoped<IAuthorizationHandler, AdminOrTesterAccess>();
 
             services.AddAuthorization(options =>
             {
@@ -77,10 +77,10 @@ namespace AuthenticationServer.API
                         policyBuilder.AddRequirements(
                             new Administrator()
                         ));
-                options.AddPolicy("User",
+                options.AddPolicy("Tester",
                     policyBuilder =>
                         policyBuilder.AddRequirements(
-                            new ReturnsOfficer()
+                            new Tester()
                             ));
             });
 

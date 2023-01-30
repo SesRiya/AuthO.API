@@ -1,5 +1,4 @@
-﻿using Authorization.ClaimsUserService;
-using Microsoft.AspNetCore.Authentication;
+﻿using Microsoft.AspNetCore.Authentication;
 using Repository.Interfaces;
 using System.Security.Claims;
 
@@ -7,15 +6,20 @@ namespace Authorization.ClaimsTransformation
 {
     public class ClaimsAddition : IClaimsTransformation
     {
-        private readonly IUserService _usersService;
+        #region fields
         private readonly IUserRepository _userRepository;
+        private readonly IUserRoleRepository _userRoleRepository;
+        #endregion
 
-        public ClaimsAddition(IUserService usersService, IUserRepository userRepository)
+        #region constructor
+        public ClaimsAddition(IUserRepository userRepository, IUserRoleRepository userRoleRepository)
         {
-            _usersService = usersService;
             _userRepository = userRepository;
+            _userRoleRepository = userRoleRepository;
         }
+        #endregion
 
+        #region methods
         public async Task<ClaimsPrincipal> TransformAsync(ClaimsPrincipal principal)
         {
 
@@ -25,29 +29,27 @@ namespace Authorization.ClaimsTransformation
                 return principal;
             }
 
-            // To be able to find the roles assigned to an user we need to use an unique identifier for this person.
-
-            var idClaim = principal.FindFirst(ClaimTypes.NameIdentifier);
+           //get Useridentifier
+            Claim idClaim = principal.FindFirst(ClaimTypes.NameIdentifier);
 
             if (idClaim is null)
             {
                 return principal;
             }
 
-            // Sample roles to attach to the user
-            var roles = await _userRepository.GetAllRoles(Guid.Parse(idClaim.Value)); 
+            //Roles to attach to the user
+            List<string> roles = await _userRoleRepository.GetAllRoles(Guid.Parse(idClaim.Value)); 
 
-            // Clone the principal
-            var clonedPrincipal = principal.Clone();
-            var clonedIdentity = (ClaimsIdentity)clonedPrincipal.Identity;
+            ClaimsPrincipal clonedPrincipal = principal.Clone();
+            ClaimsIdentity clonedIdentity = (ClaimsIdentity)clonedPrincipal.Identity;
 
-            foreach (var role in roles)
+            foreach (string role in roles)
             {
-                // Here we add each role as a Role Claim type.
-                clonedIdentity.AddClaim(new Claim(ClaimTypes.Role, role, ClaimValueTypes.String));
+                clonedIdentity.AddClaim(new Claim(ClaimTypes.Role, role,ClaimValueTypes.String));
             }
 
             return clonedPrincipal;
         }
+        #endregion
     }
 }

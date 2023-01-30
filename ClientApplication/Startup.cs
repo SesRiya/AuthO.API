@@ -45,8 +45,8 @@ namespace ClientApplication
             });
 
 
-            services.AddScoped<IAuthorizationHandler, IsAllowedAccessToAll>();
-            services.AddScoped<IAuthorizationHandler, IsAllowedAccessToReturnsPage>();
+            services.AddScoped<IAuthorizationHandler, AdminAccess>();
+            services.AddScoped<IAuthorizationHandler, TesterAccess>();
 
             services.AddAuthorization(options =>
             {
@@ -55,13 +55,14 @@ namespace ClientApplication
                         policyBuilder.AddRequirements(
                             new Administrator()
                         ));
-                options.AddPolicy("User",
+                options.AddPolicy("Tester",
                     policyBuilder =>
                         policyBuilder.AddRequirements(
-                            new ReturnsOfficer()
+                            new Tester()
                             ));
             });
 
+            //declare service to add additional claims(user roles) to jwt
             services.AddCustomClaimstoIdentity();
             services.AddRepository();
 

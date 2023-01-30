@@ -14,11 +14,14 @@ namespace ApiCore.Refresh
 {
     public class RefreshTokenVerification : IRefreshTokenVerification
     {
-            private readonly RefreshTokenValidator _refreshTokenValidator;
+        #region fields
+        private readonly RefreshTokenValidator _refreshTokenValidator;
             private readonly IRefreshTokenRepository _refreshTokenRepository;
             private readonly IUserRepository _userRepository;
+        #endregion
 
-            public RefreshTokenVerification
+        #region constructor
+        public RefreshTokenVerification
                 (
                 RefreshTokenValidator refreshTokenValidator,
                 IRefreshTokenRepository refreshTokenRepository,
@@ -29,9 +32,10 @@ namespace ApiCore.Refresh
                 _refreshTokenRepository = refreshTokenRepository;
                 _userRepository = userRepository;
             }
+        #endregion
 
-
-            public async Task<User> UserExists(RefreshRequest refreshRequest)
+        #region methods
+        public async Task<User> UserExists(RefreshRequest refreshRequest)
             {
                 RefreshToken refreshTokenDTO = await _refreshTokenRepository.GetByToken(refreshRequest.RefreshToken);
                 User user = await _userRepository.GetById(refreshTokenDTO.UserId);
@@ -53,6 +57,7 @@ namespace ApiCore.Refresh
 
                 return null;
             }
-        }
+        #endregion
     }
+}
 

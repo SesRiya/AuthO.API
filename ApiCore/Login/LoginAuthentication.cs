@@ -8,9 +8,12 @@ namespace ApiCore.Login
 {
     public class LoginAuthentication : ILoginAuthentication
     {
+        #region fields
         private readonly IUserRepository _userRepository;
         private readonly IPasswordHash _passwordHasher;
+        #endregion
 
+        #region constructor
         public LoginAuthentication(
             IUserRepository userRepository,
             IPasswordHash passwordHasher
@@ -19,7 +22,9 @@ namespace ApiCore.Login
             _userRepository = userRepository;
             _passwordHasher = passwordHasher;
         }
+        #endregion
 
+        #region methods
         public async Task<User> IsUserAuthenticated(LoginRequest loginRequest)
         {
             User user = await _userRepository.GetByUsername(loginRequest.Username);
@@ -36,5 +41,6 @@ namespace ApiCore.Login
             }
             return user;
         }
+        #endregion
     }
 }

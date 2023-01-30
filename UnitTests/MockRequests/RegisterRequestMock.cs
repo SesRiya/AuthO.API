@@ -15,7 +15,7 @@ namespace UnitTests.MockRequests
             Username = "test2",
             Password = "123",
             ConfirmPassword = "123",
-            Roles = { "admin", "user" }
+            //Roles = { "admin", "user" }
         };
 
     }

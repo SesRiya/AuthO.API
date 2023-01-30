@@ -12,8 +12,11 @@ namespace AuthServer.API.Controllers
     {
         #region Fields
         private readonly IUserRepository _userRepository;
+        private readonly IRoleRepository _roleRepository;
+        private readonly IUserRoleRepository _userRoleRepository;
         private readonly Authenticator _authenticator;
         private readonly IRegisterUser _registerUser;
+        private readonly IRoleAdditionToUser _roleAdditionToUser;
         private readonly ILoginAuthentication _loginAuthentication;
         private readonly IRefreshTokenVerification _refreshTokenVerification;
         #endregion
@@ -21,14 +24,20 @@ namespace AuthServer.API.Controllers
         #region Constructor
         public AuthenticationController(
             IUserRepository userRepository,
+            IRoleRepository roleRepository,
+            IUserRoleRepository userRoleRepository,
             Authenticator authenticator,
             IRegisterUser registerUser,
+            IRoleAdditionToUser roleAdditionToUser,
             ILoginAuthentication loginAuthentication,
             IRefreshTokenVerification refreshTokenVerification)
         {
             _userRepository = userRepository;
+            _roleRepository = roleRepository;
+            _userRoleRepository = userRoleRepository;
             _authenticator = authenticator;
             _registerUser = registerUser;
+            _roleAdditionToUser = roleAdditionToUser;
             _loginAuthentication = loginAuthentication;
             _refreshTokenVerification = refreshTokenVerification;
         }
@@ -42,7 +51,9 @@ namespace AuthServer.API.Controllers
             {
                 return BadRequestModelState();
             }
+            
 
+            //Creating user
             ErrorResponse errorResponse = await _registerUser.UserVerification(registerRequest);
             if (errorResponse != null)
             {
@@ -51,6 +62,10 @@ namespace AuthServer.API.Controllers
 
             User registrationUser = _registerUser.CreateUser(registerRequest);
             await _userRepository.Create(registrationUser);
+
+
+            UserRole addUserToRole = _roleAdditionToUser.AddRolesToUser(registerRequest, registrationUser);
+            await _userRoleRepository.AddUserToRole(addUserToRole);
 
             return Ok();
         }
@@ -96,7 +111,6 @@ namespace AuthServer.API.Controllers
             AuthenticatedUserResponse response = await _authenticator.Authenticate(user);
             return Ok(response);
         }
-
 
         private IActionResult BadRequestModelState()
         {
