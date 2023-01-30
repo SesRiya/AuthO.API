@@ -6,15 +6,20 @@ namespace Authorization.ClaimsTransformation
 {
     public class ClaimsAddition : IClaimsTransformation
     {
+        #region fields
         private readonly IUserRepository _userRepository;
         private readonly IUserRoleRepository _userRoleRepository;
+        #endregion
 
+        #region constructor
         public ClaimsAddition(IUserRepository userRepository, IUserRoleRepository userRoleRepository)
         {
             _userRepository = userRepository;
             _userRoleRepository = userRoleRepository;
         }
+        #endregion
 
+        #region methods
         public async Task<ClaimsPrincipal> TransformAsync(ClaimsPrincipal principal)
         {
 
@@ -24,7 +29,7 @@ namespace Authorization.ClaimsTransformation
                 return principal;
             }
 
-           //get User identifier
+           //get Useridentifier
             Claim idClaim = principal.FindFirst(ClaimTypes.NameIdentifier);
 
             if (idClaim is null)
@@ -45,5 +50,6 @@ namespace Authorization.ClaimsTransformation
 
             return clonedPrincipal;
         }
+        #endregion
     }
 }

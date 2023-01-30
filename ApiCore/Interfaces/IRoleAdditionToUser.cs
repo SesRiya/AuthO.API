@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using WebModels.Requests;
 using WebModels;
+using Repository.Interfaces;
+using WebModels.Responses;
 
 namespace ApiCore.Interfaces
 {
@@ -12,5 +14,7 @@ namespace ApiCore.Interfaces
     {
         UserRole AddRolesToUser(RegisterRequest registerRequest, User user);
 
+        //    Task<ErrorResponse?> RoleVerification(RegisterRequest registerRequest, IRoleRepository _roleRepository);
+        //}
     }
 }

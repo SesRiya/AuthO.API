@@ -1,5 +1,6 @@
 ﻿using Repository.Interfaces;
 using WebModels;
+using WebModels.Responses;
 
 namespace Repository
 {
@@ -26,6 +27,7 @@ namespace Repository
 
         public Task<Role> CreateRole(Role role)
         {
+            role.RoleId = _roles.Count + 2;
             _roles.Add(role);
             return Task.FromResult(role);
         }
@@ -40,10 +42,5 @@ namespace Repository
             return Task.FromResult(_roles.FirstOrDefault(role => role.RoleName == roleName));
         }
 
-        //public Task<List<string>> GetAllRoles(Role roleID)
-        //{
-        //    User user = _roles.FirstOrDefault(user => user.Id == userID);
-        //    return Task.FromResult(user.Roles.ToList());
-        //}
     }
 }

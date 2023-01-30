@@ -12,6 +12,7 @@ namespace AuthServer.API.Controllers
     {
         #region Fields
         private readonly IUserRepository _userRepository;
+        private readonly IRoleRepository _roleRepository;
         private readonly IUserRoleRepository _userRoleRepository;
         private readonly Authenticator _authenticator;
         private readonly IRegisterUser _registerUser;
@@ -23,6 +24,7 @@ namespace AuthServer.API.Controllers
         #region Constructor
         public AuthenticationController(
             IUserRepository userRepository,
+            IRoleRepository roleRepository,
             IUserRoleRepository userRoleRepository,
             Authenticator authenticator,
             IRegisterUser registerUser,
@@ -31,6 +33,7 @@ namespace AuthServer.API.Controllers
             IRefreshTokenVerification refreshTokenVerification)
         {
             _userRepository = userRepository;
+            _roleRepository = roleRepository;
             _userRoleRepository = userRoleRepository;
             _authenticator = authenticator;
             _registerUser = registerUser;
@@ -48,7 +51,9 @@ namespace AuthServer.API.Controllers
             {
                 return BadRequestModelState();
             }
+            
 
+            //Creating user
             ErrorResponse errorResponse = await _registerUser.UserVerification(registerRequest);
             if (errorResponse != null)
             {
@@ -57,6 +62,14 @@ namespace AuthServer.API.Controllers
 
             User registrationUser = _registerUser.CreateUser(registerRequest);
             await _userRepository.Create(registrationUser);
+
+
+            // // adding roles to user
+            //ErrorResponse errorResponseToRole = await _roleAdditionToUser.RoleVerification(registerRequest, _roleRepository);
+            //if (errorResponse != null)
+            //{
+            //    return BadRequest(errorResponseToRole);
+            //}
 
             UserRole addUserToRole = _roleAdditionToUser.AddRolesToUser(registerRequest, registrationUser);
             await _userRoleRepository.AddUserToRole(addUserToRole);

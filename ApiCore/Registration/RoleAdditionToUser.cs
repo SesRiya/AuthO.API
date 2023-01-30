@@ -1,14 +1,8 @@
 ﻿using ApiCore.Interfaces;
-using Microsoft.EntityFrameworkCore.Internal;
 using Repository.Interfaces;
-using Services.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using WebModels;
 using WebModels.Requests;
+using WebModels.Responses;
 
 namespace ApiCore.Registration
 {
@@ -33,7 +27,9 @@ namespace ApiCore.Registration
             _userRoleRepository = userRoleRepository;
         }
         #endregion
+
         #region methods
+
 
         public UserRole AddRolesToUser(RegisterRequest registerRequest, User user)
         {
@@ -54,6 +50,23 @@ namespace ApiCore.Registration
 
             return userRole;
         }
+
+        //public async Task<ErrorResponse?> RoleVerification(RegisterRequest registerRequest, IRoleRepository _roleRepository)
+        //{
+        //    foreach (Role role in registerRequest.Roles)
+        //    {
+        //        if (role.RoleName.Equals(_roleRepository.GetRoleName(role.RoleName)))
+        //        {
+        //            return new ErrorResponse("Role exists already");
+        //        }
+        //    }
+        //    return null;
+        //}
         #endregion
+
     }
+
+
+
 }
+
