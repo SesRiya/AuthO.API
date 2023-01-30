@@ -1,19 +1,18 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Repository.Interfaces;
 using System.Security.Claims;
-using WebModels;
 
-namespace ServiceApplication.Controllers
+namespace AuthServer.API.Controllers
 {
-    public class HomeController : ControllerBase
+    [Route("api/[controller]")]
+    [ApiController]
+    public class AuthorizationController : ControllerBase
     {
 
         [Authorize]
         [HttpGet("roles")]
         public IActionResult GetRoles()
         {
-            var user = User.Identity;
             // Find all our role claims
             var claims = User.FindAll(ClaimTypes.Role);
 
@@ -21,13 +20,12 @@ namespace ServiceApplication.Controllers
 
             foreach (var claim in claims)
             {
-                items.Add($"Type: {claim.Type} Value: {claim.Value}");
+                    items.Add($"Type: {claim.Type} Value: {claim.Value}");
             }
 
             // Return a list of all role claims
             return Ok(items);
         }
-
 
         [Authorize(Policy = "Admin")]
         [HttpGet("admin")]
@@ -37,5 +35,4 @@ namespace ServiceApplication.Controllers
         }
     }
 }
-
 

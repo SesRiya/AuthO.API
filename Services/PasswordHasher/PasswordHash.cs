@@ -12,6 +12,7 @@ namespace Services.PasswordHasher
         public string HashPassword(string password)
         {
             return BCrypt.Net.BCrypt.HashPassword(password);
+            //return (password);
 
         }
 
@@ -19,6 +20,7 @@ namespace Services.PasswordHasher
         public bool VerifyPassword(string password, string passwordHash)
         {
             return BCrypt.Net.BCrypt.Verify(password, passwordHash);
+            //return (password, passwordHash);
 
         }
 

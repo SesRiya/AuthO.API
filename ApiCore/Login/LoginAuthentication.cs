@@ -1,10 +1,5 @@
 ﻿using Repository.Interfaces;
 using Services.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using WebModels.Requests;
 using WebModels;
 using ApiCore.Interfaces;
@@ -13,9 +8,12 @@ namespace ApiCore.Login
 {
     public class LoginAuthentication : ILoginAuthentication
     {
+        #region fields
         private readonly IUserRepository _userRepository;
         private readonly IPasswordHash _passwordHasher;
+        #endregion
 
+        #region constructor
         public LoginAuthentication(
             IUserRepository userRepository,
             IPasswordHash passwordHasher
@@ -24,7 +22,9 @@ namespace ApiCore.Login
             _userRepository = userRepository;
             _passwordHasher = passwordHasher;
         }
+        #endregion
 
+        #region methods
         public async Task<User> IsUserAuthenticated(LoginRequest loginRequest)
         {
             User user = await _userRepository.GetByUsername(loginRequest.Username);
@@ -39,9 +39,8 @@ namespace ApiCore.Login
             {
                 return null;
             }
-
             return user;
         }
-
+        #endregion
     }
 }

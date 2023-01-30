@@ -4,38 +4,85 @@ using Repository;
 using ApiCore;
 using Services;
 using AuthenticationConfig = WebModels.AuthenticationConfig;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using Microsoft.AspNetCore.Authorization;
+using Authorization.Authorization;
 
 namespace AuthenticationServer.API
 {
     public class Startup
     {
-        private readonly IConfiguration _configuration;
-
+        public IConfiguration Configuration { get; }
         public Startup(IConfiguration configuration)
         {
-            _configuration = configuration;
-        }
+            Configuration = configuration;
 
+        }
 
         // This method gets called by the runtime. Use this method to add services to the container: dependency injection
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
 
+            //services.AddDbContext<ApiContext>(opt => opt.UseInMemoryDatabase());
 
             //instantiate and bind authentication values to authen config object(appsettings.json)
             AuthenticationConfig authenticationConfiguration = new();
-            _configuration.Bind("Authentication", authenticationConfiguration);
+            Configuration.Bind("Authentication", authenticationConfiguration);
 
             services.AddSingleton(authenticationConfiguration);
-
 
             services.AddRepository();
             services.AddApiCore();
             services.AddServices();
 
+            services.AddAuthentication(option =>
+             {
+                 option.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                 option.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+             }).AddJwtBearer(options =>
+             {
+                 AuthenticationConfig authenticationConfiguration = new();
+                 Configuration.Bind("Authentication", authenticationConfiguration);
+                 options.SaveToken = true;
+                 options.TokenValidationParameters = new TokenValidationParameters()
+                 {
+                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(authenticationConfiguration.AccessTokenKey)),
+                     ValidIssuer = authenticationConfiguration.Issuer,
+                     ValidAudience = authenticationConfiguration.Audience,
+                     ValidateIssuerSigningKey = true,
+                     ValidateIssuer = true,
+                     ValidateAudience = true,
+                     ClockSkew = TimeSpan.Zero
+                 };
+             });
+
+            //adding additional claims i.e. roles to user
+            services.AddCustomClaimstoIdentity();
+
             services.AddHttpContextAccessor();
+
+
             // Register our authorization handler.
+            services.AddScoped<IAuthorizationHandler, AdminAccess>();
+            services.AddScoped<IAuthorizationHandler, TesterAccess>();
+            services.AddScoped<IAuthorizationHandler, AdminOrTesterAccess>();
+
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("Admin",
+                    policyBuilder =>
+                        policyBuilder.AddRequirements(
+                            new Administrator()
+                        ));
+                options.AddPolicy("Tester",
+                    policyBuilder =>
+                        policyBuilder.AddRequirements(
+                            new Tester()
+                            ));
+            });
 
 
             services.AddEndpointsApiExplorer();
@@ -64,11 +111,16 @@ namespace AuthenticationServer.API
                         .Build();
                 });
             });
+
         }
 
         public void Configure(WebApplication app, IWebHostEnvironment env)
         {
             app.UseStaticFiles();
+
+            //var context = app.ApplicationServices.GetService<ApiContext>();
+            //AddTestData(context);
+
 
             app.UseRouting();
             // Configure the HTTP request pipeline.
@@ -92,4 +144,5 @@ namespace AuthenticationServer.API
             app.Run();
         }
     }
+
 }

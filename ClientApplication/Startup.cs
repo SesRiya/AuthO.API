@@ -3,10 +3,12 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Repository;
+using Services;
 using Swashbuckle.AspNetCore.Filters;
 using System.Text;
 
-namespace DataServer.API
+namespace ClientApplication
 {
     public class Startup
     {
@@ -21,44 +23,48 @@ namespace DataServer.API
         {
             services.AddControllers();
 
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                .AddJwtBearer(options =>
-                  {
-                    AuthenticationConfiguration authenticationConfiguration = new();
-                    Configuration.Bind("Authentication", authenticationConfiguration);
-                      options.SaveToken = true;
-                      options.TokenValidationParameters = new TokenValidationParameters()
-                    {
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(authenticationConfiguration.AccessToken)),
-                        ValidIssuer = authenticationConfiguration.Issuer,
-                        ValidAudience = authenticationConfiguration.Audience,
-                        ValidateIssuerSigningKey = true,
-                        ValidateIssuer = true,
-                        ValidateAudience = true,
-                        ClockSkew = TimeSpan.Zero
-                    };
-                  });
+            services.AddAuthentication(option =>
+            {
+                option.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                option.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(options =>
+            {
+                AuthenticationConfiguration authenticationConfiguration = new();
+                Configuration.Bind("Authentication", authenticationConfiguration);
+                options.SaveToken = true;
+                options.TokenValidationParameters = new TokenValidationParameters()
+                {
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(authenticationConfiguration.AccessToken)),
+                    ValidIssuer = authenticationConfiguration.Issuer,
+                    ValidAudience = authenticationConfiguration.Audience,
+                    ValidateIssuerSigningKey = true,
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ClockSkew = TimeSpan.Zero
+                };
+            });
 
-            services.AddScoped<IAuthorizationHandler, IsAllowedAccessToAll>();
-            services.AddScoped<IAuthorizationHandler, IsAllowedAccessToReturnsPage>();
-            services.AddScoped<IAuthorizationHandler, IsAllowedAccessToPaymentsPage>();
 
+            services.AddScoped<IAuthorizationHandler, AdminAccess>();
+            services.AddScoped<IAuthorizationHandler, TesterAccess>();
 
             services.AddAuthorization(options =>
             {
-                options.AddPolicy("admin",
+                options.AddPolicy("Admin",
                     policyBuilder =>
                         policyBuilder.AddRequirements(
                             new Administrator()
                         ));
-                options.AddPolicy("returns",
+                options.AddPolicy("Tester",
                     policyBuilder =>
                         policyBuilder.AddRequirements(
-                            new ReturnsOfficer()    
+                            new Tester()
                             ));
             });
 
-
+            //declare service to add additional claims(user roles) to jwt
+            services.AddCustomClaimstoIdentity();
+            services.AddRepository();
 
             services.AddEndpointsApiExplorer();
             services.AddSwaggerGen(options =>

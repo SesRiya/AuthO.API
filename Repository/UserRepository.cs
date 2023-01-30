@@ -1,16 +1,36 @@
 ﻿using Repository.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using WebModels;
 
 namespace Repository
 {
     public class UserRepository : IUserRepository
-    {
-        private readonly List<User> _users = new();
+    {        
+
+        List<User> _users = new()
+        {
+            new User
+            {
+                Id = Guid.Parse("6b3e030b-665b-481e-b459-6b8ff679849c"),
+                Email = "Admin@mail.com",
+                Username = "Admin",
+                PasswordHash = BCrypt.Net.BCrypt.HashPassword("password"),
+            },
+            new User
+            {
+                 Id = Guid.Parse("5cfe8c2d-5859-4ada-892c-e21c79d80805"),
+                Email = "Test@mail.com",
+                Username = "Test",
+                PasswordHash =  BCrypt.Net.BCrypt.HashPassword("password"),                
+            },
+             new User
+            {
+                Id = Guid.Parse("32d114de-5752-4dbe-8793-8b01a067cde2"),
+                Email = "Dev@mail.com",
+                Username = "Dev",
+                PasswordHash =  BCrypt.Net.BCrypt.HashPassword("password"),
+             }
+        };
+
         public Task<User> Create(User user)
         {
             user.Id = Guid.NewGuid();
@@ -28,14 +48,9 @@ namespace Repository
             return Task.FromResult(_users.FirstOrDefault(user => user.Username == username));
         }
 
-        public Task<User?> GetByRole(string role)
+        public Task<User> GetById(Guid userId)
         {
-            return Task.FromResult(_users.FirstOrDefault(user => user.Role == role));
-        }
-
-        public Task<User> GetById(Guid UserId)
-        {
-            return Task.FromResult(_users.FirstOrDefault(user => user.Id == UserId));
+            return Task.FromResult(_users.FirstOrDefault(user => user.Id == userId));
         }
     }
 }

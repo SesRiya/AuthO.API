@@ -1,21 +1,22 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace Authorization.Authorization
 {
 
-    public class ReturnsOfficer : IAuthorizationRequirement
+    public class Tester : IAuthorizationRequirement
     {
-        public ReturnsOfficer()
+        public Tester()
         {
 
         }
     }
-    public class IsAllowedAccessToReturnsPage : AuthorizationHandler<ReturnsOfficer>
+    public class TesterAccess : AuthorizationHandler<Tester>
     {
         protected override Task HandleRequirementAsync(AuthorizationHandlerContext context,
-                                                     ReturnsOfficer returns)
+                                                     Tester returns)
         {
-            if (context.User.HasClaim(claim => claim.Value == "returns"))
+            if (context.User.HasClaim(claim => claim.Value == "Tester" && claim.Type == ClaimTypes.Role))
             {
                 context.Succeed(returns);
             }

@@ -8,6 +8,8 @@ namespace Repository
         public static void AddRepository(this IServiceCollection services)
         {
             services.AddSingleton<IUserRepository, UserRepository>();
+            services.AddSingleton<IRoleRepository, RoleRepository>();
+            services.AddSingleton<IUserRoleRepository, UserRoleRepository>();
             services.AddSingleton<IRefreshTokenRepository, RefreshTokenRepository>();   
         }
     }

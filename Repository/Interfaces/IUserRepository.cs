@@ -15,8 +15,9 @@ namespace Repository.Interfaces
 
         Task<User> GetByUsername(string username);
 
-        Task<User> GetByRole(string role);
+        //Task<List<string>> GetAllRoles(Guid userId);
 
         Task<User> GetById(Guid id);
+
     }
 }

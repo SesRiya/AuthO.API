@@ -1,4 +1,4 @@
-using DataServer.API;
+using ClientApplication;
 
 var builder = WebApplication.CreateBuilder(args);
 

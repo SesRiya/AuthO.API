@@ -24,10 +24,10 @@ namespace Services.TokenGenerators
         {
             List<Claim> claims = new List<Claim>()
             {
-                new Claim("id", user.Id.ToString()),
-                //new Claim(ClaimTypes.Email, user.Email),
-                new Claim(ClaimTypes.Name, user.Username),
-                new Claim(ClaimTypes.Role, user.Role)
+                new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+                new Claim(ClaimTypes.Email, user.Email),
+                //new Claim(ClaimTypes.Name, user.Username),
+                //new Claim(ClaimTypes.Roles, user.Roles)
 
             };
 
