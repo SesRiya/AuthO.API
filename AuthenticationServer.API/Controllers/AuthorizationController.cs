@@ -20,7 +20,7 @@ namespace AuthServer.API.Controllers
 
             foreach (var claim in claims)
             {
-                items.Add($"Type: {claim.Type} Value: {claim.Value}");
+                    items.Add($"Type: {claim.Type} Value: {claim.Value}");
             }
 
             // Return a list of all role claims

@@ -18,7 +18,5 @@ namespace WebModels
 
         public string? PasswordHash { get; set; }
 
-        //public List<string>? Roles { get; set; }
-        public List<Role>? Roles { get; set; }   
     }
 }

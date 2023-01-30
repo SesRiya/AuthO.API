@@ -10,32 +10,17 @@ namespace Repository
             new UserRole
             {
                UserId = Guid.Parse("6b3e030b-665b-481e-b459-6b8ff679849c"),
-               RoleName = "Administrator"
-            },
-            new UserRole
-            {
-               UserId = Guid.Parse("6b3e030b-665b-481e-b459-6b8ff679849c"),
-                RoleName = "Tester"
-            },
-            new UserRole
-            {
-                UserId = Guid.Parse("6b3e030b-665b-481e-b459-6b8ff679849c"),
-                RoleName = "Developer"
+               RoleName = new List<string>{"Administrator", "Tester", "Developer"}
             },
             new UserRole
             {
                 UserId = Guid.Parse("5cfe8c2d-5859-4ada-892c-e21c79d80805"),
-                RoleName = "Developer"
-            },
-            new UserRole
-            {
-                UserId = Guid.Parse("5cfe8c2d-5859-4ada-892c-e21c79d80805"),
-                RoleName = "Tester"
+                RoleName = new List<string>{ "Developer" , "Tester"}
             },
             new UserRole
             {
                 UserId = Guid.Parse("32d114de-5752-4dbe-8793-8b01a067cde2"),
-                 RoleName = "Tester"
+                 RoleName = new List<string>{"Tester" }
             }
         };
 

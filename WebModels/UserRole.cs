@@ -11,7 +11,7 @@ namespace WebModels
     {
 
         public Guid UserId { get; set; }
-        public string RoleName { get; set; }
+        public List<string> RoleName { get; set; }
        
     }
 }

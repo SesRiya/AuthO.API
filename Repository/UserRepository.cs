@@ -24,7 +24,7 @@ namespace Repository
             },
              new User
             {
-                 Id = Guid.Parse("32d114de-5752-4dbe-8793-8b01a067cde2"),
+                Id = Guid.Parse("32d114de-5752-4dbe-8793-8b01a067cde2"),
                 Email = "Dev@mail.com",
                 Username = "Dev",
                 PasswordHash =  BCrypt.Net.BCrypt.HashPassword("password"),
@@ -47,12 +47,6 @@ namespace Repository
         {
             return Task.FromResult(_users.FirstOrDefault(user => user.Username == username));
         }
-
-        //public Task<List<string>> GetAllRoles(Guid userID)
-        //{
-        //    User user = _users.FirstOrDefault(user => user.Id == userID);
-        //    return Task.FromResult(user.Roles.ToList());
-        //}
 
         public Task<User> GetById(Guid userId)
         {
