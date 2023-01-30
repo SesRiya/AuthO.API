@@ -25,7 +25,7 @@ namespace Authorization.ClaimsTransformation
             }
 
            //get User identifier
-            var idClaim = principal.FindFirst(ClaimTypes.NameIdentifier);
+            Claim idClaim = principal.FindFirst(ClaimTypes.NameIdentifier);
 
             if (idClaim is null)
             {
@@ -35,10 +35,10 @@ namespace Authorization.ClaimsTransformation
             //Roles to attach to the user
             List<string> roles = await _userRoleRepository.GetAllRoles(Guid.Parse(idClaim.Value)); 
 
-            var clonedPrincipal = principal.Clone();
-            var clonedIdentity = (ClaimsIdentity)clonedPrincipal.Identity;
+            ClaimsPrincipal clonedPrincipal = principal.Clone();
+            ClaimsIdentity clonedIdentity = (ClaimsIdentity)clonedPrincipal.Identity;
 
-            foreach (var role in roles)
+            foreach (string role in roles)
             {
                 clonedIdentity.AddClaim(new Claim(ClaimTypes.Role, role,ClaimValueTypes.String));
             }
