@@ -6,7 +6,7 @@ namespace Repository
     public class UserRepository : IUserRepository
     {        
 
-        List<User> _users = new List<User>
+        List<User> _users = new()
         {
             new User
             {

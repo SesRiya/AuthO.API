@@ -50,18 +50,6 @@ namespace ApiCore.Registration
 
             return userRole;
         }
-
-        //public async Task<ErrorResponse?> RoleVerification(RegisterRequest registerRequest, IRoleRepository _roleRepository)
-        //{
-        //    foreach (Role role in registerRequest.Roles)
-        //    {
-        //        if (role.RoleName.Equals(_roleRepository.GetRoleName(role.RoleName)))
-        //        {
-        //            return new ErrorResponse("Role exists already");
-        //        }
-        //    }
-        //    return null;
-        //}
         #endregion
 
     }

@@ -64,13 +64,6 @@ namespace AuthServer.API.Controllers
             await _userRepository.Create(registrationUser);
 
 
-            // // adding roles to user
-            //ErrorResponse errorResponseToRole = await _roleAdditionToUser.RoleVerification(registerRequest, _roleRepository);
-            //if (errorResponse != null)
-            //{
-            //    return BadRequest(errorResponseToRole);
-            //}
-
             UserRole addUserToRole = _roleAdditionToUser.AddRolesToUser(registerRequest, registrationUser);
             await _userRoleRepository.AddUserToRole(addUserToRole);
 
@@ -118,7 +111,6 @@ namespace AuthServer.API.Controllers
             AuthenticatedUserResponse response = await _authenticator.Authenticate(user);
             return Ok(response);
         }
-
 
         private IActionResult BadRequestModelState()
         {
