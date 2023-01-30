@@ -30,21 +30,17 @@ namespace Repository
             return Task.FromResult(userRole);
         }
 
+        public Task<UserRole> GetById(Guid userId)
+        {
+            return Task.FromResult(_usersWithRoles.FirstOrDefault(user => user.UserId == userId));
+        }
+
         public Task<List<string>> GetAllRoles(Guid userID)
         {
             List<string> roles = new List<string>();
 
-            foreach (UserRole userRole in _usersWithRoles)
-            {
-                if (userRole.UserId == userID)
-                {
-                    roles.Add(userRole.RoleName.ToString());
-                }
-            }
-            return Task.FromResult(roles);
-
+            UserRole userRole = (_usersWithRoles.FirstOrDefault(user => user.UserId == userID));
+            return Task.FromResult(userRole.RoleName.ToList());
         }
-
-
     }
 }

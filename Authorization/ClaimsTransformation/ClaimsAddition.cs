@@ -38,7 +38,7 @@ namespace Authorization.ClaimsTransformation
             var clonedPrincipal = principal.Clone();
             var clonedIdentity = (ClaimsIdentity)clonedPrincipal.Identity;
 
-            foreach (string role in roles)
+            foreach (var role in roles)
             {
                 clonedIdentity.AddClaim(new Claim(ClaimTypes.Role, role,ClaimValueTypes.String));
             }
