@@ -11,22 +11,22 @@ namespace Repository
             new User
             {
                 Id = Guid.Parse("6b3e030b-665b-481e-b459-6b8ff679849c"),
-                Email = "Admin@mail.com",
-                Username = "Admin",
+                Email = "Sam@mail.com",
+                Username = "Sam",
                 PasswordHash = BCrypt.Net.BCrypt.HashPassword("password"),
             },
             new User
             {
                  Id = Guid.Parse("5cfe8c2d-5859-4ada-892c-e21c79d80805"),
-                Email = "Test@mail.com",
-                Username = "Test",
+                Email = "Prateek@mail.com",
+                Username = "Prateek",
                 PasswordHash =  BCrypt.Net.BCrypt.HashPassword("password"),                
             },
              new User
             {
                 Id = Guid.Parse("32d114de-5752-4dbe-8793-8b01a067cde2"),
-                Email = "Dev@mail.com",
-                Username = "Dev",
+                Email = "Cheyenne@mail.com",
+                Username = "Cheyenne",
                 PasswordHash =  BCrypt.Net.BCrypt.HashPassword("password"),
              }
         };

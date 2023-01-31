@@ -9,6 +9,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.AspNetCore.Authorization;
 using Authorization.Authorization;
+using Middleware;
 
 namespace AuthenticationServer.API
 {
@@ -58,9 +59,6 @@ namespace AuthenticationServer.API
                      ClockSkew = TimeSpan.Zero
                  };
              });
-
-            //adding additional claims i.e. roles to user
-            services.AddCustomClaimstoIdentity();
 
             services.AddHttpContextAccessor();
 
@@ -135,6 +133,8 @@ namespace AuthenticationServer.API
 
             app.UseAuthentication();
             app.UseAuthorization();
+            app.UseClaimsAddition();
+            //ClaimHelper.ClaimHelperConfigure(app.Services.GetRequiredService<IUserRoleRepository>());
 
             app.UseEndpoints(endpoints =>
             {

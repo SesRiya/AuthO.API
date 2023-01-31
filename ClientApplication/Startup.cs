@@ -3,12 +3,16 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Middleware;
 using Repository;
+using Repository.Interfaces;
 using Services;
 using Swashbuckle.AspNetCore.Filters;
 using System.Text;
 
-namespace ClientApplication
+
+
+namespace ServiceApplication
 {
     public class Startup
     {
@@ -62,8 +66,7 @@ namespace ClientApplication
                             ));
             });
 
-            //declare service to add additional claims(user roles) to jwt
-            services.AddCustomClaimstoIdentity();
+            //for claims addition middleware
             services.AddRepository();
 
             services.AddEndpointsApiExplorer();
@@ -98,6 +101,8 @@ namespace ClientApplication
 
             app.UseAuthentication();
             app.UseAuthorization();
+            app.UseClaimsAddition();
+
 
             app.UseEndpoints(endpoints =>
             {
