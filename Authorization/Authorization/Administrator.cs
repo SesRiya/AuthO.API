@@ -17,7 +17,7 @@ namespace Authorization.Authorization
         protected override Task HandleRequirementAsync(AuthorizationHandlerContext context,
                                                      Administrator admin)
         {
-            if (context.User.HasClaim(claim => claim.Value == "Admin" && claim.Type == ClaimTypes.Role))
+            if (context.User.HasClaim(claim => claim.Value == "Administrator"))
             {
                 context.Succeed(admin);
             }

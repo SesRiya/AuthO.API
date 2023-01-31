@@ -27,11 +27,18 @@ namespace AuthServer.API.Controllers
             return Ok(items);
         }
 
-        [Authorize(Policy = "Admin")]
+        [Authorize(Policy = "Administrator")]
         [HttpGet("admin")]
         public IActionResult AdminOnly()
         {
             return Ok("Admin only here");
+        }
+
+        [Authorize(Policy = "Tester")]
+        [HttpGet("tester")]
+        public IActionResult Tester()
+        {
+            return Ok("Tester only here");
         }
     }
 }

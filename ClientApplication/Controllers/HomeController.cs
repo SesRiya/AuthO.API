@@ -29,7 +29,7 @@ namespace ServiceApplication.Controllers
         }
 
 
-        [Authorize(Policy = "Admin")]
+        [Authorize(Policy = "Administrator")]
         [HttpGet("admin")]
         public IActionResult AdminOnly()
         {

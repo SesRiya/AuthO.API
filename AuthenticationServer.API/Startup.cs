@@ -70,7 +70,7 @@ namespace AuthenticationServer.API
 
             services.AddAuthorization(options =>
             {
-                options.AddPolicy("Admin",
+                options.AddPolicy("Administrator",
                     policyBuilder =>
                         policyBuilder.AddRequirements(
                             new Administrator()

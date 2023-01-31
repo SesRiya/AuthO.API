@@ -18,7 +18,7 @@ namespace Authorization.Authorization
                                                      AdminOrTester payments)
         {
             if ((context.User.HasClaim(claim => claim.Value == "Tester" && claim.Type == ClaimTypes.Role) )
-                || context.User.HasClaim(claim => claim.Value == "Admin" && claim.Type == ClaimTypes.Role))
+                || context.User.HasClaim(claim => claim.Value == "Administrator" && claim.Type == ClaimTypes.Role))
             {
                 context.Succeed(payments);
             }
