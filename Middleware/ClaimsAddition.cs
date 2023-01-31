@@ -26,8 +26,7 @@ namespace Middleware
         #region methods
         public async Task InvokeAsync(HttpContext context)
         {
-
-            ClaimsPrincipal principal = context.User as ClaimsPrincipal;
+            ClaimsPrincipal principal = context.User;
 
             if (context.User.Identity is not null && context.User.Identity.IsAuthenticated)
             {
@@ -43,7 +42,7 @@ namespace Middleware
                     clonedIdentity.AddClaim(new Claim(ClaimTypes.Role, role, ClaimValueTypes.String));
                 }
             }
-            // Call the next delegate/middleware in the pipeline.
+            
             await _next(context);
         }
         #endregion
