@@ -1,22 +1,18 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Logging;
 using Repository.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Security.Claims;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Middleware
 {
     public class ClaimsAddition
     {
+        #region fields
         private readonly RequestDelegate _next;
         private readonly IUserRoleRepository _userRoleRepository;
+        #endregion
 
+        #region constructor
         public ClaimsAddition(
             RequestDelegate next,
             IUserRoleRepository userRoleRepository
@@ -25,7 +21,9 @@ namespace Middleware
             _next = next;
             _userRoleRepository = userRoleRepository;
         }
+        #endregion
 
+        #region methods
         public async Task InvokeAsync(HttpContext context)
         {
 
@@ -47,17 +45,18 @@ namespace Middleware
             }
             // Call the next delegate/middleware in the pipeline.
             await _next(context);
-
         }
+        #endregion
     }
 
-    public static class MyAuthMiddlewareExtensions
+    #region static methods
+    public static class AuthMiddlewareExtensions
     {
         public static IApplicationBuilder UseClaimsAddition(this IApplicationBuilder builder)
         {
             return builder.UseMiddleware<ClaimsAddition>();
         }
     }
-
+    #endregion
 }
 
