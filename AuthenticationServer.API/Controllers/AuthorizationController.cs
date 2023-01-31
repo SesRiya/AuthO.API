@@ -27,7 +27,7 @@ namespace AuthServer.API.Controllers
             return Ok(items);
         }
 
-        [Authorize(Policy = "Administrator")]
+        [Authorize(Policy = "Admin")]
         [HttpGet("admin")]
         public IActionResult AdminOnly()
         {

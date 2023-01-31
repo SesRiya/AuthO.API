@@ -62,7 +62,6 @@ namespace AuthenticationServer.API
 
             services.AddHttpContextAccessor();
 
-
             // Register our authorization handler.
             services.AddScoped<IAuthorizationHandler, AdminAccess>();
             services.AddScoped<IAuthorizationHandler, TesterAccess>();
@@ -70,7 +69,7 @@ namespace AuthenticationServer.API
 
             services.AddAuthorization(options =>
             {
-                options.AddPolicy("Administrator",
+                options.AddPolicy("Admin",
                     policyBuilder =>
                         policyBuilder.AddRequirements(
                             new Administrator()
@@ -81,7 +80,6 @@ namespace AuthenticationServer.API
                             new Tester()
                             ));
             });
-
 
             services.AddEndpointsApiExplorer();
             services.AddSwaggerGen(options =>
@@ -132,9 +130,8 @@ namespace AuthenticationServer.API
             }
 
             app.UseAuthentication();
-            app.UseAuthorization();
             app.UseClaimsAddition();
-            //ClaimHelper.ClaimHelperConfigure(app.Services.GetRequiredService<IUserRoleRepository>());
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {

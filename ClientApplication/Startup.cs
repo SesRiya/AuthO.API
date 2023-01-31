@@ -49,12 +49,14 @@ namespace ServiceApplication
             });
 
 
+            // Register our authorization handler.
             services.AddScoped<IAuthorizationHandler, AdminAccess>();
             services.AddScoped<IAuthorizationHandler, TesterAccess>();
+            services.AddScoped<IAuthorizationHandler, AdminOrTesterAccess>();
 
             services.AddAuthorization(options =>
             {
-                options.AddPolicy("Administrator",
+                options.AddPolicy("Admin",
                     policyBuilder =>
                         policyBuilder.AddRequirements(
                             new Administrator()
@@ -100,8 +102,8 @@ namespace ServiceApplication
             }
 
             app.UseAuthentication();
-            app.UseAuthorization();
             app.UseClaimsAddition();
+            app.UseAuthorization();
 
 
             app.UseEndpoints(endpoints =>

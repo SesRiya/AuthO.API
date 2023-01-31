@@ -31,8 +31,7 @@ namespace Middleware
 
             ClaimsPrincipal principal = context.User as ClaimsPrincipal;
 
-            if (context.User.Identity is not null
-            && context.User.Identity.IsAuthenticated)
+            if (context.User.Identity is not null && context.User.Identity.IsAuthenticated)
             {
                 Claim idClaim = principal.FindFirst(ClaimTypes.NameIdentifier);
 
@@ -52,7 +51,7 @@ namespace Middleware
         }
     }
 
-    public static class ClaimsAdditionExtensions
+    public static class MyAuthMiddlewareExtensions
     {
         public static IApplicationBuilder UseClaimsAddition(this IApplicationBuilder builder)
         {
