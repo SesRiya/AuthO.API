@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Repository.Interfaces;
+using System.Net.Http.Json;
 using System.Security.Claims;
 
 namespace Middleware
@@ -24,6 +25,19 @@ namespace Middleware
         #endregion
 
         #region methods
+
+        //public static async Task<List<string>> GetRoleAsync(string path)
+        //{
+        //    HttpClient client = new HttpClient();
+        //    List<string> roles = null;
+        //    HttpResponseMessage response = await client.GetAsync(path);
+        //    if (response.IsSuccessStatusCode)
+        //    {
+        //        roles = await response.Content.ReadFromJsonAsync<List<string>>();
+        //    }
+        //    return roles;
+        //}
+
         public async Task InvokeAsync(HttpContext context)
         {
             ClaimsPrincipal principal = context.User;
@@ -34,6 +48,8 @@ namespace Middleware
 
                 List<string> roles = await _userRoleRepository.GetAllRoles(Guid.Parse(idClaim.Value));
 
+                //List<string> roles = await GetRoleAsync("https://localhost:7268/api/AuthO");
+
                 ClaimsPrincipal clonedPrincipal = principal.Clone();
                 ClaimsIdentity clonedIdentity = (ClaimsIdentity)clonedPrincipal.Identity;
 
@@ -42,11 +58,11 @@ namespace Middleware
                     clonedIdentity.AddClaim(new Claim(ClaimTypes.Role, role, ClaimValueTypes.String));
                 }
             }
-            
             await _next(context);
         }
         #endregion
     }
+
 
     #region static methods
     public static class AuthMiddlewareExtensions
@@ -57,5 +73,7 @@ namespace Middleware
         }
     }
     #endregion
+
+   
 }
 

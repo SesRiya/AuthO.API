@@ -27,6 +27,8 @@ namespace AuthenticationServer.API
         {
             services.AddControllers();
 
+            services.AddHttpClient();
+
             //services.AddDbContext<ApiContext>(opt => opt.UseInMemoryDatabase());
 
             //instantiate and bind authentication values to authen config object(appsettings.json)
@@ -103,7 +105,7 @@ namespace AuthenticationServer.API
                         .AllowAnyOrigin()
                         .AllowAnyMethod()
                         .AllowAnyHeader()
-                        .AllowCredentials()
+                        //.AllowCredentials();
                         .Build();
                 });
             });
@@ -113,10 +115,10 @@ namespace AuthenticationServer.API
         public void Configure(WebApplication app, IWebHostEnvironment env)
         {
             app.UseStaticFiles();
-
             //var context = app.ApplicationServices.GetService<ApiContext>();
             //AddTestData(context);
 
+            app.UseCors();
 
             app.UseRouting();
             // Configure the HTTP request pipeline.

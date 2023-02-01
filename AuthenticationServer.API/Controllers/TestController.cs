@@ -6,10 +6,10 @@ namespace AuthServer.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class AuthorizationController : ControllerBase
+    [Authorize]
+    public class TestController : ControllerBase
     {
 
-        [Authorize]
         [HttpGet("roles")]
         public IActionResult GetRoles()
         {

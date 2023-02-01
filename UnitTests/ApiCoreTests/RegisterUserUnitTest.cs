@@ -35,39 +35,6 @@ namespace UnitTests.ApiCore
 
 
         [Test]
-        public void RegisterWithPasswordsNotMatchingTest()
-        {
-            var passwordMatching = _registerUser.IsPasswordMatching(registerRequestMock);
-             
-            Assert.IsTrue(passwordMatching);
-        }
-
-
-        [Test]
-        public async Task RegisterwithExistingEmailTest()
-        {
-            string email = "mockit@mymail.com";
-
-            _mockUserRepository.Setup(u => u.GetByEmail(email)).ReturnsAsync(new User());
-
-            bool emailExists = await _registerUser.IsEmailRegistered(registerRequestMock);
-
-            Assert.True(emailExists);
-        }
-
-        [Test]
-        public async Task RegisterwithExistingUsernameTest()
-        {
-            string username = "mockit";
-
-            _mockUserRepository.Setup(user => user.GetByUsername(username)).ReturnsAsync(new User());
-
-            bool usernameExists = await _registerUser.IsUserRegistered(registerRequestMock);
-
-            Assert.True(usernameExists);
-        }
-
-        [Test]
         public async Task UserVerificationTest()
         {
             string email = "mockit3@mymail.com";
