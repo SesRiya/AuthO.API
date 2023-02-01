@@ -1,12 +1,13 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
+using Middleware.ClaimsAugmentation;
 using Repository.Interfaces;
 using System.Net.Http.Json;
 using System.Security.Claims;
 
 namespace Middleware
 {
-    public class ClaimsAddition
+    public class ClaimsAddition : IClaimsAugmentation
     {
         #region fields
         private readonly RequestDelegate _next;
@@ -26,17 +27,17 @@ namespace Middleware
 
         #region methods
 
-        //public static async Task<List<string>> GetRoleAsync(string path)
-        //{
-        //    HttpClient client = new HttpClient();
-        //    List<string> roles = null;
-        //    HttpResponseMessage response = await client.GetAsync(path);
-        //    if (response.IsSuccessStatusCode)
-        //    {
-        //        roles = await response.Content.ReadFromJsonAsync<List<string>>();
-        //    }
-        //    return roles;
-        //}
+        public static async Task<List<string>> GetRoleAsync(string path)
+        {
+            HttpClient client = new HttpClient();
+            List<string>? roles = null;
+            HttpResponseMessage response = await client.GetAsync(path);
+            if (response.IsSuccessStatusCode)
+            {
+                roles = await response.Content.ReadFromJsonAsync<List<string>>();
+            }
+            return roles;
+        }
 
         public async Task InvokeAsync(HttpContext context)
         {
@@ -46,9 +47,9 @@ namespace Middleware
             {
                 Claim idClaim = principal.FindFirst(ClaimTypes.NameIdentifier);
 
-                List<string> roles = await _userRoleRepository.GetAllRoles(Guid.Parse(idClaim.Value));
+                //List<string> roles = await _userRoleRepository.GetAllRoles(Guid.Parse(idClaim.Value));
 
-                //List<string> roles = await GetRoleAsync("https://localhost:7268/api/AuthO");
+                List<string> roles = await GetRoleAsync("https://localhost:7268/api/AuthO");
 
                 ClaimsPrincipal clonedPrincipal = principal.Clone();
                 ClaimsIdentity clonedIdentity = (ClaimsIdentity)clonedPrincipal.Identity;
@@ -65,13 +66,6 @@ namespace Middleware
 
 
     #region static methods
-    public static class AuthMiddlewareExtensions
-    {
-        public static IApplicationBuilder UseClaimsAddition(this IApplicationBuilder builder)
-        {
-            return builder.UseMiddleware<ClaimsAddition>();
-        }
-    }
     #endregion
 
    
