@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
 using Middleware.Interface;
 using Repository.Interfaces;
 using System.Net.Http.Json;
@@ -6,7 +7,7 @@ using System.Security.Claims;
 
 namespace Middleware
 {
-    public class ClaimsAddition : IClaimsAugmentation
+    public class ClaimsAugmentation : IClaimsAugmentation
     {
         #region fields
         private readonly RequestDelegate _next;
@@ -14,7 +15,7 @@ namespace Middleware
         #endregion
 
         #region constructor
-        public ClaimsAddition(
+        public ClaimsAugmentation(
             RequestDelegate next,
             IUserRoleRepository userRoleRepository
             )
@@ -25,7 +26,9 @@ namespace Middleware
         #endregion
 
         #region methods
+        
 
+        //get roles from request
         public static async Task<List<string>> GetRoleAsync(string path)
         {
             HttpClient client = new HttpClient();
@@ -64,9 +67,5 @@ namespace Middleware
     }
 
 
-    #region static methods
-    #endregion
-
-   
 }
 
