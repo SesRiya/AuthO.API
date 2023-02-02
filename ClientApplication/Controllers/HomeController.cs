@@ -1,41 +1,54 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using Repository.Interfaces;
-using System.Security.Claims;
-using WebModels;
+﻿using Microsoft.AspNetCore.Mvc;
+using System.Net.Http.Headers;
+using System.Numerics;
 
 namespace ServiceApplication.Controllers
 {
-    public class HomeController : ControllerBase
+    [ApiController]
+    [Route("[controller]")]
+    public class HomeController : Controller
     {
+        private readonly IHttpClientFactory _clientFactory;
 
-        [Authorize]
-        [HttpGet("roles")]
-        public IActionResult GetRoles()
+        public HomeController(IHttpClientFactory clientFactory)
         {
-            var user = User.Identity;
-            // Find all our role claims
-            var claims = User.FindAll(ClaimTypes.Role);
-
-            var items = new List<string>();
-
-            foreach (var claim in claims)
-            {
-                items.Add($"Type: {claim.Type} Value: {claim.Value}");
-            }
-
-            // Return a list of all role claims
-            return Ok(items);
+            _clientFactory = clientFactory;
         }
 
-
-        [Authorize(Policy = "Admin")]
-        [HttpGet("admin")]
-        public IActionResult AdminOnly()
+        [HttpGet("token")]
+        public async Task<IActionResult> Index()
         {
-            return Ok("Admin only here");
+            var request = new HttpRequestMessage(HttpMethod.Get, "https://localhost:7248/weatherforecast/");
+            var client = _clientFactory.CreateClient();
+            HttpResponseMessage response = await client.SendAsync(request);
+
+            if (response.StatusCode == System.Net.HttpStatusCode.OK)
+            {
+                string token = await response.Content.ReadAsStringAsync();
+                HttpContext.Session.SetString("JwtToken", token);
+            }
+
+            return Ok();
+        }
+
+        [HttpGet("roles")]
+        public async Task<List<string>> GetAllRoles()
+        {
+            var accessToken = HttpContext.Session.GetString("JwtToken");
+            List<string> roles = new List<string>();
+            var request = new HttpRequestMessage(HttpMethod.Get, "https://localhost:7268/api/AuthO");
+
+            var client = _clientFactory.CreateClient();
+
+            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", accessToken);
+            HttpResponseMessage response = await client.SendAsync(request, HttpCompletionOption.ResponseHeadersRead);
+
+            if (response.StatusCode == System.Net.HttpStatusCode.OK)
+            {
+                roles = await response.Content.ReadFromJsonAsync<List<string>>();
+            }
+
+            return (roles);
         }
     }
 }
-
-

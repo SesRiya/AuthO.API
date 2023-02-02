@@ -132,7 +132,6 @@ namespace AuthenticationServer.API
             }
 
             app.UseAuthentication();
-            app.UseClaimsAddition();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

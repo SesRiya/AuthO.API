@@ -2,33 +2,69 @@
 using Microsoft.AspNetCore.Http;
 using Middleware.Interface;
 using Repository.Interfaces;
+using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Security.Claims;
 
 namespace Middleware
 {
-    public class ClaimsAugmentation : IClaimsAugmentation
+    public class ClaimsAugmentation
     {
         #region fields
         private readonly RequestDelegate _next;
-        private readonly IUserRoleRepository _userRoleRepository;
         #endregion
 
         #region constructor
         public ClaimsAugmentation(
-            RequestDelegate next,
-            IUserRoleRepository userRoleRepository
+            RequestDelegate next
             )
         {
             _next = next;
-            _userRoleRepository = userRoleRepository;
         }
         #endregion
 
-        #region methods
-        
 
         //get roles from request
+        //public static async Task<string> Token()
+        //{
+        //    HttpClient client = new HttpClient();
+        //    string token;
+        //    var request = new HttpRequestMessage(HttpMethod.Get, "https://localhost:7248/WeatherForecast");
+        //    HttpResponseMessage response = await client.SendAsync(request);
+
+        //    if (response.StatusCode == System.Net.HttpStatusCode.OK)
+        //    {
+        //        token = await response.Content.ReadAsStringAsync();
+        //    }
+        //    else
+        //    {
+        //        token = null;
+        //    }
+
+        //    return (token);
+        //}
+
+
+
+        #region methods
+
+        //public static async Task<List<string>> GetRolesAsync()
+        //{
+        //    HttpClient client = new HttpClient();
+        //    List<string> roles = new List<string>();
+        //    //var request = new HttpRequestMessage(HttpMethod.Get, "https://localhost:7268/api/AuthO");
+        //    //request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", await Token());
+
+        //    //HttpResponseMessage response = await client.SendAsync(request, HttpCompletionOption.ResponseHeadersRead);
+        //    HttpResponseMessage response = await client.GetAsync("https://localhost:7248/Home");
+        //    if (response.IsSuccessStatusCode)
+        //    {
+        //        roles = await response.Content.ReadFromJsonAsync<List<string>>();
+        //    }
+        //    return (roles);
+        //}
+
+
         public static async Task<List<string>> GetRoleAsync(string path)
         {
             HttpClient client = new HttpClient();
@@ -50,6 +86,7 @@ namespace Middleware
                 Claim idClaim = principal.FindFirst(ClaimTypes.NameIdentifier);
 
                 //List<string> roles = await _userRoleRepository.GetAllRoles(Guid.Parse(idClaim.Value));
+
 
                 List<string> roles = await GetRoleAsync("https://localhost:7268/api/AuthO");
 

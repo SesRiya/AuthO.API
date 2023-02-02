@@ -68,8 +68,8 @@ namespace ServiceApplication
                             ));
             });
 
-            //for claims addition middleware
-            services.AddRepository();
+            ////for claims addition middleware
+            //services.AddRepository();
 
             services.AddEndpointsApiExplorer();
             services.AddSwaggerGen(options =>
@@ -91,6 +91,9 @@ namespace ServiceApplication
             app.UseStaticFiles();
 
             app.UseRouting();
+
+            app.UseCors();
+
             // Configure the HTTP request pipeline.
             app.UseHttpsRedirection();
 
@@ -108,7 +111,7 @@ namespace ServiceApplication
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllers();
+              endpoints.MapControllers();
             });
 
             app.Run();

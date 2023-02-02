@@ -1,17 +1,19 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Repository.Interfaces;
 using System.Security.Claims;
+using WebModels;
 
-namespace AuthServer.API.Controllers
+namespace ServiceApplication.Controllers
 {
-    [ApiController]
-    [Authorize]
     public class TestController : ControllerBase
     {
 
-        [HttpGet("getroles")]
+        [Authorize]
+        [HttpGet("roles")]
         public IActionResult GetRoles()
         {
+            var user = User.Identity;
             // Find all our role claims
             var claims = User.FindAll(ClaimTypes.Role);
 
@@ -19,12 +21,13 @@ namespace AuthServer.API.Controllers
 
             foreach (var claim in claims)
             {
-                    items.Add($"Type: {claim.Type} Value: {claim.Value}");
+                items.Add($"Type: {claim.Type} Value: {claim.Value}");
             }
 
             // Return a list of all role claims
             return Ok(items);
         }
+
 
         [Authorize(Policy = "Admin")]
         [HttpGet("admin")]
@@ -32,13 +35,7 @@ namespace AuthServer.API.Controllers
         {
             return Ok("Admin only here");
         }
-
-        [Authorize(Policy = "Tester")]
-        [HttpGet("tester")]
-        public IActionResult Tester()
-        {
-            return Ok("Tester only here");
-        }
     }
 }
+
 

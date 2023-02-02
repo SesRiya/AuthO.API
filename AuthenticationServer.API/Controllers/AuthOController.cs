@@ -8,7 +8,7 @@ namespace AuthenticationServer.API.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    [Authorize]
+    [Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme)]
     public class AuthOController : ControllerBase
     {
         private readonly IUserRoleRepository _userRoleRepository;
@@ -21,10 +21,11 @@ namespace AuthenticationServer.API.Controllers
 
         [HttpGet]
         public  async Task<List<string>> GetRoles()
-        {
+        {/*
             var idClaim = User.FindFirst(ClaimTypes.NameIdentifier);
             List<string> roles = await _userRoleRepository.GetAllRoles(Guid.Parse(idClaim.Value));
-            return (roles.ToList());
+            return (roles.ToList());*/
+            return new List<string>() { "OK" };
         }
     }
 }
