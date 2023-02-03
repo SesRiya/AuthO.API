@@ -4,13 +4,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Middleware;
-using Repository;
-using Repository.Interfaces;
-using Services;
 using Swashbuckle.AspNetCore.Filters;
 using System.Text;
-
-
 
 namespace ServiceApplication
 {
@@ -26,6 +21,8 @@ namespace ServiceApplication
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+
+            services.AddDistributedMemoryCache();
 
             services.AddAuthentication(option =>
             {
@@ -68,9 +65,6 @@ namespace ServiceApplication
                             ));
             });
 
-            ////for claims addition middleware
-            //services.AddRepository();
-
             services.AddEndpointsApiExplorer();
             services.AddSwaggerGen(options =>
             {
@@ -84,6 +78,8 @@ namespace ServiceApplication
 
                 options.OperationFilter<SecurityRequirementsOperationFilter>();
             });
+
+            
         }
 
         public void Configure(WebApplication app, IWebHostEnvironment env)
@@ -105,7 +101,9 @@ namespace ServiceApplication
             }
 
             app.UseAuthentication();
-            app.UseClaimsAddition();
+
+            app.UseClaimsAugmentation();
+
             app.UseAuthorization();
 
 

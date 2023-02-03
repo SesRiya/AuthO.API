@@ -6,7 +6,7 @@ namespace Middleware
 
     public static class ClaimsMiddlewareExtension
         {
-            public static IApplicationBuilder UseClaimsAddition(this IApplicationBuilder builder)
+            public static IApplicationBuilder UseClaimsAugmentation(this IApplicationBuilder builder)
             {
                 return builder.UseMiddleware<ClaimsAugmentation>();
             }

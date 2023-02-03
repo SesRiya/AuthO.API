@@ -10,10 +10,9 @@ namespace ServiceApplication.Controllers
     {
 
         [Authorize]
-        [HttpGet("roles")]
+        [HttpGet("getRoles")]
         public IActionResult GetRoles()
         {
-            var user = User.Identity;
             // Find all our role claims
             var claims = User.FindAll(ClaimTypes.Role);
 

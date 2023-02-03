@@ -8,6 +8,7 @@ using WebModels.Requests;
 
 namespace UnitTests.ApiCoreTests
 {
+    [TestFixture]
     public class LoginAuthenticationUnitTests
     {
 
@@ -15,7 +16,7 @@ namespace UnitTests.ApiCoreTests
         private Mock<IUserRepository> _mockUserRepository;
         private Mock<IPasswordHash> _mockPasswordHash;
 
-        [OneTimeSetUp]
+        [SetUp]
         public void Setup()
         {
             _mockUserRepository = new Mock<IUserRepository>();
@@ -30,17 +31,40 @@ namespace UnitTests.ApiCoreTests
         };
 
         [Test]
-        public async Task IsUserAuthenticatedTest()
+        public async Task LoginWithAuthenticatedUserAndPassword()
         {
             string username = "mockit";
-            var user =_mockUserRepository.Setup(u => u.GetByUsername(username)).ReturnsAsync(new User());
+            var user = _mockUserRepository.Setup(u => u.GetByUsername(username)).ReturnsAsync(new User());
             Assert.IsNotNull(user);
 
             string passwordHash = "hashed";
             string password = "password";
             var passwordVerified = _mockPasswordHash.Setup(p => p.VerifyPassword(password, passwordHash)).Returns(true);
-            
+
             Assert.IsNotNull(passwordVerified);
         }
+
+        [Test]
+        public async Task LoginRegisteredUserAndInvalidPassword()
+        {
+
+            LoginRequest loginRequestMock = new LoginRequest()
+            {
+                Username = "mockit",
+                Password = "password"
+            };
+        
+           var user = _mockUserRepository.Setup(u => u.GetByUsername(loginRequestMock.Username)).ReturnsAsync(new User());
+          
+            string passwordHash = "hashed";
+
+            var isCorrectPassword = _mockPasswordHash.Setup(p => p.VerifyPassword(loginRequestMock.Password, passwordHash)).Returns(false);
+
+
+            Assert.IsNotNull(user);
+            //Assert.IsFalse(isCorrectPassword);
+        }
+
+
     }
 }
