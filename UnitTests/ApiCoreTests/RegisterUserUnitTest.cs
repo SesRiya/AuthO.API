@@ -4,6 +4,7 @@ using ApiCore.Registration;
 using Moq;
 using Repository.Interfaces;
 using Services.Interfaces;
+using System.Globalization;
 using WebModels;
 using WebModels.Requests;
 
@@ -23,31 +24,94 @@ namespace UnitTests.ApiCore
             _registerUser = new RegisterUser(_mockPasswordHash.Object, _mockUserRepository.Object);
         }
 
-
-        RegisterRequest registerRequestMock = new RegisterRequest()
-        {
-            Email = "mockit@mymail.com",
-            Username = "mockit",
-            Password = "password",
-            ConfirmPassword = "password",
-            //Roles = new List<>();
-        };
-
-
         [Test]
         public async Task UserVerificationTest()
         {
+            RegisterRequest registerRequestMock = new()
+            {
+                Email = "mockit1@mymail.com",
+                Username = "mockit1",
+                Password = "password1",
+                ConfirmPassword = "password1",
+            };
+
+            string email = "mockit2@mymail.com";
+
+            _mockUserRepository.Setup(u => u.GetByEmail(email)).ReturnsAsync(new User());
+
+            string username = "mockit2";
+
+            _mockUserRepository.Setup(user => user.GetByUsername(username)).ReturnsAsync(new User());
+
+            var userVerified = await _registerUser.UserVerification(registerRequestMock);
+
+            Assert.Null(userVerified);
+        }
+
+        [Test]
+        public async Task UserHasRegisteredEmailAlready()
+        {
+            RegisterRequest registerRequestMock = new RegisterRequest()
+            {
+                Email = "mockit3@mymail.com",
+                Username = "mockit3",
+                Password = "password3",
+                ConfirmPassword = "password3",
+            };
+
             string email = "mockit3@mymail.com";
 
             _mockUserRepository.Setup(u => u.GetByEmail(email)).ReturnsAsync(new User());
 
-            string username = "mockit3";
+            string username = "mockit4";
 
             _mockUserRepository.Setup(user => user.GetByUsername(username)).ReturnsAsync(new User());
 
             var userVerified = _registerUser.UserVerification(registerRequestMock);
 
-            Assert.Null(userVerified.Result);
+            Assert.IsNotNull(userVerified.Result);
+        }
+
+        [Test]
+        public async Task UserHasRegisteredUsernameAlready()
+        {
+            RegisterRequest registerRequestMock = new RegisterRequest()
+            {
+                Email = "mockit5@mymail.com",
+                Username = "mockit5",
+                Password = "password5",
+                ConfirmPassword = "password5",
+            };
+
+            string email = "mockit6@mymail.com";
+
+            _mockUserRepository.Setup(u => u.GetByEmail(email)).ReturnsAsync(new User());
+
+            string username = "mockit5";
+
+            _mockUserRepository.Setup(user => user.GetByUsername(username)).ReturnsAsync(new User());
+
+            var userVerified = _registerUser.UserVerification(registerRequestMock);
+
+            Assert.IsNotNull(userVerified.Result);
+
+        }
+
+        [Test]
+        public async Task UserPasswordNotMatching()
+        {
+            RegisterRequest registerRequestMock = new RegisterRequest()
+            {
+                Email = "mockit7@mymail.com",
+                Username = "mockit7",
+                Password = "password7",
+                ConfirmPassword = "password8",
+            };
+
+            var userVerified = _registerUser.UserVerification(registerRequestMock);
+
+            Assert.IsNotNull(userVerified.Result);
+
         }
     }
 }
