@@ -67,9 +67,9 @@ namespace UnitTests.ApiCore
 
             _mockUserRepository.Setup(user => user.GetByUsername(username)).ReturnsAsync(new User());
 
-            var userVerified = _registerUser.UserVerification(registerRequestMock);
+            var userVerified = await _registerUser.UserVerification(registerRequestMock);
 
-            Assert.IsNotNull(userVerified.Result);
+            Assert.IsNotNull(userVerified);
         }
 
         [Test]
@@ -91,9 +91,9 @@ namespace UnitTests.ApiCore
 
             _mockUserRepository.Setup(user => user.GetByUsername(username)).ReturnsAsync(new User());
 
-            var userVerified = _registerUser.UserVerification(registerRequestMock);
+            var userVerified = await _registerUser.UserVerification(registerRequestMock);
 
-            Assert.IsNotNull(userVerified.Result);
+            Assert.IsNotNull(userVerified);
 
         }
 
@@ -108,9 +108,9 @@ namespace UnitTests.ApiCore
                 ConfirmPassword = "password8",
             };
 
-            var userVerified = _registerUser.UserVerification(registerRequestMock);
+            var userVerified = await _registerUser.UserVerification(registerRequestMock);
 
-            Assert.IsNotNull(userVerified.Result);
+            Assert.IsNotNull(userVerified);
 
         }
     }
