@@ -25,18 +25,16 @@ namespace UnitTests.ApiCoreTests
             _loginAuthentication = new LoginAuthentication(_mockUserRepository.Object, _mockPasswordHash.Object);
         }
 
-
         [Test]
         public async Task LoginWithAuthenticatedUserAndPassword()
         {
-            LoginRequest loginRequestMock = new LoginRequest()
+            LoginRequest loginRequestMock = new()
             {
                 Username = "mockit",
                 Password = "password"
             };
 
             _mockUserRepository.Setup(u => u.GetByUsername(loginRequestMock.Username)).ReturnsAsync(new User() { Username = loginRequestMock.Username, PasswordHash = "hashed" });
-
 
             _mockPasswordHash.Setup(p => p.VerifyPassword(loginRequestMock.Password, It.IsAny<string>())).Returns(true);
 
@@ -49,7 +47,7 @@ namespace UnitTests.ApiCoreTests
         [Test]
         public async Task LoginUnregisteredUser()
         {
-            LoginRequest loginRequestMock = new LoginRequest()
+            LoginRequest loginRequestMock = new()
             {
                 Username = "mockit",
                 Password = "password"
@@ -78,7 +76,6 @@ namespace UnitTests.ApiCoreTests
 
             _mockUserRepository.Setup(u => u.GetByUsername("user")).ReturnsAsync(new User());
 
-
             _mockPasswordHash.Setup(p => p.VerifyPassword(loginRequestMock.Password, It.IsAny<string>())).Returns(true);
 
             User user = await _loginAuthentication.IsUserAuthenticated(loginRequestMock);
@@ -90,7 +87,7 @@ namespace UnitTests.ApiCoreTests
         [Test]
         public async Task LoginRegisteredUserAndInvalidPassword()
         {
-            LoginRequest loginRequestMock = new LoginRequest()
+            LoginRequest loginRequestMock = new()
             {
                 Username = "mockit",
                 Password = "password"

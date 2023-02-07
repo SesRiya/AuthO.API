@@ -1,14 +1,8 @@
 ﻿using ApiCore.Interfaces;
 using Repository.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using WebModels.Requests;
 using WebModels.Responses;
 using WebModels;
-using Services.TokenValidators;
 using Services.Interfaces;
 
 namespace ApiCore.Refresh

@@ -44,7 +44,6 @@ namespace Middleware
                 roles = await response.Content.ReadFromJsonAsync<List<string>>();
             }
             return (roles);
-            //return token.ToString();
         }
 
         public async Task InvokeAsync(HttpContext context)
@@ -54,9 +53,6 @@ namespace Middleware
             if (context.User.Identity is not null && context.User.Identity.IsAuthenticated)
             {
                 Claim idClaim = principal.FindFirst(ClaimTypes.NameIdentifier);
-
-                //List<string> roles = await _userRoleRepository.GetAllRoles(Guid.Parse(idClaim.Value));
-
 
                 List<string> roles = await GetRolesAsync();
 

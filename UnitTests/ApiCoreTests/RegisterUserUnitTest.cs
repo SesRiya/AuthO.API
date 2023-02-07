@@ -1,10 +1,8 @@
-﻿
-using ApiCore.Interfaces;
+﻿using ApiCore.Interfaces;
 using ApiCore.Registration;
 using Moq;
 using Repository.Interfaces;
 using Services.Interfaces;
-using System.Globalization;
 using WebModels;
 using WebModels.Requests;
 
@@ -51,7 +49,7 @@ namespace UnitTests.ApiCore
         [Test]
         public async Task UserHasRegisteredEmailAlready()
         {
-            RegisterRequest registerRequestMock = new RegisterRequest()
+            RegisterRequest registerRequestMock = new()
             {
                 Email = "mockit3@mymail.com",
                 Username = "mockit3",
@@ -75,7 +73,7 @@ namespace UnitTests.ApiCore
         [Test]
         public async Task UserHasRegisteredUsernameAlready()
         {
-            RegisterRequest registerRequestMock = new RegisterRequest()
+            RegisterRequest registerRequestMock = new()
             {
                 Email = "mockit5@mymail.com",
                 Username = "mockit5",
@@ -100,7 +98,7 @@ namespace UnitTests.ApiCore
         [Test]
         public async Task UserPasswordNotMatching()
         {
-            RegisterRequest registerRequestMock = new RegisterRequest()
+            RegisterRequest registerRequestMock = new()
             {
                 Email = "mockit7@mymail.com",
                 Username = "mockit7",
