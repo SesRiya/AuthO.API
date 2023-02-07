@@ -5,7 +5,7 @@ VisualStudioVersion = 17.3.32929.385
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AuthenticationServer.API", "AuthenticationServer.API\AuthenticationServer.API.csproj", "{883537D5-58A5-48B5-8EC2-7CCDAD263B1D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ServiceApplication", "ClientApplication\ServiceApplication.csproj", "{082F83B2-F45C-43E1-B9B7-1546D940A862}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ClientApplication", "ClientApplication\ClientApplication.csproj", "{082F83B2-F45C-43E1-B9B7-1546D940A862}"
 	ProjectSection(ProjectDependencies) = postProject
 		{15F1BA78-6602-4427-A579-93624D90A620} = {15F1BA78-6602-4427-A579-93624D90A620}
 		{32C8BDE9-6D47-44AE-BB2C-1DA3DE3B3CCB} = {32C8BDE9-6D47-44AE-BB2C-1DA3DE3B3CCB}

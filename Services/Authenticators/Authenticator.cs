@@ -7,10 +7,11 @@ using WebModels.Responses;
 using WebModels;
 using Services.TokenGenerators;
 using Repository.Interfaces;
+using Services.Interfaces;
 
 namespace Services.Authenticators
 {
-    public class Authenticator
+    public class Authenticator : IAuthenticator
     {
         private readonly AccessTokenGenerator _accessTokenGenerator;
         private readonly RefreshTokenGenerator _refreshTokenGenerator;

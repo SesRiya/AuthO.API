@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Repository.Interfaces;
 using Services.Authenticators;
+using Services.Interfaces;
 using WebModels;
 using WebModels.Requests;
 using WebModels.Responses;
@@ -14,7 +15,7 @@ namespace AuthServer.API.Controllers
         private readonly IUserRepository _userRepository;
         private readonly IRoleRepository _roleRepository;
         private readonly IUserRoleRepository _userRoleRepository;
-        private readonly Authenticator _authenticator;
+        private readonly IAuthenticator _authenticator;
         private readonly IRegisterUser _registerUser;
         private readonly IRoleAdditionToUser _roleAdditionToUser;
         private readonly ILoginAuthentication _loginAuthentication;
