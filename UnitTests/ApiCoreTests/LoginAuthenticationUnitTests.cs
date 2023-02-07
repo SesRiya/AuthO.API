@@ -3,7 +3,6 @@ using ApiCore.Login;
 using Moq;
 using Repository.Interfaces;
 using Services.Interfaces;
-using System.Security.Principal;
 using WebModels;
 using WebModels.Requests;
 
@@ -12,7 +11,6 @@ namespace UnitTests.ApiCoreTests
     [TestFixture]
     public class LoginAuthenticationUnitTests
     {
-
         private ILoginAuthentication _loginAuthentication;
         private Mock<IUserRepository> _mockUserRepository;
         private Mock<IPasswordHash> _mockPasswordHash;
@@ -82,7 +80,6 @@ namespace UnitTests.ApiCoreTests
 
            Assert.That(user, Is.EqualTo(null));
         }
-
 
         [Test]
         public async Task LoginRegisteredUserAndInvalidPassword()

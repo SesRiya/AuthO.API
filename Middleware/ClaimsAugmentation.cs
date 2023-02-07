@@ -24,7 +24,6 @@ namespace Middleware
         }
         #endregion
 
-
         #region methods
 
         public async Task<List<string>> GetRolesAsync()
@@ -68,7 +67,5 @@ namespace Middleware
         }
         #endregion
     }
-
-
 }
 

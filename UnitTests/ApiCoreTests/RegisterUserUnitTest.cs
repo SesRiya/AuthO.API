@@ -92,7 +92,6 @@ namespace UnitTests.ApiCore
             var userVerified = await _registerUser.UserVerification(registerRequestMock);
 
             Assert.That(userVerified, Is.Not.Null);
-
         }
 
         [Test]
