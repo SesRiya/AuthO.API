@@ -1,4 +1,5 @@
 ﻿using Microsoft.IdentityModel.Tokens;
+using Services.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
@@ -9,7 +10,7 @@ using WebModels;
 
 namespace Services.TokenValidators
 {
-    public class RefreshTokenValidator
+    public class RefreshTokenValidator : IRefreshTokenValidator
     {
 
         private readonly AuthenticationConfig _configuration;
@@ -32,7 +33,7 @@ namespace Services.TokenValidators
                 ClockSkew = TimeSpan.Zero
             };
 
-            JwtSecurityTokenHandler tokenHandler = new JwtSecurityTokenHandler();
+            JwtSecurityTokenHandler tokenHandler = new();
 
             try
             {
