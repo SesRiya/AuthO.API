@@ -52,7 +52,6 @@ namespace AuthServer.API.Controllers
                 return BadRequestModelState();
             }
             
-
             //Creating user
             ErrorResponse errorResponse = await _registerUser.UserVerification(registerRequest);
             if (errorResponse != null)

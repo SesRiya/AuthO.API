@@ -22,6 +22,7 @@
 		<ProjectReference Include="..\ApiCore\ApiCore.csproj" />
 		<ProjectReference Include="..\Authorization\Authorization.csproj" />
 		<ProjectReference Include="..\Services\Services.csproj" />
+		<ProjectReference Include="..\Middleware\Middleware.csproj" />
 	</ItemGroup>
 
 </Project>

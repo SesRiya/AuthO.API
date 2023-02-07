@@ -39,6 +39,7 @@ namespace ApiCore.Login
             {
                 return null;
             }
+
             return user;
         }
         #endregion

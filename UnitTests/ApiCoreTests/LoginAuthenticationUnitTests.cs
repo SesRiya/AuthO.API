@@ -3,11 +3,13 @@ using ApiCore.Login;
 using Moq;
 using Repository.Interfaces;
 using Services.Interfaces;
+using System.Security.Principal;
 using WebModels;
 using WebModels.Requests;
 
 namespace UnitTests.ApiCoreTests
 {
+    [TestFixture]
     public class LoginAuthenticationUnitTests
     {
 
@@ -15,7 +17,7 @@ namespace UnitTests.ApiCoreTests
         private Mock<IUserRepository> _mockUserRepository;
         private Mock<IPasswordHash> _mockPasswordHash;
 
-        [OneTimeSetUp]
+        [SetUp]
         public void Setup()
         {
             _mockUserRepository = new Mock<IUserRepository>();
@@ -23,24 +25,82 @@ namespace UnitTests.ApiCoreTests
             _loginAuthentication = new LoginAuthentication(_mockUserRepository.Object, _mockPasswordHash.Object);
         }
 
-        LoginRequest loginRequestMock = new LoginRequest()
+        [Test]
+        public async Task LoginWithAuthenticatedUserAndPassword()
         {
-            Username = "mockit",
-            Password = "password"
-        };
+            LoginRequest loginRequestMock = new()
+            {
+                Username = "mockit",
+                Password = "password"
+            };
+
+            _mockUserRepository.Setup(u => u.GetByUsername(loginRequestMock.Username)).ReturnsAsync(new User() { Username = loginRequestMock.Username, PasswordHash = "hashed" });
+
+            _mockPasswordHash.Setup(p => p.VerifyPassword(loginRequestMock.Password, It.IsAny<string>())).Returns(true);
+
+            User user = await _loginAuthentication.IsUserAuthenticated(loginRequestMock);
+
+            string actualUsername = user.Username;
+            Assert.AreEqual(loginRequestMock.Username, actualUsername);
+        }
 
         [Test]
-        public async Task IsUserAuthenticatedTest()
+        public async Task LoginUnregisteredUser()
         {
-            string username = "mockit";
-            var user =_mockUserRepository.Setup(u => u.GetByUsername(username)).ReturnsAsync(new User());
-            Assert.IsNotNull(user);
+            LoginRequest loginRequestMock = new()
+            {
+                Username = "mockit",
+                Password = "password"
+            };
 
-            string passwordHash = "hashed";
-            string password = "password";
-            var passwordVerified = _mockPasswordHash.Setup(p => p.VerifyPassword(password, passwordHash)).Returns(true);
-            
-            Assert.IsNotNull(passwordVerified);
+            _mockUserRepository.Setup(u => u.GetByUsername(loginRequestMock.Username)).ReturnsAsync(new User() { Username = "notRegistered", PasswordHash = "hashed" });
+
+
+            _mockPasswordHash.Setup(p => p.VerifyPassword(loginRequestMock.Password, It.IsAny<string>())).Returns(true);
+
+            User user = await _loginAuthentication.IsUserAuthenticated(loginRequestMock);
+
+            string actualUsername = user.Username;
+
+            Assert.That(actualUsername, Is.Not.EqualTo(loginRequestMock.Username));
+        }
+
+        [Test]
+        public async Task LoginUnregisteredUserWithNullReturn()
+        {
+            LoginRequest loginRequestMock = new LoginRequest()
+            {
+                Username = "mockit",
+                Password = "password"
+            };
+
+            _mockUserRepository.Setup(u => u.GetByUsername("user")).ReturnsAsync(new User());
+
+            _mockPasswordHash.Setup(p => p.VerifyPassword(loginRequestMock.Password, It.IsAny<string>())).Returns(true);
+
+            User user = await _loginAuthentication.IsUserAuthenticated(loginRequestMock);
+
+           Assert.That(user, Is.EqualTo(null));
+        }
+
+
+        [Test]
+        public async Task LoginRegisteredUserAndInvalidPassword()
+        {
+            LoginRequest loginRequestMock = new()
+            {
+                Username = "mockit",
+                Password = "password"
+            };
+
+            _mockUserRepository.Setup(u => u.GetByUsername(loginRequestMock.Username)).ReturnsAsync(new User() { Username = loginRequestMock.Username, PasswordHash = "hashed" });
+
+
+            _mockPasswordHash.Setup(p => p.VerifyPassword(loginRequestMock.Password, It.IsAny<string>())).Returns(false);
+
+            User user = await _loginAuthentication.IsUserAuthenticated(loginRequestMock);
+
+            Assert.That(user, Is.EqualTo(null));
         }
     }
 }

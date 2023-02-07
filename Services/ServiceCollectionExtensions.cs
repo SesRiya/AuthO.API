@@ -13,7 +13,7 @@ namespace Services
         public static void AddServices(this IServiceCollection services)
         {
             services.AddScoped<IPasswordHash, PasswordHash>();
-            services.AddScoped<RefreshTokenValidator>();
+            services.AddScoped<IRefreshTokenValidator, RefreshTokenValidator>();
             services.AddScoped<TokenGenerator>();
             services.AddScoped<AccessTokenGenerator>();
             services.AddScoped<RefreshTokenGenerator>();

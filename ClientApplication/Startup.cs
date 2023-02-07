@@ -3,12 +3,11 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using Repository;
-using Services;
+using Middleware;
 using Swashbuckle.AspNetCore.Filters;
 using System.Text;
 
-namespace ClientApplication
+namespace ServiceApplication
 {
     public class Startup
     {
@@ -22,6 +21,8 @@ namespace ClientApplication
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+
+            services.AddDistributedMemoryCache();
 
             services.AddAuthentication(option =>
             {
@@ -45,8 +46,10 @@ namespace ClientApplication
             });
 
 
+            // Register our authorization handler.
             services.AddScoped<IAuthorizationHandler, AdminAccess>();
             services.AddScoped<IAuthorizationHandler, TesterAccess>();
+            services.AddScoped<IAuthorizationHandler, AdminOrTesterAccess>();
 
             services.AddAuthorization(options =>
             {
@@ -62,10 +65,6 @@ namespace ClientApplication
                             ));
             });
 
-            //declare service to add additional claims(user roles) to jwt
-            services.AddCustomClaimstoIdentity();
-            services.AddRepository();
-
             services.AddEndpointsApiExplorer();
             services.AddSwaggerGen(options =>
             {
@@ -79,6 +78,8 @@ namespace ClientApplication
 
                 options.OperationFilter<SecurityRequirementsOperationFilter>();
             });
+
+            
         }
 
         public void Configure(WebApplication app, IWebHostEnvironment env)
@@ -86,6 +87,9 @@ namespace ClientApplication
             app.UseStaticFiles();
 
             app.UseRouting();
+
+            app.UseCors();
+
             // Configure the HTTP request pipeline.
             app.UseHttpsRedirection();
 
@@ -97,11 +101,15 @@ namespace ClientApplication
             }
 
             app.UseAuthentication();
+
+            app.UseClaimsAugmentation();
+
             app.UseAuthorization();
+
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllers();
+              endpoints.MapControllers();
             });
 
             app.Run();

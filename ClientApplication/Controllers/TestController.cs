@@ -6,14 +6,13 @@ using WebModels;
 
 namespace ServiceApplication.Controllers
 {
-    public class HomeController : ControllerBase
+    public class TestController : ControllerBase
     {
 
         [Authorize]
-        [HttpGet("roles")]
+        [HttpGet("getRoles")]
         public IActionResult GetRoles()
         {
-            var user = User.Identity;
             // Find all our role claims
             var claims = User.FindAll(ClaimTypes.Role);
 

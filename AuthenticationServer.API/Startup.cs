@@ -9,6 +9,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.AspNetCore.Authorization;
 using Authorization.Authorization;
+using Middleware;
 
 namespace AuthenticationServer.API
 {
@@ -25,6 +26,8 @@ namespace AuthenticationServer.API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+
+            services.AddHttpClient();
 
             //services.AddDbContext<ApiContext>(opt => opt.UseInMemoryDatabase());
 
@@ -59,11 +62,7 @@ namespace AuthenticationServer.API
                  };
              });
 
-            //adding additional claims i.e. roles to user
-            services.AddCustomClaimstoIdentity();
-
             services.AddHttpContextAccessor();
-
 
             // Register our authorization handler.
             services.AddScoped<IAuthorizationHandler, AdminAccess>();
@@ -83,7 +82,6 @@ namespace AuthenticationServer.API
                             new Tester()
                             ));
             });
-
 
             services.AddEndpointsApiExplorer();
             services.AddSwaggerGen(options =>
@@ -107,20 +105,19 @@ namespace AuthenticationServer.API
                         .AllowAnyOrigin()
                         .AllowAnyMethod()
                         .AllowAnyHeader()
-                        .AllowCredentials()
+                        //.AllowCredentials();
                         .Build();
                 });
             });
-
         }
 
         public void Configure(WebApplication app, IWebHostEnvironment env)
         {
             app.UseStaticFiles();
-
             //var context = app.ApplicationServices.GetService<ApiContext>();
             //AddTestData(context);
 
+            app.UseCors();
 
             app.UseRouting();
             // Configure the HTTP request pipeline.
