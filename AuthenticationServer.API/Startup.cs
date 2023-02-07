@@ -109,7 +109,6 @@ namespace AuthenticationServer.API
                         .Build();
                 });
             });
-
         }
 
         public void Configure(WebApplication app, IWebHostEnvironment env)

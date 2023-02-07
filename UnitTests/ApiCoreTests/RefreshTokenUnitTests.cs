@@ -28,6 +28,7 @@ namespace UnitTests.ApiCoreTests
             _refreshTokenVerification = new RefreshTokenVerification(_mockRefreshTokenValidator.Object, _mockRefreshTokenRepository.Object, _mockUserRepository.Object);
         }
 
+
         [Test]
         public async Task UserExistsTest()
         {
@@ -100,7 +101,6 @@ namespace UnitTests.ApiCoreTests
             ErrorResponse errorResponse = await _refreshTokenVerification.VerifyRefreshToken(refreshRequestMock);
 
             Assert.That(errorResponse, Is.Null);
-
         }
 
         [Test]
@@ -117,7 +117,6 @@ namespace UnitTests.ApiCoreTests
             ErrorResponse errorResponse = await _refreshTokenVerification.VerifyRefreshToken(refreshRequestMock);
 
             Assert.That(errorResponse, Is.Not.Null);
-
         }
 
     }

@@ -63,7 +63,8 @@ namespace UnitTests.ApiCoreTests
             User user = await _loginAuthentication.IsUserAuthenticated(loginRequestMock);
 
             string actualUsername = user.Username;
-            Assert.AreNotEqual(loginRequestMock.Username, actualUsername);
+
+            Assert.That(actualUsername, Is.Not.EqualTo(loginRequestMock.Username));
         }
 
         [Test]
@@ -82,7 +83,7 @@ namespace UnitTests.ApiCoreTests
 
             User user = await _loginAuthentication.IsUserAuthenticated(loginRequestMock);
 
-           Assert.IsTrue(user == null);
+           Assert.That(user, Is.EqualTo(null));
         }
 
 
@@ -102,7 +103,7 @@ namespace UnitTests.ApiCoreTests
 
             User user = await _loginAuthentication.IsUserAuthenticated(loginRequestMock);
 
-            Assert.IsTrue(user == null);
+            Assert.That(user, Is.EqualTo(null));
         }
     }
 }

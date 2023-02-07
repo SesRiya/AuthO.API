@@ -45,7 +45,7 @@ namespace UnitTests.ApiCore
 
             var userVerified = await _registerUser.UserVerification(registerRequestMock);
 
-            Assert.Null(userVerified);
+            Assert.That(userVerified, Is.Null);
         }
 
         [Test]
@@ -69,7 +69,7 @@ namespace UnitTests.ApiCore
 
             var userVerified = await _registerUser.UserVerification(registerRequestMock);
 
-            Assert.IsNotNull(userVerified);
+            Assert.That(userVerified, Is.Not.Null);
         }
 
         [Test]
@@ -93,7 +93,7 @@ namespace UnitTests.ApiCore
 
             var userVerified = await _registerUser.UserVerification(registerRequestMock);
 
-            Assert.IsNotNull(userVerified);
+            Assert.That(userVerified, Is.Not.Null);
 
         }
 
@@ -110,8 +110,7 @@ namespace UnitTests.ApiCore
 
             var userVerified = await _registerUser.UserVerification(registerRequestMock);
 
-            Assert.IsNotNull(userVerified);
-
+            Assert.That(userVerified, Is.Not.Null);
         }
     }
 }
