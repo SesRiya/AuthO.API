@@ -27,7 +27,7 @@ namespace AuthServer.API.Controllers
             IUserRepository userRepository,
             IRoleRepository roleRepository,
             IUserRoleRepository userRoleRepository,
-            Authenticator authenticator,
+            IAuthenticator authenticator,
             IRegisterUser registerUser,
             IRoleAdditionToUser roleAdditionToUser,
             ILoginAuthentication loginAuthentication,
