@@ -1,4 +1,5 @@
 ﻿using ApiCore.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Repository.Interfaces;
 using Services.Authenticators;
@@ -27,7 +28,7 @@ namespace AuthServer.API.Controllers
             IUserRepository userRepository,
             IRoleRepository roleRepository,
             IUserRoleRepository userRoleRepository,
-            Authenticator authenticator,
+            IAuthenticator authenticator,
             IRegisterUser registerUser,
             IRoleAdditionToUser roleAdditionToUser,
             ILoginAuthentication loginAuthentication,
@@ -46,6 +47,7 @@ namespace AuthServer.API.Controllers
 
         #region Actions
         [HttpPost("register")]
+        [AllowAnonymous]
         public async Task<IActionResult> Register([FromBody] RegisterRequest registerRequest)
         {
             if (!ModelState.IsValid)
@@ -71,6 +73,7 @@ namespace AuthServer.API.Controllers
         }
 
         [HttpPost("login")]
+        [AllowAnonymous]
         public async Task<IActionResult> Login([FromBody] LoginRequest loginRequest)
         {
             if (!ModelState.IsValid)

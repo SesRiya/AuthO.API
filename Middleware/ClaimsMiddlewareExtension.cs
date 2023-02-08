@@ -9,7 +9,5 @@ namespace Middleware
             {
                 return builder.UseMiddleware<ClaimsAugmentation>();
             }
-        }
-
-    
+        } 
 }

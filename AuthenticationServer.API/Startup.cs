@@ -64,25 +64,6 @@ namespace AuthenticationServer.API
 
             services.AddHttpContextAccessor();
 
-            // Register our authorization handler.
-            services.AddScoped<IAuthorizationHandler, AdminAccess>();
-            services.AddScoped<IAuthorizationHandler, TesterAccess>();
-            services.AddScoped<IAuthorizationHandler, AdminOrTesterAccess>();
-
-            services.AddAuthorization(options =>
-            {
-                options.AddPolicy("Admin",
-                    policyBuilder =>
-                        policyBuilder.AddRequirements(
-                            new Administrator()
-                        ));
-                options.AddPolicy("Tester",
-                    policyBuilder =>
-                        policyBuilder.AddRequirements(
-                            new Tester()
-                            ));
-            });
-
             services.AddEndpointsApiExplorer();
             services.AddSwaggerGen(options =>
             {
@@ -105,7 +86,7 @@ namespace AuthenticationServer.API
                         .AllowAnyOrigin()
                         .AllowAnyMethod()
                         .AllowAnyHeader()
-                        //.AllowCredentials();
+                        .AllowCredentials()
                         .Build();
                 });
             });
@@ -114,12 +95,11 @@ namespace AuthenticationServer.API
         public void Configure(WebApplication app, IWebHostEnvironment env)
         {
             app.UseStaticFiles();
-            //var context = app.ApplicationServices.GetService<ApiContext>();
-            //AddTestData(context);
 
-            app.UseCors();
+            //app.UseCors();
 
             app.UseRouting();
+
             // Configure the HTTP request pipeline.
             app.UseHttpsRedirection();
 

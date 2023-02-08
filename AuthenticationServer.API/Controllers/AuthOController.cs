@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Repository.Interfaces;
 using System.Security.Claims;
-using WebModels;
 
 namespace AuthenticationServer.API.Controllers
 {
