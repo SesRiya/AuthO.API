@@ -125,8 +125,6 @@ namespace UnitTests.ControllerTests
                 }
             };
 
-            _mockRegisterUser.Setup(u => u.CreateUser(It.IsAny<RegisterRequest>())).Callback<RegisterRequest>(x => user = x);
-
             authenticationController.Register(registerRequestMock);
 
             //if model is valid user will be created once
