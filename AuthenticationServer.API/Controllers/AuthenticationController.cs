@@ -63,8 +63,8 @@ namespace AuthServer.API.Controllers
             }
 
             User registrationUser = _registerUser.CreateUser(registerRequest);
+            //add guid to user
             await _userRepository.Create(registrationUser);
-
 
             UserRole addUserToRole = _roleAdditionToUser.AddRolesToUser(registerRequest, registrationUser);
             await _userRoleRepository.AddUserToRole(addUserToRole);

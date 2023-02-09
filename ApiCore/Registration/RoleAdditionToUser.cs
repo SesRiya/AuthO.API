@@ -35,7 +35,6 @@ namespace ApiCore.Registration
         {
             List<string> roleNames = new();
 
-            //get the roles and validate if roles are already on the Role if not add first to the role
             foreach (Role role in registerRequest.Roles)
             {
                 roleNames.Add(role.RoleName);
