@@ -1,24 +1,16 @@
 ﻿using ApiCore.Interfaces;
 using AuthServer.API.Controllers;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Identity.Client;
 using Moq;
 using Repository.Interfaces;
-using Services.Authenticators;
 using Services.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using WebModels;
 using WebModels.Requests;
-using WebModels.Responses;
 
 namespace UnitTests.ControllerTests
 {
     [TestFixture]
-    public class AuthenticationControllerTest
+    public class AuthenticationControllerRegisterTest
     {
         private AuthenticationController authenticationController;
         private Mock<IUserRepository> _mockUserRepository;
@@ -73,9 +65,10 @@ namespace UnitTests.ControllerTests
                 }
             };
 
+            //adding model errors directly into the model state
             authenticationController.ModelState.AddModelError("Username", "Name is required");
 
-            authenticationController.Register(registerRequestMock);
+            await authenticationController.Register(registerRequestMock);
 
             //if model invalid, user will never be created
             _mockRegisterUser.Verify(x => x.CreateUser(It.IsAny<RegisterRequest>()), Times.Never);
@@ -94,7 +87,7 @@ namespace UnitTests.ControllerTests
 
             authenticationController.ModelState.AddModelError("Roles", "Role is required");
 
-            var errorResponse = authenticationController.Register(registerRequestMock);
+            var errorResponse = await authenticationController.Register(registerRequestMock);
 
             //assert that there is an error response therefore model not valid
             Assert.That(errorResponse, Is.Not.Null);
@@ -103,38 +96,18 @@ namespace UnitTests.ControllerTests
         [Test]
         public async Task ValidModelState()
         {
-            User? user = null;
-            RegisterRequest registerRequestMock = new()
-            {
-                Email = "mockit1@mymail.com",
-                Username = "mockit",
-                Password = "password",
-                ConfirmPassword = "password",
-                Roles = new List<Role>
-                {
-                    new Role
-                    {
-                         RoleId = 1,
-                         RoleName = "Admin"
-                    },
-                    new Role
-                    {
-                        RoleId = 2,
-                        RoleName = "Tester"
-                    }
-                }
-            };
 
-            authenticationController.Register(registerRequestMock);
+            RegisterRequest registerRequestMock = new();
+            await authenticationController.Register(registerRequestMock);
 
             //if model is valid user will be created once
             _mockRegisterUser.Verify(x => x.CreateUser(It.IsAny<RegisterRequest>()), Times.Once);
         }
 
         [Test]
-        public async Task ValidModelStateWithAssertion()
+        public async Task ValidModelStateWithResult()
         {
-            User? user = null;
+            User user = null;
             RegisterRequest registerRequestMock = new()
             {
                 Email = "mockit1@mymail.com",
@@ -145,17 +118,59 @@ namespace UnitTests.ControllerTests
                 {
                     new Role
                     {
-                         RoleId = 1,
                          RoleName = "Admin"
                     },
                     new Role
                     {
-                        RoleId = 2,
                         RoleName = "Tester"
                     }
                 }
             };
 
+            var result = await authenticationController.Register(registerRequestMock);
+
+            Assert.That(result, Is.InstanceOf<OkResult>());
+        }
+
+        [Test]
+        public async Task ValidModelStateWithAssertion()
+        {
+            User x = null;
+            RegisterRequest registerRequestMock = new()
+            {
+                Email = "mockit1@mymail.com",
+                Username = "mockit",
+                Password = "password",
+                ConfirmPassword = "password",
+                Roles = new List<Role>
+                {
+                    new Role
+                    {
+                         RoleName = "Admin"
+                    },
+                    new Role
+                    {
+                        RoleName = "Tester"
+                    }
+                }
+            };
+
+            //_mockRegisterUser.Setup(x => x.CreateUser(It.IsAny<RegisterRequest>())).Callback<RegisterRequest>(x => registerRequestMock = x);
+
+            _mockRegisterUser.Setup(x => x.CreateUser(registerRequestMock)).Returns(x = new User()
+            {
+                Username = registerRequestMock.Username,
+                Email = registerRequestMock.Email,
+                PasswordHash = BCrypt.Net.BCrypt.HashPassword(registerRequestMock.Password)
+            });
+
+            await authenticationController.Register(registerRequestMock);
+            Assert.Multiple(() =>
+            {
+                Assert.That(registerRequestMock.Username, Is.EqualTo(x.Username));
+                Assert.That(registerRequestMock.Email, Is.EqualTo(x.Email));
+            });
         }
     }
 }
+
