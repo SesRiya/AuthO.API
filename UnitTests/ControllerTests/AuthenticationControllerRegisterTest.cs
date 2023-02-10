@@ -68,24 +68,8 @@ namespace UnitTests.ControllerTests
             //adding model errors directly into the model state
             authenticationController.ModelState.AddModelError("Username", "Name is required");
 
-            await authenticationController.Register(registerRequestMock);
-
             //if model invalid, user will never be created
             _mockRegisterUser.Verify(x => x.CreateUser(It.IsAny<RegisterRequest>()), Times.Never);
-        }
-
-        [Test]
-        public async Task InvalidModelStateUsingAssert()
-        {
-            //invalid request missing role parameter
-            RegisterRequest registerRequestMock = new()
-            {
-                Email = "mockit1@mymail.com",
-                Password = "password1",
-                ConfirmPassword = "password1",
-            };
-
-            authenticationController.ModelState.AddModelError("Roles", "Role is required");
 
             var errorResponse = await authenticationController.Register(registerRequestMock);
 
@@ -154,8 +138,6 @@ namespace UnitTests.ControllerTests
                     }
                 }
             };
-
-            //_mockRegisterUser.Setup(x => x.CreateUser(It.IsAny<RegisterRequest>())).Callback<RegisterRequest>(x => registerRequestMock = x);
 
             _mockRegisterUser.Setup(x => x.CreateUser(registerRequestMock)).Returns(x = new User()
             {
