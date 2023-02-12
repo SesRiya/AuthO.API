@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Hosting;
-using WebModels;
+using Models;
 
 namespace AuthenticationServer.API
 {

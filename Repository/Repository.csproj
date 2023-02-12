@@ -13,7 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\WebModels\WebModels.csproj" />
+    <ProjectReference Include="..\WebModels\Models.csproj" />
   </ItemGroup>
 
 </Project>

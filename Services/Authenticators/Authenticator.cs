@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using WebModels.Responses;
-using WebModels;
 using Services.TokenGenerators;
 using Repository.Interfaces;
 using Services.Interfaces;
+using Models.Responses;
+using Models;
 
 namespace Services.Authenticators
 {

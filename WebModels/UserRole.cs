@@ -5,13 +5,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WebModels
+namespace Models
 {
     public record UserRole
     {
 
         public Guid UserId { get; set; }
         public List<string> RoleName { get; set; }
-       
+
     }
 }

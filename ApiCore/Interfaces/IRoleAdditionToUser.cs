@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using WebModels.Requests;
-using WebModels;
 using Repository.Interfaces;
-using WebModels.Responses;
+using Models.Responses;
+using Models.Requests;
+using Models;
 
 namespace ApiCore.Interfaces
 {

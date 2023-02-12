@@ -1,11 +1,11 @@
 ﻿using ApiCore.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Models;
+using Models.Requests;
+using Models.Responses;
 using Repository.Interfaces;
 using Services.Interfaces;
-using WebModels;
-using WebModels.Requests;
-using WebModels.Responses;
 
 namespace AuthServer.API.Controllers
 {

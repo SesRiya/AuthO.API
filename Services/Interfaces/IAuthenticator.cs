@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using WebModels.Responses;
-using WebModels;
+using Models.Responses;
+using Models;
 
 namespace Services.Interfaces
 {

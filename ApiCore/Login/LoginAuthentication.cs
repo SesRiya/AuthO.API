@@ -1,8 +1,8 @@
 ﻿using Repository.Interfaces;
 using Services.Interfaces;
-using WebModels.Requests;
-using WebModels;
 using ApiCore.Interfaces;
+using Models.Requests;
+using Models;
 
 namespace ApiCore.Login
 {

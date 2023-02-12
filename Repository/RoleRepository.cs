@@ -1,6 +1,6 @@
-﻿using Repository.Interfaces;
-using WebModels;
-using WebModels.Responses;
+﻿using Models;
+using Repository.Interfaces;
+using Models.Responses;
 
 namespace Repository
 {

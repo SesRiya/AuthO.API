@@ -1,5 +1,5 @@
-﻿using Repository.Interfaces;
-using WebModels;
+﻿using Models;
+using Repository.Interfaces;
 
 namespace Repository
 {

@@ -1,8 +1,8 @@
 ﻿using ApiCore.Interfaces;
+using Models;
+using Models.Requests;
 using Repository.Interfaces;
-using WebModels;
-using WebModels.Requests;
-using WebModels.Responses;
+using Models.Responses;
 
 namespace ApiCore.Registration
 {

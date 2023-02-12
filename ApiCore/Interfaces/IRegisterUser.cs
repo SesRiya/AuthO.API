@@ -1,6 +1,6 @@
-﻿using WebModels;
-using WebModels.Requests;
-using WebModels.Responses;
+﻿using Models;
+using Models.Requests;
+using Models.Responses;
 
 namespace ApiCore.Interfaces
 {

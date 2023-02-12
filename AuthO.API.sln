@@ -13,7 +13,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ClientApplication", "Client
 		{B57F33E6-D758-4F91-8516-98CDE841F1B2} = {B57F33E6-D758-4F91-8516-98CDE841F1B2}
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebModels", "WebModels\WebModels.csproj", "{F8B09A09-FE1E-428F-AF82-A5ECE98C931E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Models", "WebModels\Models.csproj", "{F8B09A09-FE1E-428F-AF82-A5ECE98C931E}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Repository", "Repository\Repository.csproj", "{43891D45-9F0F-4FCF-9B5C-86CAC3619E92}"
 EndProject

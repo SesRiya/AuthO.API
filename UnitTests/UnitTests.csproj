@@ -25,7 +25,7 @@
     <ProjectReference Include="..\ApiCore\ApiCore.csproj" />
     <ProjectReference Include="..\AuthenticationServer.API\AuthenticationServer.API.csproj" />
     <ProjectReference Include="..\Repository\Repository.csproj" />
-    <ProjectReference Include="..\WebModels\WebModels.csproj" />
+    <ProjectReference Include="..\WebModels\Models.csproj" />
   </ItemGroup>
 
 </Project>

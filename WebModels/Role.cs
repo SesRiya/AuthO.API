@@ -5,12 +5,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WebModels
+namespace Models
 {
     public record Role
     {
         [Key]
         public int RoleId { get; set; }
-        public string ? RoleName { get; set; }
+        public string? RoleName { get; set; }
     }
 }
