@@ -7,7 +7,7 @@ using Middleware;
 using Swashbuckle.AspNetCore.Filters;
 using System.Text;
 
-namespace ServiceApplication
+namespace ClientApplication
 {
     public class Startup
     {
@@ -79,7 +79,7 @@ namespace ServiceApplication
                 options.OperationFilter<SecurityRequirementsOperationFilter>();
             });
 
-            
+
         }
 
         public void Configure(WebApplication app, IWebHostEnvironment env)
@@ -109,7 +109,7 @@ namespace ServiceApplication
 
             app.UseEndpoints(endpoints =>
             {
-              endpoints.MapControllers();
+                endpoints.MapControllers();
             });
 
             app.Run();
