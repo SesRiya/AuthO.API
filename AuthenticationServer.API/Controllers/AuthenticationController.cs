@@ -1,4 +1,5 @@
 ﻿using ApiCore.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Repository.Interfaces;
 using Services.Interfaces;
@@ -45,6 +46,7 @@ namespace AuthServer.API.Controllers
 
         #region Actions
         [HttpPost("register")]
+        [AllowAnonymous]
         public async Task<IActionResult> Register([FromBody] RegisterRequest registerRequest)
         {
             if (!ModelState.IsValid)
@@ -60,8 +62,8 @@ namespace AuthServer.API.Controllers
             }
 
             User registrationUser = _registerUser.CreateUser(registerRequest);
+            //add guid to user
             await _userRepository.Create(registrationUser);
-
 
             UserRole addUserToRole = _roleAdditionToUser.AddRolesToUser(registerRequest, registrationUser);
             await _userRoleRepository.AddUserToRole(addUserToRole);
@@ -70,6 +72,7 @@ namespace AuthServer.API.Controllers
         }
 
         [HttpPost("login")]
+        [AllowAnonymous]
         public async Task<IActionResult> Login([FromBody] LoginRequest loginRequest)
         {
             if (!ModelState.IsValid)

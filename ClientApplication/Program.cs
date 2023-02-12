@@ -1,4 +1,4 @@
-using ServiceApplication;
+using ClientApplication;
 
 var builder = WebApplication.CreateBuilder(args);
 

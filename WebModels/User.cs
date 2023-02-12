@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WebModels.Requests;
 
 namespace WebModels
 {
@@ -18,5 +19,9 @@ namespace WebModels
 
         public string? PasswordHash { get; set; }
 
+        public static implicit operator User(RegisterRequest v)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
