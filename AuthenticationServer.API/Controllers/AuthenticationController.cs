@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Repository.Interfaces;
-using Services.Authenticators;
 using Services.Interfaces;
 using WebModels;
 using WebModels.Requests;
