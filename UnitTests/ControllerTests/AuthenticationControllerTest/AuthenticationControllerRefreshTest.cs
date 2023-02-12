@@ -4,16 +4,11 @@ using Microsoft.AspNetCore.Mvc;
 using Moq;
 using Repository.Interfaces;
 using Services.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using WebModels;
 using WebModels.Requests;
 using WebModels.Responses;
 
-namespace UnitTests.ControllerTests
+namespace UnitTests.ControllerTests.AuthenticationControllerTest
 {
     public class AuthenticationControllerRefreshTest
     {
@@ -105,7 +100,6 @@ namespace UnitTests.ControllerTests
 
             Assert.That(result, Is.InstanceOf<OkObjectResult>());
             Assert.That(response, Is.Not.Null);
-
         }
     }
 }

@@ -7,7 +7,7 @@ using Services.Interfaces;
 using WebModels;
 using WebModels.Requests;
 
-namespace UnitTests.ControllerTests
+namespace UnitTests.ControllerTests.AuthenticationControllerTest
 {
     [TestFixture]
     public class AuthenticationControllerLoginTest

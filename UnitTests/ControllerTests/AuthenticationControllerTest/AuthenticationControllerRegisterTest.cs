@@ -7,7 +7,7 @@ using Services.Interfaces;
 using WebModels;
 using WebModels.Requests;
 
-namespace UnitTests.ControllerTests
+namespace UnitTests.ControllerTests.AuthenticationControllerTest
 {
     [TestFixture]
     public class AuthenticationControllerRegisterTest
@@ -80,7 +80,6 @@ namespace UnitTests.ControllerTests
         [Test]
         public async Task ValidModelState()
         {
-
             RegisterRequest registerRequestMock = new();
             await authenticationController.Register(registerRequestMock);
 
@@ -91,7 +90,6 @@ namespace UnitTests.ControllerTests
         [Test]
         public async Task ValidModelStateWithResult()
         {
-            User user = null;
             RegisterRequest registerRequestMock = new()
             {
                 Email = "mockit1@mymail.com",
@@ -119,7 +117,7 @@ namespace UnitTests.ControllerTests
         [Test]
         public async Task ValidModelStateWithAssertion()
         {
-            User x = null;
+            User? user = null;
             RegisterRequest registerRequestMock = new()
             {
                 Email = "mockit1@mymail.com",
@@ -139,7 +137,7 @@ namespace UnitTests.ControllerTests
                 }
             };
 
-            _mockRegisterUser.Setup(x => x.CreateUser(registerRequestMock)).Returns(x = new User()
+            _mockRegisterUser.Setup(x => x.CreateUser(registerRequestMock)).Returns(user = new User()
             {
                 Username = registerRequestMock.Username,
                 Email = registerRequestMock.Email,
@@ -149,8 +147,8 @@ namespace UnitTests.ControllerTests
             await authenticationController.Register(registerRequestMock);
             Assert.Multiple(() =>
             {
-                Assert.That(registerRequestMock.Username, Is.EqualTo(x.Username));
-                Assert.That(registerRequestMock.Email, Is.EqualTo(x.Email));
+                Assert.That(registerRequestMock.Username, Is.EqualTo(user.Username));
+                Assert.That(registerRequestMock.Email, Is.EqualTo(user.Email));
             });
         }
     }

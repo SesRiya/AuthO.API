@@ -1,10 +1,7 @@
-﻿using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Identity.Web;
+﻿using Microsoft.AspNetCore.Http;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Security.Claims;
-using WebModels;
 
 namespace Middleware
 {
@@ -31,7 +28,7 @@ namespace Middleware
             List<string> roles = new List<string>();
 
             //hardcoded token from login request
-            string token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjAwNWViNjUwLWJlZmMtNGI1YS1hNzYyLWVmMzA2NWYyMDVjZSIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL2VtYWlsYWRkcmVzcyI6IlRlc3RpbmdAbWFpbC5jb20iLCJuYmYiOjE2NzU4MDAxMDUsImV4cCI6MTY3NTgwMDcwNSwiaXNzIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NzI2OCIsImF1ZCI6Imh0dHBzOi8vbG9jYWxob3N0OjcyNjgifQ.OKYqgl9HU_wxGvdOPapDhU4sIcBUxnCWigOBgIKqFj";
+            string token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjZiM2UwMzBiLTY2NWItNDgxZS1iNDU5LTZiOGZmNjc5ODQ5YyIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL2VtYWlsYWRkcmVzcyI6IkFkbWluQG1haWwuY29tIiwibmJmIjoxNjc1OTkyMjM0LCJleHAiOjE2NzU5OTI4MzQsImlzcyI6Imh0dHBzOi8vbG9jYWxob3N0OjcyNjgiLCJhdWQiOiJodHRwczovL2xvY2FsaG9zdDo3MjY4In0.zN6D3useB_nLNDO89eXZlXF9SU11IT4rgqWyrR-brdI";
 
             HttpClient client = new HttpClient();
             var request = new HttpRequestMessage(HttpMethod.Get, "https://localhost:7268/api/AuthO");
