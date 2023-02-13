@@ -28,4 +28,8 @@
     <ProjectReference Include="..\WebModels\Models.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="NewFolder\" />
+  </ItemGroup>
+
 </Project>

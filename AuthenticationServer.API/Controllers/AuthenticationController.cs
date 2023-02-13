@@ -90,13 +90,12 @@ namespace AuthServer.API.Controllers
             }
 
             AuthenticatedUserResponse response = await _authenticator.Authenticate(user);
-            if (user != null) {
-                var token = response.AccessToken;
-                Response.Cookies.Append("AccessToken", token, new CookieOptions() { HttpOnly = true, SameSite = SameSiteMode.Strict });
-            }
+
+            StoreJwtokensInCookies(user, response);
 
             return Ok(response);
         }
+
 
         [HttpPost("refresh")]
         public async Task<IActionResult> Refresh([FromBody] RefreshRequest refreshRequest)
@@ -120,6 +119,17 @@ namespace AuthServer.API.Controllers
 
             AuthenticatedUserResponse response = await _authenticator.Authenticate(user);
             return Ok(response);
+        }
+
+
+        private void StoreJwtokensInCookies(User user, AuthenticatedUserResponse response)
+        {
+            //save jwt in a cookie if user authenticated
+            if (user != null)
+            {
+                var token = response.AccessToken;
+                Response.Cookies.Append("AccessToken", token, new CookieOptions() { HttpOnly = true, SameSite = SameSiteMode.Strict });
+            }
         }
 
         private IActionResult BadRequestModelState()

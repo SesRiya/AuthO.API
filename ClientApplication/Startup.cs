@@ -100,6 +100,7 @@ namespace ClientApplication
                 app.UseSwaggerUI();
             }
 
+            //if cookies are in the serverside pass them as authentication
             app.Use(async (context, next) =>
             {
                 var token = context.Request.Cookies["AccessToken"];
