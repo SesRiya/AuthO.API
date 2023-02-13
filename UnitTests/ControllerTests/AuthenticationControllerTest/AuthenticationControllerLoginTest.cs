@@ -1,11 +1,11 @@
 ﻿using ApiCore.Interfaces;
 using AuthServer.API.Controllers;
 using Microsoft.AspNetCore.Mvc;
+using Models;
+using Models.Requests;
 using Moq;
 using Repository.Interfaces;
 using Services.Interfaces;
-using WebModels;
-using WebModels.Requests;
 
 namespace UnitTests.ControllerTests.AuthenticationControllerTest
 {

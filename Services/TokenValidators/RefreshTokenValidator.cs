@@ -1,4 +1,5 @@
 ﻿using Microsoft.IdentityModel.Tokens;
+using Models;
 using Services.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -6,7 +7,6 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using WebModels;
 
 namespace Services.TokenValidators
 {

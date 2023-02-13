@@ -3,7 +3,7 @@ using Swashbuckle.AspNetCore.Filters;
 using Repository;
 using ApiCore;
 using Services;
-using AuthenticationConfig = WebModels.AuthenticationConfig;
+using AuthenticationConfig = Models.AuthenticationConfig;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
@@ -60,6 +60,7 @@ namespace AuthenticationServer.API
                      ValidateAudience = true,
                      ClockSkew = TimeSpan.Zero
                  };
+
                  //save jwt in a cookie
                  options.Events = new JwtBearerEvents();
                  options.Events.OnMessageReceived = context => {

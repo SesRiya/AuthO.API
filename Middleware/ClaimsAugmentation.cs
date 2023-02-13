@@ -30,7 +30,7 @@ namespace Middleware
             List<string> roles = new List<string>();
 
             var token = context.Request.Cookies["AccessToken"];
-
+            
             var request = new HttpRequestMessage(HttpMethod.Get, "https://localhost:7268/api/AuthO");
             request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
 

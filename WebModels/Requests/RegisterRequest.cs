@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace WebModels.Requests
+namespace Models.Requests
 {
     public record RegisterRequest
     {

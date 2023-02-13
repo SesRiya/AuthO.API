@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using WebModels.Requests;
-using WebModels;
-using WebModels.Responses;
+using Models.Requests;
+using Models;
+using Models.Responses;
 
 namespace Services.Interfaces
 {

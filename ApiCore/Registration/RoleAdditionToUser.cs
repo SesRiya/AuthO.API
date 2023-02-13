@@ -1,8 +1,8 @@
 ﻿using ApiCore.Interfaces;
+using Models;
+using Models.Requests;
 using Repository.Interfaces;
-using WebModels;
-using WebModels.Requests;
-using WebModels.Responses;
+using Models.Responses;
 
 namespace ApiCore.Registration
 {
@@ -30,30 +30,25 @@ namespace ApiCore.Registration
 
         #region methods
 
-
-        public UserRole AddRolesToUser(RegisterRequest registerRequest, User user)
+        public async Task AddRolesToUser(RegisterRequest registerRequest, User user)
         {
-            List<string> roleNames = new();
 
             foreach (Role role in registerRequest.Roles)
             {
-                roleNames.Add(role.RoleName);
+                if (!_roleRepository.GetRoleName(role.RoleName).Equals(role.RoleName))
+                {
+                    _roleRepository.CreateRole(role);
+                }
+
+                UserRole userRole = new UserRole()
+                {
+                    UserId = user.Id,
+                    RoleName = role.RoleName,
+                };
+                await _userRoleRepository.AddRoleToUser(userRole, user);
             }
-
-            UserRole userRole = new UserRole()
-            {
-                UserId = user.Id,
-                RoleName = new(roleNames)
-            };
-
-
-            return userRole;
         }
         #endregion
-
     }
-
-
-
 }
 

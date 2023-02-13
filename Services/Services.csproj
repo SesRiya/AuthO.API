@@ -15,7 +15,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Repository\Repository.csproj" />
-    <ProjectReference Include="..\WebModels\WebModels.csproj" />
+    <ProjectReference Include="..\WebModels\Models.csproj" />
   </ItemGroup>
 	
 	 <ItemGroup>

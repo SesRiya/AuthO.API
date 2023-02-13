@@ -1,12 +1,12 @@
-﻿using System;
+﻿using Models.Requests;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using WebModels.Requests;
 
-namespace WebModels
+namespace Models
 {
     public record User
     {

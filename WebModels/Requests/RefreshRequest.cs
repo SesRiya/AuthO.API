@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WebModels.Requests
+namespace Models.Requests
 {
     public record RefreshRequest
     {

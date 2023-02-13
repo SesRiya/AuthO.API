@@ -1,11 +1,12 @@
 ﻿using ApiCore.Interfaces;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.CookiePolicy;
 using Microsoft.AspNetCore.Mvc;
+using Models;
+using Models.Requests;
+using Models.Responses;
 using Repository.Interfaces;
 using Services.Interfaces;
-using WebModels;
-using WebModels.Requests;
-using WebModels.Responses;
 
 namespace AuthServer.API.Controllers
 {
@@ -53,7 +54,7 @@ namespace AuthServer.API.Controllers
             {
                 return BadRequestModelState();
             }
-            
+
             //Creating user
             ErrorResponse errorResponse = await _registerUser.UserVerification(registerRequest);
             if (errorResponse != null)
@@ -62,14 +63,16 @@ namespace AuthServer.API.Controllers
             }
 
             User registrationUser = _registerUser.CreateUser(registerRequest);
+
             //add guid to user
             await _userRepository.Create(registrationUser);
 
-            UserRole addUserToRole = _roleAdditionToUser.AddRolesToUser(registerRequest, registrationUser);
-            await _userRoleRepository.AddUserToRole(addUserToRole);
+            //add roles to user
+             await _roleAdditionToUser.AddRolesToUser(registerRequest, registrationUser);
 
             return Ok();
         }
+
 
         [HttpPost("login")]
         [AllowAnonymous]

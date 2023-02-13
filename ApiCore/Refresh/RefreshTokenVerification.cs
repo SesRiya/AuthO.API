@@ -1,9 +1,9 @@
 ﻿using ApiCore.Interfaces;
 using Repository.Interfaces;
-using WebModels.Requests;
-using WebModels.Responses;
-using WebModels;
 using Services.Interfaces;
+using Models.Requests;
+using Models.Responses;
+using Models;
 
 namespace ApiCore.Refresh
 {
