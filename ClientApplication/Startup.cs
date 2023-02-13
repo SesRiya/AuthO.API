@@ -100,6 +100,14 @@ namespace ClientApplication
                 app.UseSwaggerUI();
             }
 
+            app.Use(async (context, next) =>
+            {
+                var token = context.Request.Cookies["AccessToken"];
+                if (token != null)
+                    context.Request.Headers["Authorization"] = "Bearer " + token.ToString();
+                await next();
+            });
+
             app.UseAuthentication();
 
             app.UseClaimsAugmentation();

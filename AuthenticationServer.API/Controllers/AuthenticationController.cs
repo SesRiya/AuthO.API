@@ -1,5 +1,6 @@
 ﻿using ApiCore.Interfaces;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.CookiePolicy;
 using Microsoft.AspNetCore.Mvc;
 using Models;
 using Models.Requests;
@@ -62,6 +63,7 @@ namespace AuthServer.API.Controllers
             }
 
             User registrationUser = _registerUser.CreateUser(registerRequest);
+
             //add guid to user
             await _userRepository.Create(registrationUser);
 
@@ -88,6 +90,11 @@ namespace AuthServer.API.Controllers
             }
 
             AuthenticatedUserResponse response = await _authenticator.Authenticate(user);
+            if (user != null) {
+                var token = response.AccessToken;
+                Response.Cookies.Append("AccessToken", token, new CookieOptions() { HttpOnly = true, SameSite = SameSiteMode.Strict });
+            }
+
             return Ok(response);
         }
 
