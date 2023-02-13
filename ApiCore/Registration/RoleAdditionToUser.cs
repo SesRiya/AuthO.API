@@ -29,28 +29,24 @@ namespace ApiCore.Registration
         #endregion
 
         #region methods
-        List<UserRole> userWithRole;
 
-        public List<UserRole> AddRolesToUser(RegisterRequest registerRequest, User user)
+        public async Task AddRolesToUser(RegisterRequest registerRequest, User user)
         {
-
-            List<string> roleNames = new();
 
             foreach (Role role in registerRequest.Roles)
             {
-                roleNames.Add(role.RoleName);
-            }
+                if (!_roleRepository.GetRoleName(role.RoleName).Equals(role.RoleName))
+                {
+                    _roleRepository.CreateRole(role);
+                }
 
-            for (int i = 0; i < roleNames.Count; i++)
-            {
-               UserRole userRole = new UserRole()
+                UserRole userRole = new UserRole()
                 {
                     UserId = user.Id,
-                    RoleName = roleNames[i],
+                    RoleName = role.RoleName,
                 };
-                userWithRole.Add(userRole);
+                await _userRoleRepository.AddRoleToUser(userRole, user);
             }
-            return userWithRole;
         }
         #endregion
     }

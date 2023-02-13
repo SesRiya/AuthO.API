@@ -53,7 +53,7 @@ namespace AuthServer.API.Controllers
             {
                 return BadRequestModelState();
             }
-            
+
             //Creating user
             ErrorResponse errorResponse = await _registerUser.UserVerification(registerRequest);
             if (errorResponse != null)
@@ -65,27 +65,12 @@ namespace AuthServer.API.Controllers
             //add guid to user
             await _userRepository.Create(registrationUser);
 
-            //UserRole addUserToRole = _roleAdditionToUser.AddRoleToUser(registerRequest, registrationUser);
-            //await _userRoleRepository.AddRoleToUser(addUserToRole);
-
-            foreach(Role role in registerRequest.Roles)
-            {
-                if(!_roleRepository.GetRoleName(role.RoleName).Equals(role.RoleName))
-                {
-                    _roleRepository.CreateRole(role);
-                }
-
-                UserRole userRole = new UserRole()
-                {
-                    UserId = registrationUser.Id,
-                    RoleName = role.RoleName,
-                };
-                await _userRoleRepository.AddRoleToUser(userRole, registrationUser);
-
-            }
+            //add roles to user
+             await _roleAdditionToUser.AddRolesToUser(registerRequest, registrationUser);
 
             return Ok();
         }
+
 
         [HttpPost("login")]
         [AllowAnonymous]
