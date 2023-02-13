@@ -9,9 +9,10 @@ namespace Models
 {
     public record UserRole
     {
-
+        [Key]
+        public int Id { get; set; }
         public Guid UserId { get; set; }
-        public List<string> RoleName { get; set; }
+        public string RoleName { get; set; }
 
     }
 }

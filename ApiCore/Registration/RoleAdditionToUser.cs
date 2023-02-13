@@ -29,10 +29,11 @@ namespace ApiCore.Registration
         #endregion
 
         #region methods
+        List<UserRole> userWithRole;
 
-
-        public UserRole AddRolesToUser(RegisterRequest registerRequest, User user)
+        public List<UserRole> AddRolesToUser(RegisterRequest registerRequest, User user)
         {
+
             List<string> roleNames = new();
 
             foreach (Role role in registerRequest.Roles)
@@ -40,20 +41,18 @@ namespace ApiCore.Registration
                 roleNames.Add(role.RoleName);
             }
 
-            UserRole userRole = new UserRole()
+            for (int i = 0; i < roleNames.Count; i++)
             {
-                UserId = user.Id,
-                RoleName = new(roleNames)
-            };
-
-
-            return userRole;
+               UserRole userRole = new UserRole()
+                {
+                    UserId = user.Id,
+                    RoleName = roleNames[i],
+                };
+                userWithRole.Add(userRole);
+            }
+            return userWithRole;
         }
         #endregion
-
     }
-
-
-
 }
 

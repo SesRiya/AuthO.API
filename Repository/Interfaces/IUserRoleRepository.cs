@@ -9,9 +9,9 @@ namespace Repository.Interfaces
 {
     public interface IUserRoleRepository
     {
-        Task<UserRole> AddUserToRole(UserRole userRole);
+        Task<UserRole> AddRoleToUser(UserRole userRole, User user);
 
-        Task<UserRole> GetById(Guid userId);
+        Task<UserRole> GetRolesById(Guid userId);
 
 
         Task<List<string>> GetAllRoles(Guid userID);

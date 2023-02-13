@@ -27,7 +27,7 @@ namespace Repository
 
         public Task<Role> CreateRole(Role role)
         {
-            role.RoleId = _roles.Count + 2;
+            role.RoleId++;
             _roles.Add(role);
             return Task.FromResult(role);
         }
