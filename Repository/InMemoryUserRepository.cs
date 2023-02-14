@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Repository
 {
-    public class InMemoryUserRepository : IUserRepository
+    public class InMemoryUserRepository 
     {
 
         List<User> _users = new()

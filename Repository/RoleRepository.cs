@@ -1,24 +1,36 @@
 ﻿using Models;
 using Repository.Interfaces;
 using Models.Responses;
+using AuthenticationServerEntityFramework;
 
 namespace Repository
 {
     public class RoleRepository : IRoleRepository
     {
-        public Task<Role> CreateRole(Role role)
+
+        private readonly AuthenticationServerDbContext _dbContext;
+
+        public RoleRepository(AuthenticationServerDbContext dbContext)
         {
-            throw new NotImplementedException();
+            _dbContext = dbContext;
+        }
+        public async Task<Role> CreateRole(Role role)
+        {
+            role.RoleId++;
+            _dbContext.Add(role);
+            await _dbContext.SaveChangesAsync();
+
+            return role;
         }
 
-        public Task<Role> GetRoleId(int Id)
+        public async Task<Role> GetRoleId(int Id)
         {
-            throw new NotImplementedException();
+            return _dbContext.Roles.FirstOrDefault(role => role.RoleId == Id);
         }
 
-        public Task<Role> GetRoleName(string roleName)
+        public async Task<Role> GetRoleName(string roleName)
         {
-            throw new NotImplementedException();
+            return _dbContext.Roles.FirstOrDefault(role => role.RoleName == roleName);
         }
     }
 }

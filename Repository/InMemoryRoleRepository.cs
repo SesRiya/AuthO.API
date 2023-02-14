@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Repository
 {
-    public class InMemoryRoleRepository : IRoleRepository
+    public class InMemoryRoleRepository 
     {
         List<Role> _roles = new()
         {

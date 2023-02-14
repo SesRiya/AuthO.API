@@ -39,6 +39,7 @@ namespace AuthenticationServer.API
             services.AddRepository();
             services.AddApiCore();
             services.AddServices();
+            services.AddDbContext();
 
             services.AddAuthentication(option =>
              {
