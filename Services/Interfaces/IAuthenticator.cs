@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Models.Requests;
-using Models;
 using Models.Responses;
+using Models;
 
 namespace Services.Interfaces
 {
-    public interface IRefreshTokenValidator
+    public interface IAuthenticator
     {
-        bool Validate(string refreshToken);
+        Task<AuthenticatedUserResponse> Authenticate(User user);
+
     }
 }

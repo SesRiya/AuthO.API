@@ -7,7 +7,7 @@ using Middleware;
 using Swashbuckle.AspNetCore.Filters;
 using System.Text;
 
-namespace ServiceApplication
+namespace ClientApplication
 {
     public class Startup
     {
@@ -79,7 +79,7 @@ namespace ServiceApplication
                 options.OperationFilter<SecurityRequirementsOperationFilter>();
             });
 
-            
+
         }
 
         public void Configure(WebApplication app, IWebHostEnvironment env)
@@ -100,6 +100,15 @@ namespace ServiceApplication
                 app.UseSwaggerUI();
             }
 
+            //if cookies are in the serverside pass them as authentication
+            app.Use(async (context, next) =>
+            {
+                var token = context.Request.Cookies["AccessToken"];
+                if (token != null)
+                    context.Request.Headers["Authorization"] = "Bearer " + token.ToString();
+                await next();
+            });
+
             app.UseAuthentication();
 
             app.UseClaimsAugmentation();
@@ -109,7 +118,7 @@ namespace ServiceApplication
 
             app.UseEndpoints(endpoints =>
             {
-              endpoints.MapControllers();
+                endpoints.MapControllers();
             });
 
             app.Run();

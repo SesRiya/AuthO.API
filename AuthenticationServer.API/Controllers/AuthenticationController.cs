@@ -1,10 +1,12 @@
 ﻿using ApiCore.Interfaces;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.CookiePolicy;
 using Microsoft.AspNetCore.Mvc;
+using Models;
+using Models.Requests;
+using Models.Responses;
 using Repository.Interfaces;
-using Services.Authenticators;
-using WebModels;
-using WebModels.Requests;
-using WebModels.Responses;
+using Services.Interfaces;
 
 namespace AuthServer.API.Controllers
 {
@@ -14,7 +16,7 @@ namespace AuthServer.API.Controllers
         private readonly IUserRepository _userRepository;
         private readonly IRoleRepository _roleRepository;
         private readonly IUserRoleRepository _userRoleRepository;
-        private readonly Authenticator _authenticator;
+        private readonly IAuthenticator _authenticator;
         private readonly IRegisterUser _registerUser;
         private readonly IRoleAdditionToUser _roleAdditionToUser;
         private readonly ILoginAuthentication _loginAuthentication;
@@ -26,7 +28,7 @@ namespace AuthServer.API.Controllers
             IUserRepository userRepository,
             IRoleRepository roleRepository,
             IUserRoleRepository userRoleRepository,
-            Authenticator authenticator,
+            IAuthenticator authenticator,
             IRegisterUser registerUser,
             IRoleAdditionToUser roleAdditionToUser,
             ILoginAuthentication loginAuthentication,
@@ -45,13 +47,14 @@ namespace AuthServer.API.Controllers
 
         #region Actions
         [HttpPost("register")]
+        [AllowAnonymous]
         public async Task<IActionResult> Register([FromBody] RegisterRequest registerRequest)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequestModelState();
             }
-            
+
             //Creating user
             ErrorResponse errorResponse = await _registerUser.UserVerification(registerRequest);
             if (errorResponse != null)
@@ -60,16 +63,19 @@ namespace AuthServer.API.Controllers
             }
 
             User registrationUser = _registerUser.CreateUser(registerRequest);
+
+            //add guid to user
             await _userRepository.Create(registrationUser);
 
-
-            UserRole addUserToRole = _roleAdditionToUser.AddRolesToUser(registerRequest, registrationUser);
-            await _userRoleRepository.AddUserToRole(addUserToRole);
+            //add roles to user
+             await _roleAdditionToUser.AddRolesToUser(registerRequest, registrationUser);
 
             return Ok();
         }
 
+
         [HttpPost("login")]
+        [AllowAnonymous]
         public async Task<IActionResult> Login([FromBody] LoginRequest loginRequest)
         {
             if (!ModelState.IsValid)
@@ -84,8 +90,12 @@ namespace AuthServer.API.Controllers
             }
 
             AuthenticatedUserResponse response = await _authenticator.Authenticate(user);
+
+            StoreJwtokensInCookies(user, response);
+
             return Ok(response);
         }
+
 
         [HttpPost("refresh")]
         public async Task<IActionResult> Refresh([FromBody] RefreshRequest refreshRequest)
@@ -109,6 +119,17 @@ namespace AuthServer.API.Controllers
 
             AuthenticatedUserResponse response = await _authenticator.Authenticate(user);
             return Ok(response);
+        }
+
+
+        private void StoreJwtokensInCookies(User user, AuthenticatedUserResponse response)
+        {
+            //save jwt in a cookie if user authenticated
+            if (user != null)
+            {
+                var token = response.AccessToken;
+                Response.Cookies.Append("AccessToken", token, new CookieOptions() { HttpOnly = true, SameSite = SameSiteMode.Strict });
+            }
         }
 
         private IActionResult BadRequestModelState()

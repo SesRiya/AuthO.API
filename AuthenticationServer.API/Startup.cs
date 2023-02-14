@@ -3,7 +3,7 @@ using Swashbuckle.AspNetCore.Filters;
 using Repository;
 using ApiCore;
 using Services;
-using AuthenticationConfig = WebModels.AuthenticationConfig;
+using AuthenticationConfig = Models.AuthenticationConfig;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
@@ -60,28 +60,21 @@ namespace AuthenticationServer.API
                      ValidateAudience = true,
                      ClockSkew = TimeSpan.Zero
                  };
+
+                 //save jwt in a cookie
+                 options.Events = new JwtBearerEvents();
+                 options.Events.OnMessageReceived = context => {
+
+                     if (context.Request.Cookies.ContainsKey("X-Access-Token"))
+                     {
+                         context.Token = context.Request.Cookies["X-Access-Token"];
+                     }
+
+                     return Task.CompletedTask;
+                 };
              });
 
             services.AddHttpContextAccessor();
-
-            // Register our authorization handler.
-            services.AddScoped<IAuthorizationHandler, AdminAccess>();
-            services.AddScoped<IAuthorizationHandler, TesterAccess>();
-            services.AddScoped<IAuthorizationHandler, AdminOrTesterAccess>();
-
-            services.AddAuthorization(options =>
-            {
-                options.AddPolicy("Admin",
-                    policyBuilder =>
-                        policyBuilder.AddRequirements(
-                            new Administrator()
-                        ));
-                options.AddPolicy("Tester",
-                    policyBuilder =>
-                        policyBuilder.AddRequirements(
-                            new Tester()
-                            ));
-            });
 
             services.AddEndpointsApiExplorer();
             services.AddSwaggerGen(options =>
@@ -105,7 +98,7 @@ namespace AuthenticationServer.API
                         .AllowAnyOrigin()
                         .AllowAnyMethod()
                         .AllowAnyHeader()
-                        //.AllowCredentials();
+                        .AllowCredentials()
                         .Build();
                 });
             });
@@ -114,12 +107,11 @@ namespace AuthenticationServer.API
         public void Configure(WebApplication app, IWebHostEnvironment env)
         {
             app.UseStaticFiles();
-            //var context = app.ApplicationServices.GetService<ApiContext>();
-            //AddTestData(context);
 
-            app.UseCors();
+            //app.UseCors();
 
             app.UseRouting();
+
             // Configure the HTTP request pipeline.
             app.UseHttpsRedirection();
 

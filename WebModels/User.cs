@@ -1,11 +1,12 @@
-﻿using System;
+﻿using Models.Requests;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WebModels
+namespace Models
 {
     public record User
     {
@@ -18,5 +19,9 @@ namespace WebModels
 
         public string? PasswordHash { get; set; }
 
+        public static implicit operator User(RegisterRequest v)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

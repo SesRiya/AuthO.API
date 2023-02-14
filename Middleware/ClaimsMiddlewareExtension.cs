@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Builder;
-using Middleware.Interface;
 
 namespace Middleware
 {
@@ -10,7 +9,5 @@ namespace Middleware
             {
                 return builder.UseMiddleware<ClaimsAugmentation>();
             }
-        }
-
-    
+        } 
 }

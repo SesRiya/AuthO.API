@@ -1,10 +1,7 @@
-﻿using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Identity.Web;
+﻿using Microsoft.AspNetCore.Http;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Security.Claims;
-using WebModels;
 
 namespace Middleware
 {
@@ -26,14 +23,14 @@ namespace Middleware
 
         #region methods
 
-        public async Task<List<string>> GetRolesAsync()
+        public async Task<List<string>> GetRolesAsync(HttpContext context)
         {
+            HttpClient client = new HttpClient();
+
             List<string> roles = new List<string>();
 
-            //hardcoded token from login request
-            string token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjZiM2UwMzBiLTY2NWItNDgxZS1iNDU5LTZiOGZmNjc5ODQ5YyIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL2VtYWlsYWRkcmVzcyI6IkFkbWluQG1haWwuY29tIiwibmJmIjoxNjc1NzMyNjQxLCJleHAiOjE2NzU3MzMyNDEsImlzcyI6Imh0dHBzOi8vbG9jYWxob3N0OjcyNjgiLCJhdWQiOiJodHRwczovL2xvY2FsaG9zdDo3MjY4In0.bYKDphYzuoouycegL9lnwQ9PxI6lcZsRKCCi9wzuaqE";
-
-            HttpClient client = new HttpClient();
+            var token = context.Request.Cookies["AccessToken"];
+            
             var request = new HttpRequestMessage(HttpMethod.Get, "https://localhost:7268/api/AuthO");
             request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
@@ -53,7 +50,7 @@ namespace Middleware
             {
                 Claim idClaim = principal.FindFirst(ClaimTypes.NameIdentifier);
 
-                List<string> roles = await GetRolesAsync();
+                List<string> roles = await GetRolesAsync(context);
 
                 ClaimsPrincipal clonedPrincipal = principal.Clone();
                 ClaimsIdentity clonedIdentity = (ClaimsIdentity)clonedPrincipal.Identity;

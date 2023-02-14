@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Repository.Interfaces;
 using System.Security.Claims;
-using WebModels;
+using Models;
 
 namespace ServiceApplication.Controllers
 {

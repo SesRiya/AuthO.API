@@ -9,7 +9,8 @@
   <ItemGroup>
     <PackageReference Include="BCrypt.Net-Core" Version="1.6.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.5" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="6.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.5" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.5" />
     <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="6.25.1" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
     <PackageReference Include="Swashbuckle.AspNetCore.Filters" Version="7.0.6" />
@@ -17,7 +18,7 @@
   </ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\WebModels\WebModels.csproj" />
+		<ProjectReference Include="..\WebModels\Models.csproj" />
 		<ProjectReference Include="..\Repository\Repository.csproj" />
 		<ProjectReference Include="..\ApiCore\ApiCore.csproj" />
 		<ProjectReference Include="..\Authorization\Authorization.csproj" />

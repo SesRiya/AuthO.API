@@ -17,7 +17,7 @@ namespace Services
             services.AddScoped<TokenGenerator>();
             services.AddScoped<AccessTokenGenerator>();
             services.AddScoped<RefreshTokenGenerator>();
-            services.AddScoped<Authenticator>();
+            services.AddScoped<IAuthenticator, Authenticator>();
 
         }
     }

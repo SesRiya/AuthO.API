@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using WebModels.Requests;
-using WebModels.Responses;
-using WebModels;
+using Models.Requests;
+using Models.Responses;
+using Models;
 
 namespace ApiCore.Interfaces
 {

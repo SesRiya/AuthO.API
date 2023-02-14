@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace WebModels.Requests
+namespace Models.Requests
 {
     public record RegisterRequest
     {
@@ -13,6 +13,7 @@ namespace WebModels.Requests
         public string? Password { get; set; }
         [Required]
         public string? ConfirmPassword { get; set; }
+        [Required]
         public List<Role>? Roles { get; set; }
 
         public DateTime TokenCreated { get; set; }

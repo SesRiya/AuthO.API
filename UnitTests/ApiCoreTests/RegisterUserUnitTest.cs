@@ -1,10 +1,10 @@
 ﻿using ApiCore.Interfaces;
 using ApiCore.Registration;
+using Models.Requests;
 using Moq;
 using Repository.Interfaces;
 using Services.Interfaces;
-using WebModels;
-using WebModels.Requests;
+using Models;
 
 namespace UnitTests.ApiCore
 {
@@ -23,7 +23,7 @@ namespace UnitTests.ApiCore
         }
 
         [Test]
-        public async Task UserVerificationTest()
+        public async Task Register_WithNonExistingUserAndMatchingPasswords()
         {
             RegisterRequest registerRequestMock = new()
             {
@@ -109,5 +109,24 @@ namespace UnitTests.ApiCore
 
             Assert.That(userVerified, Is.Not.Null);
         }
+
+        [Test]
+        public void CreateUserWithValidRegistrationDetails()
+        {
+            RegisterRequest registerRequestMock = new()
+            {
+                Email = "mockit7@mymail.com",
+                Username = "mockit7",
+                Password = "password7",
+                ConfirmPassword = "password8",
+            };
+
+           _mockPasswordHash.Setup(p => p.HashPassword(registerRequestMock.Password));
+
+            var user = _registerUser.CreateUser(registerRequestMock);
+
+            Assert.That(user.Username, Is.EqualTo(registerRequestMock.Username));
+        }
+
     }
 }

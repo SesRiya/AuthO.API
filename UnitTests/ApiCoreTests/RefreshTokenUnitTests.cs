@@ -1,11 +1,11 @@
 ﻿using ApiCore.Interfaces;
 using ApiCore.Refresh;
+using Models;
+using Models.Requests;
+using Models.Responses;
 using Moq;
 using Repository.Interfaces;
 using Services.Interfaces;
-using WebModels;
-using WebModels.Requests;
-using WebModels.Responses;
 
 namespace UnitTests.ApiCoreTests
 {
