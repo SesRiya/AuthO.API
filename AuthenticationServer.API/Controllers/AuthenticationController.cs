@@ -121,7 +121,6 @@ namespace AuthServer.API.Controllers
             return Ok(response);
         }
 
-
         private void StoreJwtokensInCookies(User user, AuthenticatedUserResponse response)
         {
             //save jwt in a cookie if user authenticated

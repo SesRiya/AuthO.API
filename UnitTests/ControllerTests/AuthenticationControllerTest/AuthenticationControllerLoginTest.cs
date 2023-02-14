@@ -1,8 +1,10 @@
 ﻿using ApiCore.Interfaces;
 using AuthServer.API.Controllers;
+using Azure.Core;
 using Microsoft.AspNetCore.Mvc;
 using Models;
 using Models.Requests;
+using Models.Responses;
 using Moq;
 using Repository.Interfaces;
 using Services.Interfaces;
@@ -94,8 +96,11 @@ namespace UnitTests.ControllerTests.AuthenticationControllerTest
                 PasswordHash = BCrypt.Net.BCrypt.HashPassword(loginRequestMock.Password)
             });
 
-            var response = _mockAuthenticator.Setup(a => a.Authenticate(user));
-
+            var response = _mockAuthenticator.Setup(a => a.Authenticate(user)).ReturnsAsync(new AuthenticatedUserResponse(){
+                AccessToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6ImUzODRmMDMwLTU0MzYtNGI4OS04NTFiLTlhNzA0ZWM2ZDI3MCIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL2VtYWlsYWRkcmVzcyI6IkFkbWluMUBtYWlsLmNvbSIsIm5iZiI6MTY3NjM0NjE4NywiZXhwIjoxNjc2MzQ2MzA3LCJpc3MiOiJodHRwczovL2xvY2FsaG9zdDo3MjY4IiwiYXVkIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NzI2OCJ9.19pLbkt8frDPuHobsVGI5olPFEqSeGgUU2oRydeMUUY",
+                RefreshToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYmYiOjE2NzYzNDYxODcsImV4cCI6MTY3NjM4MjE4NywiaXNzIjoiaHR0cHM6Ly9sb2NhbGhvc3Q6NzI2OCIsImF1ZCI6Imh0dHBzOi8vbG9jYWxob3N0OjcyNjgifQ.UnkNosTWYyYADVXjTR-FlMCkkk5H0fqdj3EhVRM0R-U"
+            });
+ 
             var result = await authenticationController.Login(loginRequestMock);
 
             Assert.That(result, Is.InstanceOf<OkObjectResult>());
