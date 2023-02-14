@@ -5,8 +5,10 @@ using Microsoft.AspNetCore.Mvc;
 using Models;
 using Models.Requests;
 using Models.Responses;
+using Repository;
 using Repository.Interfaces;
 using Services.Interfaces;
+using System.Security.Claims;
 
 namespace AuthServer.API.Controllers
 {
@@ -14,6 +16,7 @@ namespace AuthServer.API.Controllers
     {
         #region Fields
         private readonly IUserRepository _userRepository;
+        private readonly IRefreshTokenRepository _refreshTokenRepository;
         private readonly IRoleRepository _roleRepository;
         private readonly IUserRoleRepository _userRoleRepository;
         private readonly IAuthenticator _authenticator;
@@ -26,6 +29,7 @@ namespace AuthServer.API.Controllers
         #region Constructor
         public AuthenticationController(
             IUserRepository userRepository,
+            IRefreshTokenRepository refreshTokenRepository,
             IRoleRepository roleRepository,
             IUserRoleRepository userRoleRepository,
             IAuthenticator authenticator,
@@ -35,6 +39,7 @@ namespace AuthServer.API.Controllers
             IRefreshTokenVerification refreshTokenVerification)
         {
             _userRepository = userRepository;
+            _refreshTokenRepository = refreshTokenRepository;
             _roleRepository = roleRepository;
             _userRoleRepository = userRoleRepository;
             _authenticator = authenticator;
@@ -121,10 +126,30 @@ namespace AuthServer.API.Controllers
             return Ok(response);
         }
 
+
+        [Authorize]
+        [HttpDelete("logout")]
+        public async Task<IActionResult> Logout()
+        {
+            string rawUserId = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            if (!Guid.TryParse(rawUserId, out Guid userId))
+            {
+                return Unauthorized();
+            }
+                   
+            Response.Cookies.Delete("AccessToken");
+
+            await _refreshTokenRepository.DeleteAllRefreshToken(userId);
+
+            return NoContent();
+        }
+
+
         private void StoreJwtokensInCookies(User user, AuthenticatedUserResponse response)
         {
             //save jwt in a cookie if user authenticated
-            if (user != null)
+            if (user != null && response != null)
             {
                 var token = response.AccessToken;
                 Response.Cookies.Append("AccessToken", token, new CookieOptions() { HttpOnly = true, SameSite = SameSiteMode.Strict });

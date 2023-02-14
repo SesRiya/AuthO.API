@@ -13,6 +13,6 @@ namespace Repository.Interfaces
 
         Task<RefreshToken> GetByToken(string token);
 
-        Task DeleteRefreshToken(Guid id);
+        Task DeleteAllRefreshToken(Guid id);
     }
 }

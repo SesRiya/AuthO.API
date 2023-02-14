@@ -25,7 +25,7 @@ namespace Repository
             return Task.FromResult(refreshToken);
         }
 
-        public Task DeleteRefreshToken(Guid id)
+        public Task DeleteAllRefreshToken(Guid id)
         {
             _refreshTokens.RemoveAll(rt => rt.Id == id);
 

@@ -7,6 +7,7 @@ using Moq;
 using Repository.Interfaces;
 using Services.Interfaces;
 using Models.Responses;
+using Repository;
 
 namespace UnitTests.ControllerTests.AuthenticationControllerTest
 {
@@ -14,6 +15,7 @@ namespace UnitTests.ControllerTests.AuthenticationControllerTest
     {
         private AuthenticationController authenticationController;
         private Mock<IUserRepository> _mockUserRepository;
+        private Mock<RefreshTokenRepository> _mockRefreshTokenRepository;
         private Mock<IRoleRepository> _mockRoleRepository;
         private Mock<IUserRoleRepository> _mockUserRoleRepository;
         private Mock<IAuthenticator> _mockAuthenticator;
@@ -26,6 +28,7 @@ namespace UnitTests.ControllerTests.AuthenticationControllerTest
         public void Setup()
         {
             _mockUserRepository = new Mock<IUserRepository>();
+            _mockRefreshTokenRepository = new Mock<RefreshTokenRepository>();
             _mockRoleRepository = new Mock<IRoleRepository>();
             _mockUserRoleRepository = new Mock<IUserRoleRepository>();
             _mockAuthenticator = new Mock<IAuthenticator>();
@@ -35,10 +38,11 @@ namespace UnitTests.ControllerTests.AuthenticationControllerTest
             _mockRefreshTokenVerification = new Mock<IRefreshTokenVerification>();
 
             authenticationController = new AuthenticationController
-                (_mockUserRepository.Object, _mockRoleRepository.Object,
-                _mockUserRoleRepository.Object, _mockAuthenticator.Object,
-                _mockRegisterUser.Object, _mockRoleAdditionToUser.Object,
-                _mockLoginAuthentication.Object, _mockRefreshTokenVerification.Object);
+                (_mockUserRepository.Object, _mockRefreshTokenRepository.Object,
+                _mockRoleRepository.Object, _mockUserRoleRepository.Object,
+                 _mockAuthenticator.Object, _mockRegisterUser.Object,
+                 _mockRoleAdditionToUser.Object, _mockLoginAuthentication.Object,
+                _mockRefreshTokenVerification.Object);
         }
 
         [Test]
