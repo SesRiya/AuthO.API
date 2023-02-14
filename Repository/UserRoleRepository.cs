@@ -15,17 +15,15 @@ namespace Repository
 
         public async Task<UserRole> AddRoleToUser(UserRole userRole, User user)
         {
-      
                 _dbContext.Add(userRole);
                 await _dbContext.SaveChangesAsync();
 
                 return userRole;
-           
         }
 
         public async Task<List<string>> GetAllRolesByUserID(Guid userID)
         {
-            List<string> roles = new List<string>();
+            List<string> roles = new();
 
             var query = from role in _dbContext.UserRoles
                         where role.UserId == userID

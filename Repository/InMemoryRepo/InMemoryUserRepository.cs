@@ -6,9 +6,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Repository
+namespace Repository.InMemoryRepo
 {
-    public class InMemoryUserRepository 
+    public class InMemoryUserRepository
     {
 
         List<User> _users = new()

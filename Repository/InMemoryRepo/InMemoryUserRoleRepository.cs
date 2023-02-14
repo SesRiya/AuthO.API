@@ -6,9 +6,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Repository
+namespace Repository.InMemoryRepo
 {
-    public class InMemoryUserRoleRepository 
+    public class InMemoryUserRoleRepository
     {
         List<UserRole> _userWithRoles = new List<UserRole>
         {
@@ -64,7 +64,7 @@ namespace Repository
         {
             List<string> roles = new List<string>();
 
-            List<UserRole> userAndRoles = (_userWithRoles.FindAll(user => user.UserId == userID));
+            List<UserRole> userAndRoles = _userWithRoles.FindAll(user => user.UserId == userID);
             foreach (UserRole userRole in userAndRoles)
             {
                 roles.Add(userRole.RoleName);
