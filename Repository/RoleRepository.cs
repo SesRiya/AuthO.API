@@ -2,6 +2,7 @@
 using Repository.Interfaces;
 using Models.Responses;
 using AuthenticationServerEntityFramework;
+using Microsoft.EntityFrameworkCore;
 
 namespace Repository
 {
@@ -16,7 +17,7 @@ namespace Repository
         }
         public async Task<Role> CreateRole(Role role)
         {
-            role.RoleId++;
+          
             _dbContext.Add(role);
             await _dbContext.SaveChangesAsync();
 
@@ -25,12 +26,12 @@ namespace Repository
 
         public async Task<Role> GetRoleId(int Id)
         {
-            return _dbContext.Roles.FirstOrDefault(role => role.RoleId == Id);
+            return await _dbContext.Roles.FirstOrDefaultAsync(role => role.RoleId == Id);
         }
 
         public async Task<Role> GetRoleName(string roleName)
         {
-            return _dbContext.Roles.FirstOrDefault(role => role.RoleName == roleName);
+            return await _dbContext.Roles.FirstOrDefaultAsync(role => role.RoleName == roleName);
         }
     }
 }
