@@ -1,4 +1,5 @@
 ﻿using ApiCore.Interfaces;
+using ApiCore.Login;
 using AuthServer.API.Controllers;
 using Microsoft.AspNetCore.Mvc;
 using Models;
@@ -16,33 +17,30 @@ namespace UnitTests.ControllerTests.AuthenticationControllerTest
         private AuthenticationController authenticationController;
         private Mock<IUserRepository> _mockUserRepository;
         private Mock<RefreshTokenRepository> _mockRefreshTokenRepository;
-        private Mock<IRoleRepository> _mockRoleRepository;
-        private Mock<IUserRoleRepository> _mockUserRoleRepository;
         private Mock<IAuthenticator> _mockAuthenticator;
         private Mock<IRegisterUser> _mockRegisterUser;
         private Mock<IRoleAdditionToUser> _mockRoleAdditionToUser;
         private Mock<ILoginAuthentication> _mockLoginAuthentication;
         private Mock<IRefreshTokenVerification> _mockRefreshTokenVerification;
+        private Mock<CookieStorage> _mockCookieStorage;
 
         [SetUp]
         public void Setup()
         {
             _mockUserRepository = new Mock<IUserRepository>();
             _mockRefreshTokenRepository = new Mock<RefreshTokenRepository>();
-            _mockRoleRepository = new Mock<IRoleRepository>();
-            _mockUserRoleRepository = new Mock<IUserRoleRepository>();
             _mockAuthenticator = new Mock<IAuthenticator>();
             _mockRegisterUser = new Mock<IRegisterUser>();
             _mockRoleAdditionToUser = new Mock<IRoleAdditionToUser>();
             _mockLoginAuthentication = new Mock<ILoginAuthentication>();
             _mockRefreshTokenVerification = new Mock<IRefreshTokenVerification>();
+            _mockCookieStorage = new Mock<CookieStorage>();
 
             authenticationController = new AuthenticationController
                 (_mockUserRepository.Object, _mockRefreshTokenRepository.Object,
-                _mockRoleRepository.Object, _mockUserRoleRepository.Object,
                  _mockAuthenticator.Object, _mockRegisterUser.Object,
                  _mockRoleAdditionToUser.Object, _mockLoginAuthentication.Object,
-                _mockRefreshTokenVerification.Object);
+                _mockRefreshTokenVerification.Object, _mockCookieStorage.Object);
         }
 
         [Test]

@@ -1,4 +1,5 @@
 ﻿using ApiCore.Interfaces;
+using ApiCore.Login;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.CookiePolicy;
 using Microsoft.AspNetCore.Mvc;
@@ -17,36 +18,33 @@ namespace AuthServer.API.Controllers
         #region Fields
         private readonly IUserRepository _userRepository;
         private readonly IRefreshTokenRepository _refreshTokenRepository;
-        private readonly IRoleRepository _roleRepository;
-        private readonly IUserRoleRepository _userRoleRepository;
         private readonly IAuthenticator _authenticator;
         private readonly IRegisterUser _registerUser;
         private readonly IRoleAdditionToUser _roleAdditionToUser;
         private readonly ILoginAuthentication _loginAuthentication;
         private readonly IRefreshTokenVerification _refreshTokenVerification;
+        private readonly CookieStorage _cookieStorage;
         #endregion
 
         #region Constructor
         public AuthenticationController(
             IUserRepository userRepository,
             IRefreshTokenRepository refreshTokenRepository,
-            IRoleRepository roleRepository,
-            IUserRoleRepository userRoleRepository,
             IAuthenticator authenticator,
             IRegisterUser registerUser,
             IRoleAdditionToUser roleAdditionToUser,
             ILoginAuthentication loginAuthentication,
-            IRefreshTokenVerification refreshTokenVerification)
+            IRefreshTokenVerification refreshTokenVerification,
+            CookieStorage cookieStorage)
         {
             _userRepository = userRepository;
             _refreshTokenRepository = refreshTokenRepository;
-            _roleRepository = roleRepository;
-            _userRoleRepository = userRoleRepository;
             _authenticator = authenticator;
             _registerUser = registerUser;
             _roleAdditionToUser = roleAdditionToUser;
             _loginAuthentication = loginAuthentication;
             _refreshTokenVerification = refreshTokenVerification;
+            _cookieStorage = cookieStorage;
         }
         #endregion
 
@@ -96,7 +94,7 @@ namespace AuthServer.API.Controllers
 
             AuthenticatedUserResponse response = await _authenticator.Authenticate(user);
 
-            StoreJwtokensInCookies(user, response);
+            _cookieStorage.StoreJwtokensInCookies(user, response, Response);
 
             return Ok(response);
         }
@@ -144,25 +142,12 @@ namespace AuthServer.API.Controllers
 
             return NoContent();
         }
-
-
-        private void StoreJwtokensInCookies(User user, AuthenticatedUserResponse response)
-        {
-            //save jwt in a cookie if user authenticated
-            if (user != null && response != null)
-            {
-                var token = response.AccessToken;
-                Response.Cookies.Append("AccessToken", token, new CookieOptions() { HttpOnly = true, SameSite = SameSiteMode.Strict });
-            }
-        }
-
         private IActionResult BadRequestModelState()
         {
             IEnumerable<string> errorMessages = ModelState.Values.SelectMany(v => v.Errors.Select(e => e.ErrorMessage));
             return BadRequest(new ErrorResponse(errorMessages));
         }
         #endregion
-
     }
 }
 
