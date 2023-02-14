@@ -6,10 +6,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
+using ApiCore.Interfaces;
 
 namespace ApiCore.Login
 {
-    public class CookieStorage
+    public class CookieStorage : ICookieStorage
     {
         public void StoreJwtokensInCookies(User user, AuthenticatedUserResponse response, HttpResponse httpResponse)
         {

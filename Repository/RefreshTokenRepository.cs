@@ -19,10 +19,10 @@ namespace Repository
         #endregion
 
         #region methods
-        public Task<RefreshToken> GetByToken(string token)
+        public Task<RefreshToken>? GetByToken(string token)
         {
-            RefreshToken refreshToken = _refreshTokens.FirstOrDefault(r => r.Token == token);
-            return Task.FromResult(refreshToken);
+                RefreshToken refreshToken = _refreshTokens.FirstOrDefault(r => r.Token == token);
+                return Task.FromResult(refreshToken);
         }
 
         public Task DeleteAllRefreshToken(Guid id)

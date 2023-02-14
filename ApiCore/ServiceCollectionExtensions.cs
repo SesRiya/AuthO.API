@@ -14,7 +14,7 @@ namespace ApiCore
             services.AddScoped<IRoleAdditionToUser, RoleAdditionToUser>();
             services.AddScoped<ILoginAuthentication, LoginAuthentication>();
             services.AddScoped<IRefreshTokenVerification, RefreshTokenVerification>();
-            services.AddScoped<CookieStorage>();
+            services.AddScoped<ICookieStorage, CookieStorage>();
 
         }
     }

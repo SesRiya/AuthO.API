@@ -22,7 +22,7 @@ namespace UnitTests.ControllerTests.AuthenticationControllerTest
         private Mock<IRoleAdditionToUser> _mockRoleAdditionToUser;
         private Mock<ILoginAuthentication> _mockLoginAuthentication;
         private Mock<IRefreshTokenVerification> _mockRefreshTokenVerification;
-        private Mock<CookieStorage> _mockCookieStorage;
+        private Mock<ICookieStorage> _mockCookieStorage;
 
         [SetUp]
         public void Setup()
@@ -34,7 +34,7 @@ namespace UnitTests.ControllerTests.AuthenticationControllerTest
             _mockRoleAdditionToUser = new Mock<IRoleAdditionToUser>();
             _mockLoginAuthentication = new Mock<ILoginAuthentication>();
             _mockRefreshTokenVerification = new Mock<IRefreshTokenVerification>();
-            _mockCookieStorage = new Mock<CookieStorage>();
+            _mockCookieStorage = new Mock<ICookieStorage>();
 
             authenticationController = new AuthenticationController
                 (_mockUserRepository.Object, _mockRefreshTokenRepository.Object,

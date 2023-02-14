@@ -12,7 +12,7 @@ namespace Models
         [Key]
         public int Id { get; set; }
         public Guid UserId { get; set; }
-        public string RoleName { get; set; }
+        public string? RoleName { get; set; }
 
     }
 }

@@ -1,7 +1,6 @@
 ﻿using ApiCore.Interfaces;
 using ApiCore.Login;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.CookiePolicy;
 using Microsoft.AspNetCore.Mvc;
 using Models;
 using Models.Requests;
@@ -23,7 +22,7 @@ namespace AuthServer.API.Controllers
         private readonly IRoleAdditionToUser _roleAdditionToUser;
         private readonly ILoginAuthentication _loginAuthentication;
         private readonly IRefreshTokenVerification _refreshTokenVerification;
-        private readonly CookieStorage _cookieStorage;
+        private readonly ICookieStorage _cookieStorage;
         #endregion
 
         #region Constructor
@@ -35,7 +34,7 @@ namespace AuthServer.API.Controllers
             IRoleAdditionToUser roleAdditionToUser,
             ILoginAuthentication loginAuthentication,
             IRefreshTokenVerification refreshTokenVerification,
-            CookieStorage cookieStorage)
+            ICookieStorage cookieStorage)
         {
             _userRepository = userRepository;
             _refreshTokenRepository = refreshTokenRepository;
@@ -46,6 +45,7 @@ namespace AuthServer.API.Controllers
             _refreshTokenVerification = refreshTokenVerification;
             _cookieStorage = cookieStorage;
         }
+
         #endregion
 
         #region Actions
@@ -76,7 +76,6 @@ namespace AuthServer.API.Controllers
             return Ok();
         }
 
-
         [HttpPost("login")]
         [AllowAnonymous]
         public async Task<IActionResult> Login([FromBody] LoginRequest loginRequest)
@@ -98,7 +97,6 @@ namespace AuthServer.API.Controllers
 
             return Ok(response);
         }
-
 
         [HttpPost("refresh")]
         public async Task<IActionResult> Refresh([FromBody] RefreshRequest refreshRequest)
