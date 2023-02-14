@@ -60,16 +60,6 @@ namespace AuthenticationServer.API
                      ValidateAudience = true,
                      ClockSkew = TimeSpan.Zero
                  };
-                 options.Events = new JwtBearerEvents();
-                 options.Events.OnMessageReceived = context => {
-
-                     if (context.Request.Cookies.ContainsKey("X-Access-Token"))
-                     {
-                         context.Token = context.Request.Cookies["X-Access-Token"];
-                     }
-
-                     return Task.CompletedTask;
-                 };
              });
 
             services.AddHttpContextAccessor();
