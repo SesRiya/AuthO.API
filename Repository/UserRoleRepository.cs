@@ -1,71 +1,49 @@
-﻿using Models;
+﻿using AuthenticationServerEntityFramework;
+using Models;
 using Repository.Interfaces;
 
 namespace Repository
 {
     public class UserRoleRepository : IUserRoleRepository
     {
-        List<UserRole> _userWithRoles = new List<UserRole>
-        {
-            new UserRole
-            {
-               UserId = Guid.Parse("6b3e030b-665b-481e-b459-6b8ff679849c"),
-               RoleName = "Administrator"
-            },
-            new UserRole
-            {
-               UserId = Guid.Parse("6b3e030b-665b-481e-b459-6b8ff679849c"),
-               RoleName = "Developer"
-            },
-            new UserRole
-            {
-               UserId = Guid.Parse("6b3e030b-665b-481e-b459-6b8ff679849c"),
-               RoleName = "Tester"
-            },
-            new UserRole
-            {
-                UserId = Guid.Parse("5cfe8c2d-5859-4ada-892c-e21c79d80805"),
-                RoleName =  "Developer"
-            },
-            new UserRole
-            {
-                UserId = Guid.Parse("5cfe8c2d-5859-4ada-892c-e21c79d80805"),
-                RoleName =  "Tester"
-            },
-            new UserRole
-            {
-                UserId = Guid.Parse("32d114de-5752-4dbe-8793-8b01a067cde2"),
-                 RoleName = "Tester" 
-            }
-        };
+        private readonly AuthenticationServerDbContext _dbContext;
 
-        public Task<UserRole> AddRoleToUser(UserRole userRole, User user)
+        public UserRoleRepository(AuthenticationServerDbContext dbContext)
         {
-            if(userRole.UserId == user.Id)
+            _dbContext = dbContext;
+        }
+
+        public async Task<UserRole> AddRoleToUser(UserRole userRole, User user)
+        {
+            if (userRole.UserId == user.Id)
             {
                 userRole.Id++;
-                _userWithRoles.Add(userRole);
-                return Task.FromResult(userRole);
+                _dbContext.Add(userRole);
+                await _dbContext.SaveChangesAsync();
+
+                return userRole;
             }
             return null;
         }
 
-        public Task<UserRole> GetRolesById(Guid userId)
-        {
-            return Task.FromResult(_userWithRoles.FirstOrDefault(user => user.UserId == userId));
-        }
-
-        public Task<List<string>> GetAllRoles(Guid userID)
+        public async Task<List<string>> GetAllRolesByUserID(Guid userID)
         {
             List<string> roles = new List<string>();
 
-            List<UserRole> userAndRoles = (_userWithRoles.FindAll(user => user.UserId == userID));
-            foreach(UserRole userRole in userAndRoles)
+            var query = from role in _dbContext.UserRoles
+                        where role.UserId == userID
+                        select role;
+
+            foreach (UserRole userRole in query)
             {
                 roles.Add(userRole.RoleName);
 
             }
-            return Task.FromResult(roles.ToList());
+            return await Task.FromResult(roles.ToList());
+
+
         }
+
+   
     }
 }

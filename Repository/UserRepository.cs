@@ -1,56 +1,42 @@
-﻿using Models;
+﻿using AuthenticationServerEntityFramework;
+using Microsoft.EntityFrameworkCore;
+using Models;
 using Repository.Interfaces;
 
 namespace Repository
 {
     public class UserRepository : IUserRepository
-    {        
+    {
+        private readonly AuthenticationServerDbContext _dbContext;
 
-        List<User> _users = new()
+        public UserRepository(AuthenticationServerDbContext dbContext)
         {
-            new User
-            {
-                Id = Guid.Parse("6b3e030b-665b-481e-b459-6b8ff679849c"),
-                Email = "Admin@mail.com",
-                Username = "Admin",
-                PasswordHash = BCrypt.Net.BCrypt.HashPassword("password"),
-            },
-            new User
-            {
-                 Id = Guid.Parse("5cfe8c2d-5859-4ada-892c-e21c79d80805"),
-                Email = "Dev@mail.com",
-                Username = "Dev",
-                PasswordHash =  BCrypt.Net.BCrypt.HashPassword("password"),                
-            },
-             new User
-            {
-                Id = Guid.Parse("32d114de-5752-4dbe-8793-8b01a067cde2"),
-                Email = "Tester@mail.com",
-                Username = "Tester",
-                PasswordHash =  BCrypt.Net.BCrypt.HashPassword("password"),
-             }
-        };
+            _dbContext = dbContext;
+        }
 
-        public Task<User> Create(User user)
+        public async Task<User> Create(User user)
         {
             user.Id = Guid.NewGuid();
-            _users.Add(user);
-            return Task.FromResult(user);
+            _dbContext.Add(user);
+            await _dbContext.SaveChangesAsync();
+
+            return user;
         }
 
-        public Task<User> GetByEmail(string email)
+        public async Task<User> GetByEmail(string email)
         {
-            return Task.FromResult(_users.FirstOrDefault(user => user.Email == email));
+            return await _dbContext.Users.FirstOrDefaultAsync(user => user.Email == email);
         }
 
-        public Task<User> GetByUsername(string username)
+        public async Task<User> GetById(Guid id)
         {
-            return Task.FromResult(_users.FirstOrDefault(user => user.Username == username));
+            return await _dbContext.Users.FirstOrDefaultAsync(user => user.Id == id);
         }
 
-        public Task<User> GetById(Guid userId)
+        public async Task<User> GetByUsername(string username)
         {
-            return Task.FromResult(_users.FirstOrDefault(user => user.Id == userId));
+            return await _dbContext.Users.FirstOrDefaultAsync(user => user.Username == username);
         }
+
     }
 }

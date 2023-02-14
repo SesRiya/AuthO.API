@@ -9,6 +9,7 @@ namespace AuthenticationServerEntityFramework
         public DbSet<Role> Roles { get; set; }
         public DbSet<UserRole> UserRoles { get; set; }
 
+ 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlServer("Server=(localdb)\\ProjectModels;Database=AuthenticationServerDb;Trusted_Connection=True");
