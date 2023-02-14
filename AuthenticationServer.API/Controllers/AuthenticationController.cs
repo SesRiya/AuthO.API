@@ -1,4 +1,5 @@
 ﻿using ApiCore.Interfaces;
+using ApiCore.Login;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.CookiePolicy;
 using Microsoft.AspNetCore.Mvc;
@@ -7,6 +8,7 @@ using Models.Requests;
 using Models.Responses;
 using Repository.Interfaces;
 using Services.Interfaces;
+using System.Security.Claims;
 
 namespace AuthServer.API.Controllers
 {
@@ -14,34 +16,34 @@ namespace AuthServer.API.Controllers
     {
         #region Fields
         private readonly IUserRepository _userRepository;
-        private readonly IRoleRepository _roleRepository;
-        private readonly IUserRoleRepository _userRoleRepository;
+        private readonly IRefreshTokenRepository _refreshTokenRepository;
         private readonly IAuthenticator _authenticator;
         private readonly IRegisterUser _registerUser;
         private readonly IRoleAdditionToUser _roleAdditionToUser;
         private readonly ILoginAuthentication _loginAuthentication;
         private readonly IRefreshTokenVerification _refreshTokenVerification;
+        private readonly CookieStorage _cookieStorage;
         #endregion
 
         #region Constructor
         public AuthenticationController(
             IUserRepository userRepository,
-            IRoleRepository roleRepository,
-            IUserRoleRepository userRoleRepository,
+            IRefreshTokenRepository refreshTokenRepository,
             IAuthenticator authenticator,
             IRegisterUser registerUser,
             IRoleAdditionToUser roleAdditionToUser,
             ILoginAuthentication loginAuthentication,
-            IRefreshTokenVerification refreshTokenVerification)
+            IRefreshTokenVerification refreshTokenVerification,
+            CookieStorage cookieStorage)
         {
             _userRepository = userRepository;
-            _roleRepository = roleRepository;
-            _userRoleRepository = userRoleRepository;
+            _refreshTokenRepository = refreshTokenRepository;
             _authenticator = authenticator;
             _registerUser = registerUser;
             _roleAdditionToUser = roleAdditionToUser;
             _loginAuthentication = loginAuthentication;
             _refreshTokenVerification = refreshTokenVerification;
+            _cookieStorage = cookieStorage;
         }
         #endregion
 
@@ -68,7 +70,7 @@ namespace AuthServer.API.Controllers
             await _userRepository.Create(registrationUser);
 
             //add roles to user
-             await _roleAdditionToUser.AddRolesToUser(registerRequest, registrationUser);
+            await _roleAdditionToUser.AddRolesToUser(registerRequest, registrationUser);
 
             return Ok();
         }
@@ -90,13 +92,12 @@ namespace AuthServer.API.Controllers
             }
 
             AuthenticatedUserResponse response = await _authenticator.Authenticate(user);
-            if (user != null) {
-                var token = response.AccessToken;
-                Response.Cookies.Append("AccessToken", token, new CookieOptions() { HttpOnly = true, SameSite = SameSiteMode.Strict });
-            }
+
+            _cookieStorage.StoreJwtokensInCookies(user, response, Response);
 
             return Ok(response);
         }
+
 
         [HttpPost("refresh")]
         public async Task<IActionResult> Refresh([FromBody] RefreshRequest refreshRequest)
@@ -122,13 +123,30 @@ namespace AuthServer.API.Controllers
             return Ok(response);
         }
 
+
+        [Authorize]
+        [HttpDelete("logout")]
+        public async Task<IActionResult> Logout()
+        {
+            string rawUserId = HttpContext.User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            if (!Guid.TryParse(rawUserId, out Guid userId))
+            {
+                return Unauthorized();
+            }
+
+            Response.Cookies.Delete("AccessToken");
+
+            await _refreshTokenRepository.DeleteAllRefreshToken(userId);
+
+            return NoContent();
+        }
         private IActionResult BadRequestModelState()
         {
             IEnumerable<string> errorMessages = ModelState.Values.SelectMany(v => v.Errors.Select(e => e.ErrorMessage));
             return BadRequest(new ErrorResponse(errorMessages));
         }
         #endregion
-
     }
 }
 
