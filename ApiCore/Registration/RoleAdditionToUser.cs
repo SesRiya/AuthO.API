@@ -35,10 +35,10 @@ namespace ApiCore.Registration
 
             foreach (Role role in registerRequest.Roles)
             {
-                if (!_roleRepository.GetRoleName(role.RoleName).Equals(role.RoleName))
-                {
-                    _roleRepository.CreateRole(role);
-                }
+                //if (_roleRepository.GetRoleName(role.RoleName) == null)
+                //{
+                //    _roleRepository.CreateRole(role);
+                //}
 
                 UserRole userRole = new UserRole()
                 {

@@ -11,10 +11,7 @@ namespace Repository.Interfaces
     {
         Task<UserRole> AddRoleToUser(UserRole userRole, User user);
 
-        Task<UserRole> GetRolesById(Guid userId);
-
-
-        Task<List<string>> GetAllRoles(Guid userID);
+        Task<List<string>> GetAllRolesByUserID(Guid userID);
 
 
     }

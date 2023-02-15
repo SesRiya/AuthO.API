@@ -17,10 +17,8 @@ namespace Services.TokenGenerators
             _configuration = configuration;
             _tokenGenerator = tokenGenerator;
         }
-
         public string GenerateToken()
         {
-
             return _tokenGenerator.GenerateToken(
                 _configuration.RefreshTokenKey,
                 _configuration.Issuer,

@@ -10,6 +10,6 @@ namespace ApiCore.Interfaces
 {
     public interface ILoginAuthentication
     {
-        Task<User?> IsUserAuthenticated(LoginRequest loginRequest);
+        Task<User> IsUserAuthenticated(LoginRequest loginRequest);
     }
 }

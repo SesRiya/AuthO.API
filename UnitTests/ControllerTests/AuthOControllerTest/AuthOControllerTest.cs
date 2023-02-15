@@ -18,23 +18,23 @@ namespace UnitTests.ControllerTests.AuthOControllerTest
         }
 
         [Test]
-        public async Task GetRolesForValidUsers()
+        public void GetRolesForValidUsers()
         {   
-            List<string>? roles = null;
+            List<string> roles = null;
             var idClaim = Guid.Parse("d22d9a72-7ce3-48c2-8ccb-8d8ff33dda7b");
 
-            _mockUserRoleRepository.Setup(roles => roles.GetAllRoles(idClaim)).ReturnsAsync(roles = new List<string> { "Administrator", "Developer", "Tester" });
+             _mockUserRoleRepository.Setup(roles => roles.GetAllRolesByUserID(idClaim)).ReturnsAsync(roles = new List<string> { "Administrator", "Developer", "Tester" });
 
             Assert.That(roles, Is.Not.Null);
         }
 
         [Test]
-        public async Task InvalidUsers()
+        public void InvalidUsers()
         {
-            List<string>? roles = null;
+            List<string> roles = null;
             var idClaim = Guid.Parse("d22d9a72-7ce3-48c2-8ccb-8d8ff33dda7b");
 
-            _mockUserRoleRepository.Setup(roles => roles.GetAllRoles(idClaim)).ReturnsAsync(roles = null);
+            _mockUserRoleRepository.Setup(roles => roles.GetAllRolesByUserID(idClaim)).ReturnsAsync(roles = null);
 
             Assert.That(roles, Is.Null);
         }

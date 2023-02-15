@@ -2,18 +2,18 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace ServiceApplication.Controllers
+namespace ClientApplication.Controllers
 {
     public class LoginController : Controller
     {
-        [Authorize]
         [HttpGet("login")]
-        public async Task<string> Index()
+        [Authorize(Policy = "Tester")]
+
+        public IActionResult Index()
         {
 
-            //var accessToken = await HttpContext.GetTokenAsync("access_token");
             var accessToken = Request.Headers["Authorization"];
-            return accessToken;
+            return Ok(accessToken + "\n Tester's Page");
         }
     }
 }

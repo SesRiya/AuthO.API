@@ -7,18 +7,16 @@ using Services.TokenValidators;
 
 namespace Services
 {
-
     public static class ServiceCollectionExtensions
     {
         public static void AddServices(this IServiceCollection services)
         {
-            services.AddScoped<IPasswordHash, PasswordHash>();
-            services.AddScoped<IRefreshTokenValidator, RefreshTokenValidator>();
-            services.AddScoped<TokenGenerator>();
-            services.AddScoped<AccessTokenGenerator>();
-            services.AddScoped<RefreshTokenGenerator>();
-            services.AddScoped<IAuthenticator, Authenticator>();
-
+            services.AddTransient<IPasswordHash, PasswordHash>();
+            services.AddTransient<IRefreshTokenValidator, RefreshTokenValidator>();
+            services.AddTransient<TokenGenerator>();
+            services.AddTransient<AccessTokenGenerator>();
+            services.AddTransient<RefreshTokenGenerator>();
+            services.AddTransient<IAuthenticator, Authenticator>();
         }
     }
 }

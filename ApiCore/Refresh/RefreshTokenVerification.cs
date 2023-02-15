@@ -37,7 +37,7 @@ namespace ApiCore.Refresh
             return user;
         }
 
-        public async Task<ErrorResponse?> VerifyRefreshToken(RefreshRequest refreshRequest)
+        public async Task<ErrorResponse> VerifyRefreshToken(RefreshRequest refreshRequest)
         {
             bool isValidRefreshToken = _refreshTokenValidator.Validate(refreshRequest.RefreshToken);
             if (!isValidRefreshToken)

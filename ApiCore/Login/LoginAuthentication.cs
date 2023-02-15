@@ -3,6 +3,7 @@ using Services.Interfaces;
 using ApiCore.Interfaces;
 using Models.Requests;
 using Models;
+using System.Xml.Linq;
 
 namespace ApiCore.Login
 {
@@ -27,7 +28,7 @@ namespace ApiCore.Login
         #region methods
         public async Task<User> IsUserAuthenticated(LoginRequest loginRequest)
         {
-            User user = await _userRepository.GetByUsername(loginRequest.Username);
+            User user = await _userRepository.GetByUsername(loginRequest.Username ?? throw new ArgumentNullException(nameof(loginRequest.Username)));
             if (user == null)
             {
                 return null;

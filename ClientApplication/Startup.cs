@@ -45,7 +45,6 @@ namespace ClientApplication
                 };
             });
 
-
             // Register our authorization handler.
             services.AddScoped<IAuthorizationHandler, AdminAccess>();
             services.AddScoped<IAuthorizationHandler, TesterAccess>();
@@ -78,8 +77,6 @@ namespace ClientApplication
 
                 options.OperationFilter<SecurityRequirementsOperationFilter>();
             });
-
-
         }
 
         public void Configure(WebApplication app, IWebHostEnvironment env)
@@ -101,13 +98,7 @@ namespace ClientApplication
             }
 
             //if cookies are in the serverside pass them as authentication
-            app.Use(async (context, next) =>
-            {
-                var token = context.Request.Cookies["AccessToken"];
-                if (token != null)
-                    context.Request.Headers["Authorization"] = "Bearer " + token.ToString();
-                await next();
-            });
+            app.UseCookieAsBearerToken();
 
             app.UseAuthentication();
 
@@ -126,9 +117,9 @@ namespace ClientApplication
 
         private class AuthenticationConfiguration
         {
-            public string AccessToken { get; set; }
-            public string Issuer { get; set; }
-            public string Audience { get; set; }
+            public string? AccessToken { get; set; }
+            public string? Issuer { get; set; }
+            public string? Audience { get; set; }
         }
     }
 

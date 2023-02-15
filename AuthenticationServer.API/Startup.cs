@@ -29,8 +29,6 @@ namespace AuthenticationServer.API
 
             services.AddHttpClient();
 
-            //services.AddDbContext<ApiContext>(opt => opt.UseInMemoryDatabase());
-
             //instantiate and bind authentication values to authen config object(appsettings.json)
             AuthenticationConfig authenticationConfiguration = new();
             Configuration.Bind("Authentication", authenticationConfiguration);
@@ -40,6 +38,9 @@ namespace AuthenticationServer.API
             services.AddRepository();
             services.AddApiCore();
             services.AddServices();
+
+            //entity framework connection
+            services.AddDbContext();
 
             services.AddAuthentication(option =>
              {
@@ -59,18 +60,6 @@ namespace AuthenticationServer.API
                      ValidateIssuer = true,
                      ValidateAudience = true,
                      ClockSkew = TimeSpan.Zero
-                 };
-
-                 //save jwt in a cookie
-                 options.Events = new JwtBearerEvents();
-                 options.Events.OnMessageReceived = context => {
-
-                     if (context.Request.Cookies.ContainsKey("X-Access-Token"))
-                     {
-                         context.Token = context.Request.Cookies["X-Access-Token"];
-                     }
-
-                     return Task.CompletedTask;
                  };
              });
 
@@ -107,8 +96,6 @@ namespace AuthenticationServer.API
         public void Configure(WebApplication app, IWebHostEnvironment env)
         {
             app.UseStaticFiles();
-
-            //app.UseCors();
 
             app.UseRouting();
 

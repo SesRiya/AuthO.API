@@ -22,7 +22,7 @@ namespace AuthenticationServer.API.Controllers
         public  async Task<List<string>> GetRoles()
         {
             var idClaim = User.FindFirst(ClaimTypes.NameIdentifier);
-            List<string> roles = await _userRoleRepository.GetAllRoles(Guid.Parse(idClaim.Value));
+            List<string> roles = await _userRoleRepository.GetAllRolesByUserID(Guid.Parse(idClaim.Value));
             return (roles.ToList());
         }
     }

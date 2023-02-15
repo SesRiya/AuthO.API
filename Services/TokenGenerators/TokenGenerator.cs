@@ -11,7 +11,7 @@ namespace Services.TokenGenerators
 {
     public class TokenGenerator
     {
-        public string GenerateToken(string secretKey, string issuer, string audience, double expirationMinutes, IEnumerable<Claim>? claims = null)
+        public string GenerateToken(string secretKey, string issuer, string audience, double expirationMinutes, IEnumerable<Claim> claims = null)
         {
             SecurityKey key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey));
 
@@ -26,9 +26,7 @@ namespace Services.TokenGenerators
                 expirationMinutes),
                 credentials
                 );
-
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
-
     }
 }

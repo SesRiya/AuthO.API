@@ -14,7 +14,6 @@ namespace ApiCore.Interfaces
     {
        Task AddRolesToUser(RegisterRequest registerRequest, User user);
 
-        //    Task<ErrorResponse?> RoleVerification(RegisterRequest registerRequest, IRoleRepository _roleRepository);
-        //}
+    
     }
 }

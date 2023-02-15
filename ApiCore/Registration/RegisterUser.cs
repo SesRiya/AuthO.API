@@ -28,8 +28,9 @@ namespace ApiCore.Registration
         #region Actions
         public User CreateUser(RegisterRequest registerRequest)
         {
-            string passwordHash = _passwordHasher.HashPassword(registerRequest.Password);
-            User registrationUser = new User()
+            string passwordHash = _passwordHasher.HashPassword(registerRequest.Password ?? throw new ArgumentNullException(nameof(registerRequest.Password)));
+
+            User registrationUser = new()
             {
                 Email = registerRequest.Email,
                 Username = registerRequest.Username,
@@ -37,8 +38,8 @@ namespace ApiCore.Registration
             };
             return registrationUser;
         }
-        public async Task<ErrorResponse?> UserVerification(RegisterRequest registerRequest)
-        { 
+        public async Task<ErrorResponse> UserVerification(RegisterRequest registerRequest)
+        {
             if (registerRequest.Password != registerRequest.ConfirmPassword)
             {
                 return new ErrorResponse("Password does not match");
