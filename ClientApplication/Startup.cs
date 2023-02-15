@@ -98,13 +98,7 @@ namespace ClientApplication
             }
 
             //if cookies are in the serverside pass them as authentication
-            app.Use(async (context, next) =>
-            {
-                var token = context.Request.Cookies["AccessToken"];
-                if (token != null)
-                    context.Request.Headers["Authorization"] = "Bearer " + token.ToString();
-                await next();
-            });
+            app.UseCookieAsBearerToken();
 
             app.UseAuthentication();
 

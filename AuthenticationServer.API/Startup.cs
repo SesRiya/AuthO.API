@@ -38,6 +38,7 @@ namespace AuthenticationServer.API
             services.AddRepository();
             services.AddApiCore();
             services.AddServices();
+            //entity framework connection
             services.AddDbContext();
 
             services.AddAuthentication(option =>
@@ -94,8 +95,6 @@ namespace AuthenticationServer.API
         public void Configure(WebApplication app, IWebHostEnvironment env)
         {
             app.UseStaticFiles();
-
-            //app.UseCors();
 
             app.UseRouting();
 

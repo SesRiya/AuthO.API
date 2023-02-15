@@ -16,6 +16,5 @@ namespace AuthenticationServerEntityFramework
             optionsBuilder.UseSqlServer("Server=(localdb)\\ProjectModels;Database=AuthServerDb;Trusted_Connection=True");
             base.OnConfiguring(optionsBuilder);
         }
-
     }
 }
