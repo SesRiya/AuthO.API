@@ -72,7 +72,7 @@ namespace Middleware
 
         public async Task InvokeAsync(HttpContext context)
         {
-            ClaimsPrincipal principal = context.User;
+            ClaimsPrincipal principal = context.User;  
 
             if (context.User.Identity is not null && context.User.Identity.IsAuthenticated)
             {
