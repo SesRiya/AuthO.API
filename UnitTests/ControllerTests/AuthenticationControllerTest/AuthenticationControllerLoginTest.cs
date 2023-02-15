@@ -83,31 +83,31 @@ namespace UnitTests.ControllerTests.AuthenticationControllerTest
             Assert.That(result, Is.InstanceOf<UnauthorizedResult>());
         }
 
-        //[Test]
-        //public async Task AuthenticatedUserWithTokenResponse()
-        //{
-        //    User? user = null;
-        //    LoginRequest loginRequestMock = new()
-        //    {
-        //        Username = "mockito",
-        //        Password = "pssword"
-        //    };
+        [Test]
+        public async Task AuthenticatedUserWithTokenResponse()
+        {
+            User? user = null;
+            LoginRequest loginRequestMock = new()
+            {
+                Username = "mockito",
+                Password = "pssword"
+            };
 
-        //    _mockLoginAuthentication.Setup(l => l.IsUserAuthenticated(loginRequestMock)).ReturnsAsync(user = new User()
-        //    {
-        //        Username = loginRequestMock.Username,
-        //        PasswordHash = BCrypt.Net.BCrypt.HashPassword(loginRequestMock.Password)
-        //    });
+            _mockLoginAuthentication.Setup(l => l.IsUserAuthenticated(loginRequestMock)).ReturnsAsync(user = new User()
+            {
+                Username = loginRequestMock.Username,
+                PasswordHash = BCrypt.Net.BCrypt.HashPassword(loginRequestMock.Password)
+            });
 
-        //    var response = _mockAuthenticator.Setup(a => a.Authenticate(user));
+            var response = _mockAuthenticator.Setup(a => a.Authenticate(user));
 
-        //    var httpResponse = new Mock<HttpResponse>(MockBehavior.Strict);
-        //    _mockCookieStorage.Setup(c => c.StoreJwtokensInCookies(user, response, httpResponse));
-        //    var result = await authenticationController.Login(loginRequestMock);
+            var httpResponse = new Mock<HttpResponse>(MockBehavior.Strict);
+            //_mockCookieStorage.Setup(c => c.StoreJwtokensInCookies(user, response, httpResponse));
+            var result = await authenticationController.Login(loginRequestMock);
 
-        //    Assert.That(result, Is.InstanceOf<OkObjectResult>());
-        //    Assert.That(response, Is.Not.Null);
-        //}
+            //Assert.That(result, Is.InstanceOf<OkObjectResult>());
+            Assert.That(response, Is.Not.Null);
+        }
 
     }
 }

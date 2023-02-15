@@ -92,8 +92,13 @@ namespace AuthServer.API.Controllers
             }
 
             AuthenticatedUserResponse response = await _authenticator.Authenticate(user);
+           
+            //store token in cookie 
+            if(response != null)
+            {
+                _cookieStorage.StoreJwtokensInCookies(user, response, Response);
 
-            _cookieStorage.StoreJwtokensInCookies(user, response, Response);
+            }
 
             return Ok(response);
         }

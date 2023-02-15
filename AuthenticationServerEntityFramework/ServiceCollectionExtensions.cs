@@ -8,8 +8,6 @@ namespace ApiCore
         public static void AddDbContext(this IServiceCollection services)
         {
             services.AddScoped<AuthenticationServerDbContext>();
-          
-
         }
     }
 }

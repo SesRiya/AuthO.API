@@ -123,9 +123,9 @@ namespace ClientApplication
 
         private class AuthenticationConfiguration
         {
-            public string AccessToken { get; set; }
-            public string Issuer { get; set; }
-            public string Audience { get; set; }
+            public string? AccessToken { get; set; }
+            public string? Issuer { get; set; }
+            public string? Audience { get; set; }
         }
     }
 
