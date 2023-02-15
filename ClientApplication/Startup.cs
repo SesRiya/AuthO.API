@@ -45,7 +45,6 @@ namespace ClientApplication
                 };
             });
 
-
             // Register our authorization handler.
             services.AddScoped<IAuthorizationHandler, AdminAccess>();
             services.AddScoped<IAuthorizationHandler, TesterAccess>();
@@ -78,8 +77,6 @@ namespace ClientApplication
 
                 options.OperationFilter<SecurityRequirementsOperationFilter>();
             });
-
-
         }
 
         public void Configure(WebApplication app, IWebHostEnvironment env)

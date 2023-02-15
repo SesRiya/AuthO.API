@@ -19,7 +19,6 @@ namespace Services.TokenGenerators
             _configuration = configuration;
             _tokenGenerator = tokenGenerator;
         }
-
         public string GenerateToken(User user)
         {
             List<Claim> claims = new List<Claim>()
@@ -30,7 +29,6 @@ namespace Services.TokenGenerators
                 //new Claim(ClaimTypes.Roles, user.Roles)
 
             };
-
             return _tokenGenerator.GenerateToken(
                 _configuration.AccessTokenKey,
                 _configuration.Issuer,

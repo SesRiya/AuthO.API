@@ -29,7 +29,6 @@ namespace AuthenticationServer.API
 
             services.AddHttpClient();
 
-
             //instantiate and bind authentication values to authen config object(appsettings.json)
             AuthenticationConfig authenticationConfiguration = new();
             Configuration.Bind("Authentication", authenticationConfiguration);

@@ -26,9 +26,7 @@ namespace Services.TokenGenerators
                 expirationMinutes),
                 credentials
                 );
-
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
-
     }
 }
