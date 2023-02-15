@@ -38,6 +38,7 @@ namespace AuthenticationServer.API
             services.AddRepository();
             services.AddApiCore();
             services.AddServices();
+
             //entity framework connection
             services.AddDbContext();
 

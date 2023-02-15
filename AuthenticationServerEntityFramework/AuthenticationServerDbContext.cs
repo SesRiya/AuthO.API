@@ -10,7 +10,6 @@ namespace AuthenticationServerEntityFramework
         public DbSet<UserRole>? UserRoles { get; set; }
         public DbSet<RefreshToken>? RefreshTokens { get; set; }
 
- 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlServer("Server=(localdb)\\ProjectModels;Database=AuthServerDb;Trusted_Connection=True");

@@ -20,7 +20,7 @@ namespace UnitTests.ControllerTests.AuthOControllerTest
         [Test]
         public void GetRolesForValidUsers()
         {   
-            List<string>? roles = null;
+            List<string> roles = null;
             var idClaim = Guid.Parse("d22d9a72-7ce3-48c2-8ccb-8d8ff33dda7b");
 
              _mockUserRoleRepository.Setup(roles => roles.GetAllRolesByUserID(idClaim)).ReturnsAsync(roles = new List<string> { "Administrator", "Developer", "Tester" });
@@ -31,7 +31,7 @@ namespace UnitTests.ControllerTests.AuthOControllerTest
         [Test]
         public void InvalidUsers()
         {
-            List<string>? roles = null;
+            List<string> roles = null;
             var idClaim = Guid.Parse("d22d9a72-7ce3-48c2-8ccb-8d8ff33dda7b");
 
             _mockUserRoleRepository.Setup(roles => roles.GetAllRolesByUserID(idClaim)).ReturnsAsync(roles = null);

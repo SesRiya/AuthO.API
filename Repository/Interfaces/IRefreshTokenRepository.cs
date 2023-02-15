@@ -11,7 +11,7 @@ namespace Repository.Interfaces
     {
         Task CreateRefreshToken(RefreshToken refreshToken);
 
-        Task<RefreshToken>? GetByToken(string token);
+        Task<RefreshToken> GetByToken(string token);
 
         Task DeleteAllRefreshToken(Guid id);
     }

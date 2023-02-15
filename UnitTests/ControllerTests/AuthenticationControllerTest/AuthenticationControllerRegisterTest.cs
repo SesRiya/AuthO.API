@@ -119,7 +119,7 @@ namespace UnitTests.ControllerTests.AuthenticationControllerTest
         [Test]
         public async Task ValidModelStateWithAssertion()
         {
-            User? user = null;
+            User user = null;
             RegisterRequest registerRequestMock = new()
             {
                 Email = "mockit1@mymail.com",

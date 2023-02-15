@@ -38,7 +38,7 @@ namespace ApiCore.Registration
             };
             return registrationUser;
         }
-        public async Task<ErrorResponse?> UserVerification(RegisterRequest registerRequest)
+        public async Task<ErrorResponse> UserVerification(RegisterRequest registerRequest)
         {
             if (registerRequest.Password != registerRequest.ConfirmPassword)
             {

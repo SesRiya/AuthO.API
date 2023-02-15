@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Models;
 using Repository.Interfaces;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Repository
 {
@@ -23,6 +24,7 @@ namespace Repository
             return user;
         }
 
+       
         public async Task<User> GetByEmail(string email)
         {
             return await _dbContext.Users.FirstOrDefaultAsync(user => user.Email == email);

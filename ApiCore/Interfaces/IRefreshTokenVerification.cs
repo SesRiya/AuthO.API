@@ -12,6 +12,6 @@ namespace ApiCore.Interfaces
     public interface IRefreshTokenVerification
     {
         Task<User> UserExists(RefreshRequest refreshRequest);
-        Task<ErrorResponse?> VerifyRefreshToken(RefreshRequest refreshRequest);
+        Task<ErrorResponse> VerifyRefreshToken(RefreshRequest refreshRequest);
     }
 }

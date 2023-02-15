@@ -6,13 +6,14 @@ namespace ClientApplication.Controllers
 {
     public class LoginController : Controller
     {
-        [Authorize]
         [HttpGet("login")]
-        public string Index()
+        [Authorize(Policy = "Tester")]
+
+        public IActionResult Index()
         {
 
             var accessToken = Request.Headers["Authorization"];
-            return accessToken;
+            return Ok(accessToken + "\n Tester's Page");
         }
     }
 }
