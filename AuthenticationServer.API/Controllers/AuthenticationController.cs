@@ -72,6 +72,7 @@ namespace AuthServer.API.Controllers
 
             //add roles to user
              await _roleAdditionToUser.AddRolesToUser(registerRequest, registrationUser);
+            await _roleAdditionToUser.AddRoleToDbIfNotStored(registerRequest);
 
             return Ok();
         }

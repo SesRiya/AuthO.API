@@ -14,6 +14,6 @@ namespace ApiCore.Interfaces
     {
        Task AddRolesToUser(RegisterRequest registerRequest, User user);
 
-    
+        Task AddRoleToDbIfNotStored(RegisterRequest registerRequest);
     }
 }

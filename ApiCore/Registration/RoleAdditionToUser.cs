@@ -35,10 +35,6 @@ namespace ApiCore.Registration
 
             foreach (Role role in registerRequest.Roles)
             {
-                //if (_roleRepository.GetRoleName(role.RoleName) == null)
-                //{
-                //    _roleRepository.CreateRole(role);
-                //}
 
                 UserRole userRole = new UserRole()
                 {
@@ -48,6 +44,18 @@ namespace ApiCore.Registration
                 await _userRoleRepository.AddRoleToUser(userRole, user);
             }
         }
+        public async Task AddRoleToDbIfNotStored(RegisterRequest registerRequest)
+        {
+            foreach (Role roleUser in registerRequest.Roles)
+            {
+                Role role = await _roleRepository.GetRoleName(roleUser.RoleName);
+                if(role == null)
+                {
+                    await _roleRepository.CreateRole(roleUser);
+                }
+            }
+        }
+
         #endregion
     }
 }
