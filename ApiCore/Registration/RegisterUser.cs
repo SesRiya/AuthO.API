@@ -28,7 +28,7 @@ namespace ApiCore.Registration
         #region Actions
         public User CreateUser(RegisterRequest registerRequest)
         {
-            string passwordHash = _passwordHasher.HashPassword(registerRequest.Password ?? throw new ArgumentNullException(nameof(registerRequest.Password)));
+            string passwordHash = _passwordHasher.HashPassword(registerRequest.Password);
 
             User registrationUser = new()
             {
