@@ -1,15 +1,12 @@
 ﻿using Models;
 using Repository.Interfaces;
-using Models.Responses;
 using AuthenticationServerEntityFramework;
 using Microsoft.EntityFrameworkCore;
-using System.Data;
 
 namespace Repository
 {
     public class RoleRepository : IRoleRepository
     {
-
         private readonly AuthenticationServerDbContext _dbContext;
 
         public RoleRepository(AuthenticationServerDbContext dbContext)

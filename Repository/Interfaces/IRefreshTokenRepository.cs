@@ -9,10 +9,10 @@ namespace Repository.Interfaces
 {
     public interface IRefreshTokenRepository
     {
-        Task CreateRefreshToken(RefreshToken refreshToken);
+        Task<RefreshToken> CreateRefreshToken(RefreshToken refreshToken);
 
         Task<RefreshToken> GetByToken(string token);
 
-        Task DeleteAllRefreshToken(Guid id);
+        Task<Task> DeleteAllRefreshToken(Guid id);
     }
 }
