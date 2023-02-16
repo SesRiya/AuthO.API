@@ -1,9 +1,11 @@
-﻿using Authorization.Authorization;
+﻿using ApiCore;
+using Authorization.Authorization;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using Middleware;
+using Middleware.Claims;
+using Middleware.Cookie;
 using Swashbuckle.AspNetCore.Filters;
 using System.Text;
 
@@ -45,11 +47,8 @@ namespace ClientApplication
                 };
             });
 
-            // Register our authorization handler.
-            services.AddScoped<IAuthorizationHandler, AdminAccess>();
-            services.AddScoped<IAuthorizationHandler, TesterAccess>();
-            services.AddScoped<IAuthorizationHandler, AdminOrTesterAccess>();
-
+            // Register our claims based authorization handler.
+            services.AddClaimsBasedAuthorization();
             services.AddAuthorization(options =>
             {
                 options.AddPolicy("Admin",

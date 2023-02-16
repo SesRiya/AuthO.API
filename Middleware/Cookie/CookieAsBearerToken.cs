@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 
-namespace Middleware
+namespace Middleware.Cookie
 {
     public class CookieAsBearerToken
     {

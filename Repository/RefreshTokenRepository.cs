@@ -1,36 +1,57 @@
-﻿using Models;
+﻿using AuthenticationServerEntityFramework;
+using Microsoft.EntityFrameworkCore;
+using Models;
 using Repository.Interfaces;
+using System.Data;
 
 namespace Repository
 {
     public class RefreshTokenRepository : IRefreshTokenRepository
     {
+
         #region fields
-        private readonly List<RefreshToken> _refreshTokens = new List<RefreshToken>();
+        private readonly AuthenticationServerDbContext _dbContext;
         #endregion
 
-        #region contsructor
-        public Task CreateRefreshToken(RefreshToken refreshToken)
+        #region constructor
+        public RefreshTokenRepository(AuthenticationServerDbContext dbContext)
         {
-            refreshToken.Id = Guid.NewGuid();
-            _refreshTokens.Add(refreshToken);
-            return Task.CompletedTask;
+            _dbContext = dbContext;
         }
         #endregion
 
         #region methods
-        public Task<RefreshToken> GetByToken(string token)
+
+        public async Task<RefreshToken> CreateRefreshToken(RefreshToken refreshToken)
         {
-                RefreshToken refreshToken = _refreshTokens.FirstOrDefault(r => r.Token == token);
-                return Task.FromResult(refreshToken);
+            refreshToken.Id = Guid.NewGuid();
+            _dbContext.Add(refreshToken);
+            await _dbContext.SaveChangesAsync();
+            return refreshToken;
         }
 
-        public Task DeleteAllRefreshToken(Guid id)
+        public async Task<RefreshToken> GetByToken(string token)
         {
-            _refreshTokens.RemoveAll(rt => rt.Id == id);
+            return await _dbContext.RefreshTokens.FirstOrDefaultAsync(t => t.Token == token);
+        }
 
-            return Task.CompletedTask;
+        public async Task<Task> DeleteAllRefreshToken(Guid id)
+        {
+            var query = from token in _dbContext.RefreshTokens
+                        where token.UserId == id
+                        select token;
+            foreach (var token in query)
+            {
+                _dbContext.RefreshTokens.Remove(token);
+            }
+            await _dbContext.SaveChangesAsync();
+            return Task.CompletedTask;    
         }
         #endregion
     }
 }
+
+
+
+
+

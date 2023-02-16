@@ -3,7 +3,7 @@ using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Security.Claims;
 
-namespace Middleware
+namespace Middleware.Claims
 {
     public class ClaimsAugmentation
     {
@@ -30,7 +30,7 @@ namespace Middleware
             List<string> roles = new List<string>();
 
             var token = context.Request.Cookies["AccessToken"];
-            
+
             var request = new HttpRequestMessage(HttpMethod.Get, "https://localhost:7268/api/AuthO");
             request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
@@ -39,7 +39,7 @@ namespace Middleware
             {
                 roles = await response.Content.ReadFromJsonAsync<List<string>>();
             }
-            return (roles);
+            return roles;
         }
 
         public async Task InvokeAsync(HttpContext context)

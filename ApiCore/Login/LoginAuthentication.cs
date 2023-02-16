@@ -28,7 +28,7 @@ namespace ApiCore.Login
         #region methods
         public async Task<User> IsUserAuthenticated(LoginRequest loginRequest)
         {
-            User user = await _userRepository.GetByUsername(loginRequest.Username ?? throw new ArgumentNullException(nameof(loginRequest.Username)));
+            User user = await _userRepository.GetByUsername(loginRequest.Username);
             if (user == null)
             {
                 return null;
