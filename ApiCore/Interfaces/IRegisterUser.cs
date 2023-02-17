@@ -6,7 +6,7 @@ namespace ApiCore.Interfaces
 {
     public interface IRegisterUser
     {
-        public User CreateUser(RegisterRequest registerRequest);
+        User CreateUser(RegisterRequest registerRequest);
         Task<ErrorResponse> UserVerification(RegisterRequest registerRequest);
 
     }

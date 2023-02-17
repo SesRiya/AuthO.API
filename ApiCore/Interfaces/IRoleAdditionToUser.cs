@@ -12,7 +12,7 @@ namespace ApiCore.Interfaces
 {
     public interface IRoleAdditionToUser
     {
-       Task AddRolesToUser(RegisterRequest registerRequest, User user);
+        Task AddRolesToUser(RegisterRequest registerRequest, User user);
 
         Task AddRoleToDbIfNotStored(RegisterRequest registerRequest);
     }
