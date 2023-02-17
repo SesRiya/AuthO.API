@@ -19,7 +19,7 @@ namespace UnitTests.ControllerTests.AuthenticationControllerTest
     {
         private AuthenticationController authenticationController;
         private Mock<IUserRepository> _mockUserRepository;
-        private Mock<RefreshTokenRepository> _mockRefreshTokenRepository;
+        private Mock<IRefreshTokenRepository> _mockRefreshTokenRepository;
         private Mock<IAuthenticator> _mockAuthenticator;
         private Mock<IRegisterUser> _mockRegisterUser;
         private Mock<IRoleAdditionToUser> _mockRoleAdditionToUser;
@@ -31,7 +31,7 @@ namespace UnitTests.ControllerTests.AuthenticationControllerTest
         public void Setup()
         {
             _mockUserRepository = new Mock<IUserRepository>();
-            _mockRefreshTokenRepository = new Mock<RefreshTokenRepository>();
+            _mockRefreshTokenRepository = new Mock<IRefreshTokenRepository>();
             _mockAuthenticator = new Mock<IAuthenticator>();
             _mockRegisterUser = new Mock<IRegisterUser>();
             _mockRoleAdditionToUser = new Mock<IRoleAdditionToUser>();
