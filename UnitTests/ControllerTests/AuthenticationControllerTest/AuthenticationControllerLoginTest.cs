@@ -1,14 +1,10 @@
 ﻿using ApiCore.Interfaces;
 using AuthServer.API.Controllers;
-using Azure;
-using Azure.Core;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Models;
 using Models.Requests;
-using Models.Responses;
 using Moq;
-using Repository;
 using Repository.Interfaces;
 using Services.Interfaces;
 
@@ -108,6 +104,5 @@ namespace UnitTests.ControllerTests.AuthenticationControllerTest
             //Assert.That(result, Is.InstanceOf<OkObjectResult>());
             Assert.That(response, Is.Not.Null);
         }
-
     }
 }

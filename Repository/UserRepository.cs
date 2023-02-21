@@ -24,14 +24,13 @@ namespace Repository
             return user;
         }
 
-       
         public async Task<User> GetByEmail(string email)
         {
             return await _dbContext.Users.FirstOrDefaultAsync(user => user.Email == email);
         }
 
         public async Task<User> GetById(Guid id)
-        {
+        { 
             return await _dbContext.Users.FirstOrDefaultAsync(user => user.Id == id);
         }
 
@@ -39,6 +38,5 @@ namespace Repository
         {
             return await _dbContext.Users.FirstOrDefaultAsync(user => user.Username == username);
         }
-
     }
 }
