@@ -25,8 +25,7 @@ namespace Services.TokenGenerators
             {
                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
                 new Claim(ClaimTypes.Email, user.Email),
-                //new Claim(ClaimTypes.Name, user.Username),
-                //new Claim(ClaimTypes.Roles, user.Roles)
+                new Claim(ClaimTypes.Name, user.Username),
 
             };
             return _tokenGenerator.GenerateToken(
