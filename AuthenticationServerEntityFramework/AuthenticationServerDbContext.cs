@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using Models;
 
@@ -6,11 +7,11 @@ namespace AuthenticationServerEntityFramework
 {
     public class AuthenticationServerDbContext : DbContext
     {
-        private readonly AuthenticationConfig _configuration;
+        private readonly IConfiguration Configuration;
 
-        public AuthenticationServerDbContext(AuthenticationConfig configuration)
+        public AuthenticationServerDbContext(IConfiguration configuration)
         {
-            _configuration = configuration;
+            Configuration = configuration;
         }
 
         public DbSet<User> Users { get; set; }
@@ -20,8 +21,9 @@ namespace AuthenticationServerEntityFramework
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(_configuration.ConnectionStrings);
+            optionsBuilder.UseSqlServer(Configuration["ConnectionStrings"]);
             base.OnConfiguring(optionsBuilder);
+
         }
     }
 }
