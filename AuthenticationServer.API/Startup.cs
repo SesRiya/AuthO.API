@@ -10,6 +10,8 @@ using System.Text;
 using Microsoft.AspNetCore.Authorization;
 using Authorization.Authorization;
 using Middleware;
+using Azure.Security.KeyVault.Secrets;
+using Azure.Identity;
 
 namespace AuthenticationServer.API
 {
@@ -21,7 +23,6 @@ namespace AuthenticationServer.API
             Configuration = configuration;
 
         }
-
         // This method gets called by the runtime. Use this method to add services to the container: dependency injection
         public void ConfigureServices(IServiceCollection services)
         {
@@ -32,6 +33,12 @@ namespace AuthenticationServer.API
             //instantiate and bind authentication values to authen config object(appsettings.json)
             AuthenticationConfig authenticationConfiguration = new();
             Configuration.Bind("Authentication", authenticationConfiguration);
+
+            //adding keyVault for the accesstoken secret
+            SecretClient keyVaultClient = new(
+                new Uri(Configuration.GetValue<string>("KeyVaultUri")),
+                new DefaultAzureCredential());
+            authenticationConfiguration.AccessTokenSecret = keyVaultClient.GetSecret("access-token-secret").Value.Value;
 
             services.AddSingleton(authenticationConfiguration);
 
@@ -45,15 +52,12 @@ namespace AuthenticationServer.API
             services.AddAuthentication(option =>
              {
                  option.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                 option.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+              
              }).AddJwtBearer(options =>
              {
-                 AuthenticationConfig authenticationConfiguration = new();
-                 Configuration.Bind("Authentication", authenticationConfiguration);
-                 options.SaveToken = true;
                  options.TokenValidationParameters = new TokenValidationParameters()
                  {
-                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(authenticationConfiguration.AccessTokenKey)),
+                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(authenticationConfiguration.AccessTokenSecret)),
                      ValidIssuer = authenticationConfiguration.Issuer,
                      ValidAudience = authenticationConfiguration.Audience,
                      ValidateIssuerSigningKey = true,

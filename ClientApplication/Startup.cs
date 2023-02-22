@@ -1,5 +1,7 @@
 ﻿using ApiCore;
 using Authorization.Authorization;
+using Azure.Identity;
+using Azure.Security.KeyVault.Secrets;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.IdentityModel.Tokens;
@@ -33,11 +35,20 @@ namespace ClientApplication
             }).AddJwtBearer(options =>
             {
                 AuthenticationConfiguration authenticationConfiguration = new();
+
                 Configuration.Bind("Authentication", authenticationConfiguration);
+
+                //adding keyVault for the accesstoken secret
+                SecretClient keyVaultClient = new(
+                    new Uri(Configuration.GetValue<string>("KeyVaultUri")),
+                    new DefaultAzureCredential());
+                authenticationConfiguration.AccessTokenKey = keyVaultClient.GetSecret("access-token-secret").Value.Value;
+
+
                 options.SaveToken = true;
                 options.TokenValidationParameters = new TokenValidationParameters()
                 {
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(authenticationConfiguration.AccessToken)),
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(authenticationConfiguration.AccessTokenKey)),
                     ValidIssuer = authenticationConfiguration.Issuer,
                     ValidAudience = authenticationConfiguration.Audience,
                     ValidateIssuerSigningKey = true,
@@ -116,7 +127,7 @@ namespace ClientApplication
 
         private class AuthenticationConfiguration
         {
-            public string? AccessToken { get; set; }
+            public string? AccessTokenKey { get; set; }
             public string? Issuer { get; set; }
             public string? Audience { get; set; }
         }

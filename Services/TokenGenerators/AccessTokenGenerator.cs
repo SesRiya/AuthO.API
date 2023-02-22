@@ -29,7 +29,7 @@ namespace Services.TokenGenerators
 
             };
             return _tokenGenerator.GenerateToken(
-                _configuration.AccessTokenKey,
+                _configuration.AccessTokenSecret,
                 _configuration.Issuer,
                 _configuration.Audience,
                 _configuration.AccessTokenExpirationMinutes,
