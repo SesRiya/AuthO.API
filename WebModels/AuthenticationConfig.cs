@@ -15,7 +15,5 @@ namespace Models
         public string RefreshTokenKey { get; set; }
         public double RefreshTokenExpirationMinutes { get; set; }
 
-        //dbConnection
-        public string ConnectionStrings { get; set; }
     }
 }
