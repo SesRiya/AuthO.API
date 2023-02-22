@@ -1,4 +1,7 @@
-﻿using Microsoft.IdentityModel.Tokens;
+﻿using Azure.Identity;
+using Azure.Security.KeyVault.Secrets;
+using Microsoft.Extensions.Configuration;
+using Microsoft.IdentityModel.Tokens;
 using Models;
 using Services.Interfaces;
 using System;
@@ -12,7 +15,6 @@ namespace Services.TokenValidators
 {
     public class RefreshTokenValidator : IRefreshTokenValidator
     {
-
         private readonly AuthenticationConfig _configuration;
 
         public RefreshTokenValidator(AuthenticationConfig configuration)
