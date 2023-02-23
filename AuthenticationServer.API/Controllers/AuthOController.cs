@@ -10,14 +10,19 @@ namespace AuthenticationServer.API.Controllers
     [Authorize]
     public class AuthOController : ControllerBase
     {
+        #region fields
         private readonly IUserRoleRepository _userRoleRepository;
+        #endregion
 
+        #region constructor
         public AuthOController(
             IUserRoleRepository userRoleRepository)
         {
             _userRoleRepository = userRoleRepository;
         }
+        #endregion
 
+        #region methods
         [HttpGet]
         public  async Task<List<string>> GetRoles()
         {
@@ -25,6 +30,7 @@ namespace AuthenticationServer.API.Controllers
             List<string> roles = await _userRoleRepository.GetAllRolesByUserID(Guid.Parse(idClaim.Value));
             return (roles.ToList());
         }
+        #endregion
     }
 }
 

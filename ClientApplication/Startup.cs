@@ -44,7 +44,6 @@ namespace ClientApplication
                     new DefaultAzureCredential());
                 authenticationConfiguration.AccessTokenKey = keyVaultClient.GetSecret("access-token-secret").Value.Value;
 
-
                 options.SaveToken = true;
                 options.TokenValidationParameters = new TokenValidationParameters()
                 {
@@ -60,6 +59,8 @@ namespace ClientApplication
 
             // Register our claims based authorization handler.
             services.AddClaimsBasedAuthorization();
+
+            //Register claims policy
             services.AddAuthorization(options =>
             {
                 options.AddPolicy("Admin",
@@ -75,6 +76,8 @@ namespace ClientApplication
             });
 
             services.AddEndpointsApiExplorer();
+
+            //Register the swagger generator
             services.AddSwaggerGen(options =>
             {
                 options.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
@@ -100,18 +103,18 @@ namespace ClientApplication
             // Configure the HTTP request pipeline.
             app.UseHttpsRedirection();
 
-            // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();
                 app.UseSwaggerUI();
             }
 
-            //if cookies are in the serverside pass them as authentication
+            //If there are stored cookies in API auth use them as bearer token
             app.UseCookieAsBearerToken();
 
             app.UseAuthentication();
 
+            //Append roles for the User's Claim Principal
             app.UseClaimsAugmentation();
 
             app.UseAuthorization();

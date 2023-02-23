@@ -27,7 +27,6 @@ namespace UnitTests.ApiCoreTests
             _refreshTokenVerification = new RefreshTokenVerification(_mockRefreshTokenValidator.Object, _mockRefreshTokenRepository.Object, _mockUserRepository.Object);
         }
 
-
         [Test]
         public async Task UserExistsTest()
         {
@@ -42,7 +41,6 @@ namespace UnitTests.ApiCoreTests
                 Token = refreshRequestMock.RefreshToken,
                 UserId = Guid.Parse("6ec2e8e7-8122-4f8f-8869-0536af04a198")
             };
-
 
             _mockRefreshTokenRepository.Setup(t => t.GetByToken(refreshRequestMock.RefreshToken)).ReturnsAsync(refreshDTO);
 
@@ -71,7 +69,6 @@ namespace UnitTests.ApiCoreTests
                 Token = refreshRequestMock.RefreshToken,
                 UserId = Guid.Parse("6ec2e8e7-8122-4f8f-8869-0536af04a198")
             };
-
 
             _mockRefreshTokenRepository.Setup(t => t.GetByToken(refreshRequestMock.RefreshToken)).ReturnsAsync(refreshDTO);
 
@@ -112,6 +109,7 @@ namespace UnitTests.ApiCoreTests
             };
 
             _mockRefreshTokenValidator.Setup(t => t.Validate(refreshRequestMock.RefreshToken)).Returns(false);
+
             _mockRefreshTokenRepository.Setup(t => t.GetByToken(refreshRequestMock.RefreshToken)).ReturnsAsync(new RefreshToken());
 
             ErrorResponse errorResponse = await _refreshTokenVerification.VerifyRefreshToken(refreshRequestMock);
@@ -128,6 +126,7 @@ namespace UnitTests.ApiCoreTests
             };
 
             _mockRefreshTokenValidator.Setup(t => t.Validate(refreshRequestMock.RefreshToken)).Returns(true);
+
             _mockRefreshTokenRepository.Setup(t => t.GetByToken(refreshRequestMock.RefreshToken));
 
             ErrorResponse errorResponse = await _refreshTokenVerification.VerifyRefreshToken(refreshRequestMock);

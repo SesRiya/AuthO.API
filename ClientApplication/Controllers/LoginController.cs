@@ -11,7 +11,6 @@ namespace ClientApplication.Controllers
 
         public IActionResult Index()
         {
-
             var accessToken = Request.Headers["Authorization"];
             return Ok(accessToken + "\n Tester's Page");
         }

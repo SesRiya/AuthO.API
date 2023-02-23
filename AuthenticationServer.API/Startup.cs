@@ -17,13 +17,12 @@ namespace AuthenticationServer.API
 {
     public class Startup
     {
-
         public IConfiguration Configuration { get; }
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
-
         }
+
         // This method gets called by the runtime. Use this method to add services to the container: dependency injection
         public void ConfigureServices(IServiceCollection services)
         {
@@ -44,7 +43,9 @@ namespace AuthenticationServer.API
             services.AddSingleton(authenticationConfiguration);
 
             services.AddRepository();
+
             services.AddApiCore();
+
             services.AddServices();
 
             //entity framework connection
@@ -71,6 +72,8 @@ namespace AuthenticationServer.API
             services.AddHttpContextAccessor();
 
             services.AddEndpointsApiExplorer();
+
+            // Register the Swagger generator
             services.AddSwaggerGen(options =>
             {
                 options.AddSecurityDefinition("oauth2", new OpenApiSecurityScheme
@@ -107,7 +110,6 @@ namespace AuthenticationServer.API
             // Configure the HTTP request pipeline.
             app.UseHttpsRedirection();
 
-            // Configure the HTTP request pipeline.
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();

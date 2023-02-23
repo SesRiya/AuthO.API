@@ -12,6 +12,5 @@ namespace ApiCore.Interfaces
     public interface ICookieStorage
     {
         void StoreJwtokensInCookies(User user, AuthenticatedUserResponse response, HttpResponse httpResponse);
-
     }
 }

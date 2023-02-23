@@ -53,7 +53,6 @@ namespace UnitTests.ApiCoreTests
 
             _mockUserRepository.Setup(u => u.GetByUsername(loginRequestMock.Username)).ReturnsAsync(new User() { Username = "notRegistered", PasswordHash = "hashed" });
 
-
             _mockPasswordHash.Setup(p => p.VerifyPassword(loginRequestMock.Password, It.IsAny<string>())).Returns(true);
 
             User user = await _loginAuthentication.IsUserAuthenticated(loginRequestMock);
@@ -91,7 +90,6 @@ namespace UnitTests.ApiCoreTests
             };
 
             _mockUserRepository.Setup(u => u.GetByUsername(loginRequestMock.Username)).ReturnsAsync(new User() { Username = loginRequestMock.Username, PasswordHash = "hashed" });
-
 
             _mockPasswordHash.Setup(p => p.VerifyPassword(loginRequestMock.Password, It.IsAny<string>())).Returns(false);
 

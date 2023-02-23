@@ -8,6 +8,5 @@ namespace ApiCore.Interfaces
     {
         User CreateUser(RegisterRequest registerRequest);
         Task<ErrorResponse> UserVerification(RegisterRequest registerRequest);
-
     }
 }

@@ -24,7 +24,7 @@ namespace Services.TokenGenerators
         }
         public string GenerateToken()
         {
-            //adding keyVault for the refresh secret
+            //adding keyVault for the refreshtoken secret
             SecretClient keyVaultClient = new(
                 new Uri(Configuration["KeyVaultUri"]),
                 new DefaultAzureCredential());

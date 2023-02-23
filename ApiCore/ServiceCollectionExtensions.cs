@@ -15,7 +15,6 @@ namespace ApiCore
             services.AddScoped<ILoginAuthentication, LoginAuthentication>();
             services.AddScoped<IRefreshTokenVerification, RefreshTokenVerification>();
             services.AddScoped<ICookieStorage, CookieStorage>();
-
         }
     }
 }

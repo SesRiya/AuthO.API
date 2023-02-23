@@ -15,6 +15,13 @@ namespace Middleware.Cookie
         }
         #endregion
 
+        /// <summary>
+        /// Add Cookie (AccessToken) from AuthAPI as  a Bearer Token
+        /// Authorization for all request if cookie is not null
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns></returns>
+
         #region method
         public async Task InvokeAsync(HttpContext context)
         {

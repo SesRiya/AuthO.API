@@ -23,6 +23,12 @@ namespace Middleware.Claims
 
         #region methods
 
+        /// <summary>
+        /// Connect to the API endpoint AuthO by passing Bearer token to 
+        /// get the roles from the API Database
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns>List of roles regstered by the authenticated user</returns>
         public async Task<List<string>> GetRolesAsync(HttpContext context)
         {
             HttpClient client = new HttpClient();
@@ -42,6 +48,12 @@ namespace Middleware.Claims
             return roles;
         }
 
+        /// <summary>
+        /// Add the list of roles to the authenticated users'
+        /// ClaimPrincipal as ClaimTypes.Role
+        /// </summary>
+        /// <param name="context"></param>
+        /// <returns></returns>
         public async Task InvokeAsync(HttpContext context)
         {
             ClaimsPrincipal principal = context.User;

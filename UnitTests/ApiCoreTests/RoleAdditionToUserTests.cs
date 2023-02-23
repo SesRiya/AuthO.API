@@ -47,8 +47,6 @@ namespace UnitTests.ApiCoreTests
                     }
                 }
             };
-
-
         }
 
     }

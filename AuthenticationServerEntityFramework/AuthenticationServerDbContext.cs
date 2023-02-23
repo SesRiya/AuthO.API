@@ -24,7 +24,6 @@ namespace AuthenticationServerEntityFramework
         {
             optionsBuilder.UseSqlServer(Configuration["ConnectionStrings"]);
             base.OnConfiguring(optionsBuilder);
-
         }
     }
 }
