@@ -32,7 +32,9 @@ namespace Repository
 
         public async Task<RefreshToken> GetByToken(string token)
         {
-            return await _dbContext.RefreshTokens.FirstOrDefaultAsync(t => t.Token == token);
+
+            var refreshToken = await _dbContext.RefreshTokens.FirstOrDefaultAsync(t => t.Token == token);
+            return refreshToken ?? throw new Exception($"Refreshtoken '{token}' not found.");
         }
 
         public async Task<Task> DeleteAllRefreshToken(Guid id)

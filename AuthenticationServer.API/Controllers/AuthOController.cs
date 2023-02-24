@@ -22,6 +22,11 @@ namespace AuthenticationServer.API.Controllers
         }
         #endregion
 
+
+        /// <summary>
+        /// List all the roles stored in db during registration
+        /// </summary>
+        /// <returns></returns>
         #region methods
         [HttpGet]
         public  async Task<List<string>> GetRoles()

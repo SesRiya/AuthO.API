@@ -13,7 +13,6 @@ namespace Services.TokenGenerators
     {
         private readonly AuthenticationConfig _configuration;
         private readonly TokenGenerator _tokenGenerator;
-
         public AccessTokenGenerator(AuthenticationConfig configuration, TokenGenerator tokenGenerator)
         {
             _configuration = configuration;
@@ -26,7 +25,6 @@ namespace Services.TokenGenerators
                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
                 new Claim(ClaimTypes.Email, user.Email),
                 new Claim(ClaimTypes.Name, user.Username),
-
             };
             return _tokenGenerator.GenerateToken(
                 _configuration.AccessTokenSecret,

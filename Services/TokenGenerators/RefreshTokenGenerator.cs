@@ -15,7 +15,6 @@ namespace Services.TokenGenerators
         private readonly AuthenticationConfig _configuration;
         private readonly IConfiguration Configuration;
         private readonly TokenGenerator _tokenGenerator;
-
         public RefreshTokenGenerator(AuthenticationConfig configuration, IConfiguration config, TokenGenerator tokenGenerator)
         {
             _configuration = configuration;
