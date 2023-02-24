@@ -6,6 +6,9 @@ using Models;
 
 namespace ServiceApplication.Controllers
 {
+    /// <summary>
+    /// Check the roles added to the authenticated user
+    /// </summary>
     public class TestController : ControllerBase
     {
 
