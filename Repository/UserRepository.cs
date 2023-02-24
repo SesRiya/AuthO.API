@@ -26,17 +26,20 @@ namespace Repository
 
         public async Task<User> GetByEmail(string email)
         {
-            return await _dbContext.Users.FirstOrDefaultAsync(user => user.Email == email);
+            var user = await _dbContext.Users.FirstOrDefaultAsync(u => u.Email == email);
+            return user ?? throw new Exception($"User with email '{email}' not found.");
         }
 
         public async Task<User> GetById(Guid id)
-        { 
-            return await _dbContext.Users.FirstOrDefaultAsync(user => user.Id == id);
+        {
+            var user = await _dbContext.Users.FirstOrDefaultAsync(user => user.id == id);
+            return user ?? throw new Exception(($"User with id '{id}' not found."));
         }
 
         public async Task<User> GetByUsername(string username)
         {
-            return await _dbContext.Users.FirstOrDefaultAsync(user => user.Username == username);
+            var user = await _dbContext.Users.FirstOrDefaultAsync(user => user.Username == username);
+            return user ?? throw new Exception(($"User with username '{username}' not found."));
         }
     }
 }

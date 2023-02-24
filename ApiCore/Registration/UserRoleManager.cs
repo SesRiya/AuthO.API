@@ -6,8 +6,7 @@ using Models.Responses;
 
 namespace ApiCore.Registration
 {
-    public class RoleAdditionToUser : IRoleAdditionToUser
-
+    public class UserRoleManager : IUserRoleManager
     {
         #region fields
         private readonly IUserRepository _userRepository;
@@ -16,7 +15,7 @@ namespace ApiCore.Registration
         #endregion
 
         #region constructor
-        public RoleAdditionToUser(
+        public UserRoleManager(
           IUserRepository userRepository,
           IRoleRepository roleRepository,
           IUserRoleRepository userRoleRepository
@@ -32,6 +31,15 @@ namespace ApiCore.Registration
 
         public async Task AddRolesToUser(RegisterRequest registerRequest, User user)
         {
+            if (registerRequest == null)
+            {
+                throw new ArgumentNullException(nameof(registerRequest));
+            }
+
+            if (user == null)
+            {
+                throw new ArgumentNullException(nameof(user));
+            }
 
             foreach (Role role in registerRequest.Roles)
             {
@@ -46,6 +54,11 @@ namespace ApiCore.Registration
         }
         public async Task AddRoleToDbIfNotStored(RegisterRequest registerRequest)
         {
+            if (registerRequest == null)
+            {
+                throw new ArgumentNullException(nameof(registerRequest));
+            }
+
             foreach (Role roleUser in registerRequest.Roles)
             {
                 Role role = await _roleRepository.GetRoleName(roleUser.RoleName);

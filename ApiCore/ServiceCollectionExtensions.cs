@@ -11,7 +11,7 @@ namespace ApiCore
         public static void AddApiCore(this IServiceCollection services)
         {
             services.AddScoped<IRegisterUser, RegisterUser>();
-            services.AddScoped<IRoleAdditionToUser, RoleAdditionToUser>();
+            services.AddScoped<IUserRoleManager, UserRoleManager>();
             services.AddScoped<ILoginAuthentication, LoginAuthentication>();
             services.AddScoped<IRefreshTokenVerification, RefreshTokenVerification>();
             services.AddScoped<ICookieStorage, CookieStorage>();

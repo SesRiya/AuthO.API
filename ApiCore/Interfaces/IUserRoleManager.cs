@@ -10,7 +10,7 @@ using Models;
 
 namespace ApiCore.Interfaces
 {
-    public interface IRoleAdditionToUser
+    public interface IUserRoleManager
     {
         Task AddRolesToUser(RegisterRequest registerRequest, User user);
 
