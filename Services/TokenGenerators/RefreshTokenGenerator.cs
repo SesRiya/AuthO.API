@@ -19,7 +19,7 @@ namespace Services.TokenGenerators
         }
         public string GenerateToken()
         {
-            return _tokenGenerator.GenerateToken(
+            return TokenGenerator.GenerateToken(
                 _configuration.RefreshTokenKey,
                 _configuration.Issuer,
                 _configuration.Audience,
