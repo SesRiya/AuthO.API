@@ -28,7 +28,7 @@ namespace Services.TokenGenerators
                 new Claim(ClaimTypes.Name, user.Username),
 
             };
-            return TokenGenerator.GenerateToken(
+            return _tokenGenerator.GenerateToken(
                 _configuration.AccessTokenKey,
                 _configuration.Issuer,
                 _configuration.Audience,
