@@ -22,10 +22,10 @@ namespace Repository
 
         public async Task<Role> GetRoleId(int Id)
         {
-            var role = await _dbContext.Roles.FindAsync(roleId);
+            var role = await _dbContext.Roles.FindAsync(Id);
             if (role == null)
             {
-                throw new NotFoundException($"Role with ID {roleId} not found.");
+                throw new NotSupportedException($"Role with ID {Id} not found.");
             }
             return role;
         }

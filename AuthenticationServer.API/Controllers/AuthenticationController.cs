@@ -19,7 +19,7 @@ namespace AuthServer.API.Controllers
         private readonly IRefreshTokenRepository _refreshTokenRepository;
         private readonly IAuthenticator _authenticator;
         private readonly IRegisterUser _registerUser;
-        private readonly IRoleAdditionToUser _roleAdditionToUser;
+        private readonly IUserRoleManager _userRoleManager;
         private readonly ILoginAuthentication _loginAuthentication;
         private readonly IRefreshTokenVerification _refreshTokenVerification;
         private readonly ICookieStorage _cookieStorage;
@@ -31,7 +31,7 @@ namespace AuthServer.API.Controllers
             IRefreshTokenRepository refreshTokenRepository,
             IAuthenticator authenticator,
             IRegisterUser registerUser,
-            IRoleAdditionToUser roleAdditionToUser,
+            IUserRoleManager roleAdditionToUser,
             ILoginAuthentication loginAuthentication,
             IRefreshTokenVerification refreshTokenVerification,
             ICookieStorage cookieStorage)
@@ -40,7 +40,7 @@ namespace AuthServer.API.Controllers
             _refreshTokenRepository = refreshTokenRepository;
             _authenticator = authenticator;
             _registerUser = registerUser;
-            _roleAdditionToUser = roleAdditionToUser;
+            _userRoleManager = roleAdditionToUser;
             _loginAuthentication = loginAuthentication;
             _refreshTokenVerification = refreshTokenVerification;
             _cookieStorage = cookieStorage;
@@ -71,8 +71,8 @@ namespace AuthServer.API.Controllers
             await _userRepository.Create(registrationUser);
 
             //add roles to user
-             await _roleAdditionToUser.AddRolesToUser(registerRequest, registrationUser);
-            await _roleAdditionToUser.AddRoleToDbIfNotStored(registerRequest);
+             await _userRoleManager.AddRolesToUser(registerRequest, registrationUser);
+            await _userRoleManager.AddRoleToDbIfNotStored(registerRequest);
 
             return Ok();
         }

@@ -32,7 +32,7 @@ namespace Repository
 
         public async Task<User> GetById(Guid id)
         {
-            var user = await _dbContext.Users.FirstOrDefaultAsync(user => user.id == id);
+            var user = await _dbContext.Users.FirstOrDefaultAsync(user => user.Id == id);
             return user ?? throw new Exception(($"User with id '{id}' not found."));
         }
 

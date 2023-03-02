@@ -10,7 +10,7 @@ namespace UnitTests.ApiCoreTests
     [TestFixture]   
     public class RoleAdditionToUserTests
     {
-        private IRoleAdditionToUser _roleAdditionToUser;
+        private IUserRoleManager _userRoleManager;
         private Mock<IUserRepository> _mockUserRepository;
         private Mock<IRoleRepository> _mockRoleRepository;
         private Mock<IUserRoleRepository> _mockUserRoleRepository;
@@ -21,7 +21,7 @@ namespace UnitTests.ApiCoreTests
             _mockUserRepository = new Mock<IUserRepository>();
             _mockRoleRepository = new Mock<IRoleRepository>();
             _mockUserRoleRepository = new Mock<IUserRoleRepository>();
-            _roleAdditionToUser = new RoleAdditionToUser(
+            _userRoleManager = new UserRoleManager(
                 _mockUserRepository.Object, _mockRoleRepository.Object,
                 _mockUserRoleRepository.Object);
         }
